@@ -1,8 +1,5 @@
-import { Asset } from "expo-asset";
-import * as Font from "expo-font";
-import React, { useEffect, useMemo, useReducer } from "react";
-import { AsyncStorage, StyleSheet } from "react-native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useEffect, useReducer } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Google from "expo-google-app-auth";
 import StrekkodeScanner from "./screens/StrekkodeScanner";
 import { NavigationContainer } from "@react-navigation/native";
