@@ -1,87 +1,113 @@
-import React, { useEffect, useReducer } from "react";
+import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import * as Google from "expo-google-app-auth";
-import StrekkodeScanner from "./screens/StrekkodeScanner";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import VinOversikt from "./screens/VinOversikt";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import Loading from "./screens/Loading";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import Vin from "./screens/Vin";
+import Soek from "./screens/Soek/Soek";
+import Soekeresultater from "./screens/Soek/Soekeresultater";
+import { colors } from "./styles/common";
 
-const Tab = createMaterialBottomTabNavigator();
-const Stack = createStackNavigator();
-
-const reducer = () => {
-  return (prevState, action) => {
-    switch (action.type) {
-      case "RESTORE_TOKEN":
-        console.log("RESTORE_TOKEN: " + action.token);
-        return {
-          ...prevState,
-          userToken: action.token,
-          isLoading: false
-        };
-      case "SIGN_IN":
-        console.log("SIGN_IN: " + action.token);
-        return {
-          ...prevState,
-          isLoading: false,
-          userToken: action.token
-        };
-    }
-  };
-};
+const Tab = createBottomTabNavigator();
+const SoekStack = createStackNavigator();
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, {
-    isLoading: false,
-    userToken: null
-  });
-
-  useEffect(() => {
-    Google.logInAsync({
-      androidClientId:
-        "867635004398-k1qa1nmn1dp8i4mjj3rt5pio5cv216oj.apps.googleusercontent.com",
-      iosClientId:
-        "867635004398-akui23orm3uirf74mmskr0m0206jvrh7.apps.googleusercontent.com",
-      scopes: [
-        "profile",
-        "email",
-        "https://www.googleapis.com/auth/spreadsheets"
-      ]
-    }).then(result => {
-      dispatch({ type: "SIGN_IN", token: result.accessToken });
-    });
-  }, []);
-
   return (
     <NavigationContainer>
-      {state.isLoading ? (
-        <Stack.Navigator>
-          <Stack.Screen name="Loading" component={Loading} />
-        </Stack.Navigator>
-      ) : (
-        <Tab.Navigator initialRouteName="StrekkodeScanner" labeled={false}>
-          <Tab.Screen
-            name="Hovedskjerm"
-            component={StrekkodeScanner}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="home" color={color} size={24} />
-              )
-            }}
-          />
-          <Tab.Screen
-            name="VinOversikt"
-            component={VinOversikt}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="bell" color={color} size={24} />
-              )
-            }}
-          />
-        </Tab.Navigator>
-      )}
+      <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: colors.primarySelected,
+          style: {
+            backgroundColor: colors.primaryBg
+          },
+          tabStyle: {
+            alignItems: "center",
+            justifyContent: "center"
+          },
+          labelStyle: {
+            marginTop: -5,
+            marginBottom: 5
+          }
+        }}
+        initialRouteName="StrekkodeScanner"
+        activeColor={colors.primarySelected}
+        barStyle={{ backgroundColor: colors.primaryBg }}
+      >
+        <Tab.Screen
+          name="SoekScreen"
+          component={SoekScreen}
+          options={{
+            tabBarLabel: "Søk",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="magnify" color={color} size={20} />
+            )
+          }}
+        />
+        <Tab.Screen
+          name="VinOversiktScreen"
+          component={VinOversiktScreen}
+          options={{
+            tabBarLabel: "Kjeller",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="bottle-wine"
+                color={color}
+                size={20}
+              />
+            )
+          }}
+        />
+      </Tab.Navigator>
     </NavigationContainer>
+  );
+}
+
+function SoekScreen() {
+  return (
+    <SoekStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.primaryBg
+        },
+        headerTintColor: colors.primarySelected,
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }}
+    >
+      <SoekStack.Screen
+        name="Soek"
+        component={Soek}
+        options={{
+          title: "Søk"
+        }}
+      />
+      <SoekStack.Screen
+        name="Soekeresultater"
+        component={Soekeresultater}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+      <SoekStack.Screen name="Vin" component={Vin} />
+    </SoekStack.Navigator>
+  );
+}
+
+function VinOversiktScreen() {
+  return (
+    <SoekStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.primaryBg
+        },
+        headerTintColor: colors.primarySelected,
+        headerTitleStyle: {
+          fontWeight: "bold"
+        }
+      }}
+    >
+      <SoekStack.Screen name="VinOversikt" component={VinOversikt} />
+      <SoekStack.Screen name="Vin" component={Vin} />
+    </SoekStack.Navigator>
   );
 }

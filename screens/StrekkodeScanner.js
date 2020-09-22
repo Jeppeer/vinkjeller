@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
-const StrekkodeScanner = () => {
+const StrekkodeScanner = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -13,9 +12,8 @@ const StrekkodeScanner = () => {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  const handleBarCodeScanned = ({ data }) => {
+    navigation.navigate("Vin", { data: data });
   };
 
   if (hasPermission === null) {
@@ -34,13 +32,9 @@ const StrekkodeScanner = () => {
       }}
     >
       <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        onBarCodeScanned={handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
     </View>
   );
 };
