@@ -19,7 +19,8 @@ export default function App() {
         tabBarOptions={{
           activeTintColor: colors.primarySelected,
           style: {
-            backgroundColor: colors.primaryBg
+            backgroundColor: colors.primaryBg,
+            borderTopColor: colors.borderColor
           },
           tabStyle: {
             alignItems: "center",
@@ -27,7 +28,8 @@ export default function App() {
           },
           labelStyle: {
             marginTop: -5,
-            marginBottom: 5
+            marginBottom: 5,
+
           }
         }}
         initialRouteName="StrekkodeScanner"
@@ -68,12 +70,14 @@ function SoekScreen() {
     <SoekStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: colors.primaryBg
+          backgroundColor: colors.primaryBg,
+          elevation: 0
         },
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
           fontWeight: "bold"
-        }
+        },
+        headerTitleAlign: "center"
       }}
     >
       <SoekStack.Screen
@@ -103,7 +107,8 @@ function VinOversiktScreen() {
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
           fontWeight: "bold"
-        }
+        },
+        headerTitleAlign: "center"
       }}
     >
       <SoekStack.Screen name="VinOversikt" component={VinOversikt} />

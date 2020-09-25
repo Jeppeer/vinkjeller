@@ -1,29 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { Button, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
 import { SearchBar } from "react-native-elements";
+import { colors } from "../../styles/common";
+import { api } from "../../service/api";
+import {isLoading} from "expo-font";
 
 const Soek = ({ navigation }) => {
-  const [soekeTerm, setSoekeTerm] = useState("");
+  const [soekeTerm, setSoekeTerm] = useState("3465401");
+  const [soekeresultat, setSoekeresultat] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = () => {
-    navigation.navigate("Soekeresultater");
+  const search = () => {
+    setIsLoading(true);
+    let soekeUrl;
+    let config = {
+      headers: {
+        "Ocp-Apim-Subscription-Key": "b2c1c8d6dfa9405db0ff0c3411ed1ed2"
+      }
+    };
+    if (Number.isNaN(Number(soekeTerm))) {
+      soekeUrl = `https://apis.vinmonopolet.no/products/v0/details-normal?productShortNameContains=${soekeTerm.replace(
+        /\s/g,
+        "_"
+      )}`;
+    } else {
+      soekeUrl = `https://apis.vinmonopolet.no/products/v0/details-normal?productId=${soekeTerm}`;
+    }
+    api.get(soekeUrl, config).then(resultat => {
+      setIsLoading(false);
+      navigation.navigate("Soekeresultater", { soekeresultat: resultat.data });
+    });
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "flex-start",
+        backgroundColor: colors.primaryBg
+      }}
+    >
       <SearchBar
         placeholder="Søk..."
         onChangeText={setSoekeTerm}
         value={soekeTerm}
+        inputContainerStyle={{ backgroundColor: "white" }}
+        containerStyle={{
+          backgroundColor: colors.primaryBg,
+          borderTopWidth: 0,
+          borderBottomWidth: 0
+        }}
+        onSubmitEditing={search}
+        returnKeyType="search"
+        showLoading={isLoading}
       />
-
-      {/*<Text>Søk test</Text>*/}
-      {/*<Button*/}
-      {/*  onPress={navigate}*/}
-      {/*  title="Push"*/}
-      {/*  color="#841584"*/}
-      {/*  accessibilityLabel="Learn more about this purple button"*/}
-      {/*/>*/}
+      <Text>{soekeresultat}</Text>
     </View>
   );
 };

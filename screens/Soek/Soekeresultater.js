@@ -1,20 +1,25 @@
 import React from "react";
-import { Button, Text, View } from "react-native";
+import {
+  Button,
+  SafeAreaView,
+  SectionList,
+  FlatList,
+  Text,
+  View
+} from "react-native";
+import Soekeresultat from "./Soekeresultat";
 
-const Soekeresultater = ({ navigation }) => {
-  const navigate = () => {
-    navigation.navigate("Vin");
-  };
+const Soekeresultater = ({ route, navigation }) => {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Søkeresultater</Text>
-      <Button
-        onPress={navigate}
-        title="Push"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
+    <SafeAreaView>
+      <FlatList
+        data={route.params.soekeresultat}
+        renderItem={item => (
+          <Soekeresultat produkt={item.item} navigation={navigation} />
+        )}
+        keyExtractor={item => item.basic.productId}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
