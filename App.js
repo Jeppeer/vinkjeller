@@ -77,7 +77,8 @@ function SoekScreen() {
         headerTitleStyle: {
           fontWeight: "bold"
         },
-        headerTitleAlign: "center"
+        headerTitleAlign: "center",
+        backgroundColor: 'white'
       }}
     >
       <SoekStack.Screen

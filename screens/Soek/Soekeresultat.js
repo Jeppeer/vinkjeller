@@ -18,7 +18,8 @@ const Soekeresultat = props => {
           {produkt.classification.productTypeName.toUpperCase()}
         </Text>
         <Text style={styles.produktNavn}>
-          {produkt.basic.productShortName} {produkt.basic.vintage}
+          {produkt.basic.productShortName}{" "}
+          {produkt.basic.vintage !== 0 && produkt.basic.vintage}
         </Text>
         <Text style={styles.produktRegion}>
           {produkt.origins.origin.country}
@@ -54,26 +55,26 @@ const styles = StyleSheet.create({
   produktNavn: {
     fontSize: 20,
     fontWeight: "bold",
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   produktId: {
     fontSize: 15,
     color: "gray",
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   produktRegion: {
     fontSize: 17,
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   produktPris: {
     fontSize: 17,
     fontWeight: "bold",
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   produktType: {
     fontSize: 15,
     color: "gray",
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   item: {
     padding: 20,

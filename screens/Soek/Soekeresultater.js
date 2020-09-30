@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  Button,
-  SafeAreaView,
-  SectionList,
-  FlatList,
-  Text,
-  View
-} from "react-native";
+import { FlatList, SafeAreaView } from "react-native";
 import Soekeresultat from "./Soekeresultat";
 
 const Soekeresultater = ({ route, navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
       <FlatList
         data={route.params.soekeresultat}
         renderItem={item => (
