@@ -1,10 +1,10 @@
 import React from "react";
-import { FlatList, SafeAreaView } from "react-native";
+import { FlatList, View } from "react-native";
 import Soekeresultat from "./Soekeresultat";
 
 const Soekeresultater = ({ route, navigation }) => {
   return (
-    <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
+    <View style={{ backgroundColor: "white", height: "100%" }}>
       <FlatList
         data={route.params.soekeresultat}
         renderItem={item => (
@@ -12,7 +12,7 @@ const Soekeresultater = ({ route, navigation }) => {
         )}
         keyExtractor={item => item.basic.productId}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

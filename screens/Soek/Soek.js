@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { colors } from "../../styles/common";
 import { api } from "../../service/api";
-import {isLoading} from "expo-font";
 
 const Soek = ({ navigation }) => {
   const [soekeTerm, setSoekeTerm] = useState("3465401");
-  const [soekeresultat, setSoekeresultat] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const search = () => {
@@ -54,7 +52,6 @@ const Soek = ({ navigation }) => {
         returnKeyType="search"
         showLoading={isLoading}
       />
-      <Text>{soekeresultat}</Text>
     </View>
   );
 };

@@ -1,39 +1,44 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-const Soekeresultat = props => {
-  const { produkt, navigation } = props;
+const Soekeresultat = ({ produkt, navigation }) => {
+  const velgProdukt = produkt => {
+    navigation.navigate("Produkt", { produkt: produkt });
+  };
+
   return (
-    <View style={styles.produktContainer}>
-      <View style={styles.bildeContainer}>
-        <Image
-          style={styles.bilde}
-          source={{
-            uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.basic.productId}-1.jpg`
-          }}
-        />
+    <Pressable onPress={() => velgProdukt(produkt)}>
+      <View style={styles.produktContainer}>
+        <View style={styles.bildeContainer}>
+          <Image
+            style={styles.bilde}
+            source={{
+              uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.basic.productId}-1.jpg`
+            }}
+          />
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.produktType}>
+            {produkt.classification.productTypeName.toUpperCase()}
+          </Text>
+          <Text style={styles.produktNavn}>
+            {produkt.basic.productShortName}{" "}
+            {produkt.basic.vintage !== 0 && produkt.basic.vintage}
+          </Text>
+          <Text style={styles.produktRegion}>
+            {produkt.origins.origin.country}
+            {produkt.origins.origin.region &&
+              `, ${produkt.origins.origin.region}`}
+            {produkt.origins.origin.subRegion &&
+              `, ${produkt.origins.origin.subRegion}`}
+          </Text>
+          <Text style={styles.produktId}>{produkt.basic.productId}</Text>
+          <Text style={styles.produktPris}>
+            Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
+          </Text>
+        </View>
       </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.produktType}>
-          {produkt.classification.productTypeName.toUpperCase()}
-        </Text>
-        <Text style={styles.produktNavn}>
-          {produkt.basic.productShortName}{" "}
-          {produkt.basic.vintage !== 0 && produkt.basic.vintage}
-        </Text>
-        <Text style={styles.produktRegion}>
-          {produkt.origins.origin.country}
-          {produkt.origins.origin.region &&
-            `, ${produkt.origins.origin.region}`}
-          {produkt.origins.origin.subRegion &&
-            `, ${produkt.origins.origin.subRegion}`}
-        </Text>
-        <Text style={styles.produktId}>{produkt.basic.productId}</Text>
-        <Text style={styles.produktPris}>
-          Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
-        </Text>
-      </View>
-    </View>
+    </Pressable>
   );
 };
 

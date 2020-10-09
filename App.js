@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import VinOversikt from "./screens/VinOversikt";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import Vin from "./screens/Vin";
+import Produkt from "./screens/Produkt/Produkt";
 import Soek from "./screens/Soek/Soek";
 import Soekeresultater from "./screens/Soek/Soekeresultater";
 import { colors } from "./styles/common";
@@ -28,8 +28,7 @@ export default function App() {
           },
           labelStyle: {
             marginTop: -5,
-            marginBottom: 5,
-
+            marginBottom: 5
           }
         }}
         initialRouteName="StrekkodeScanner"
@@ -77,8 +76,7 @@ function SoekScreen() {
         headerTitleStyle: {
           fontWeight: "bold"
         },
-        headerTitleAlign: "center",
-        backgroundColor: 'white'
+        headerTitleAlign: "center"
       }}
     >
       <SoekStack.Screen
@@ -93,7 +91,7 @@ function SoekScreen() {
         component={Soekeresultater}
         options={({ route }) => ({ title: route.params.name })}
       />
-      <SoekStack.Screen name="Vin" component={Vin} />
+      <SoekStack.Screen name="Produkt" component={Produkt} />
     </SoekStack.Navigator>
   );
 }
@@ -113,7 +111,7 @@ function VinOversiktScreen() {
       }}
     >
       <SoekStack.Screen name="VinOversikt" component={VinOversikt} />
-      <SoekStack.Screen name="Vin" component={Vin} />
+      <SoekStack.Screen name="Produkt" component={Produkt} />
     </SoekStack.Navigator>
   );
 }
