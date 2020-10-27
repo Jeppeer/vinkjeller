@@ -1,9 +1,45 @@
-import React from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 import ProduktDetalj from "./ProduktDetalj";
+import { colors } from "../../styles/common";
+import * as firebase from "firebase";
+import { opprettProduktBasertPaa } from "./ProduktHelper";
 
 const Produkt = ({ route }) => {
   const { produkt } = route.params;
+  const [antallIKjeller, setAntallIKjeller] = useState(0);
+  const [produktRef, setProduktRef] = useState(null);
+  let firebaseRef = firebase.database().ref("kjeller");
+
+  useEffect(() => {
+    firebaseRef.on("child_changed", produktOppdatert);
+    firebaseRef
+      .orderByChild("produktId")
+      .equalTo(produkt.basic.productId)
+      .once("value")
+      .then(result => {
+        if (
+          result.val() &&
+          Object.values(result.val())[0].aargang === produkt.basic.vintage
+        ) {
+          setAntallIKjeller(Object.values(result.val())[0].antallIKjeller);
+          setProduktRef(Object.keys(result.val())[0]);
+        }
+      });
+
+    return () => firebaseRef.off("child_changed", produktOppdatert);
+  }, []);
+
+  const produktOppdatert = produkt => {
+    setAntallIKjeller(produkt.val().antallIKjeller);
+  };
 
   const getIngredienser = ingredienser => {
     if (ingredienser.grapes.length) {
@@ -17,6 +53,13 @@ const Produkt = ({ route }) => {
 
   const getPasserTil = anbefaltMat => {
     return anbefaltMat.map(matType => matType.foodDesc).join(", ");
+  };
+
+  const leggIKjeller = antall => {
+    firebase
+      .database()
+      .ref(`kjeller/${produktRef}`)
+      .update({ antallIKjeller: antallIKjeller + 1 });
   };
 
   return (
@@ -45,6 +88,22 @@ const Produkt = ({ route }) => {
           <Text style={styles.produktPris}>
             Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
           </Text>
+          <Text style={styles.kjellerAntall}>
+            Antall i kjeller: {antallIKjeller}
+          </Text>
+          <Pressable
+            onPress={leggIKjeller}
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed
+                  ? colors.primaryButtonPressed
+                  : colors.primaryButton
+              },
+              styles.leggIKjellerKnapp
+            ]}
+          >
+            <Text style={{ color: "white" }}>Legg i kjeller</Text>
+          </Pressable>
         </View>
 
         <View style={extededInfoStyle.container}>
@@ -115,7 +174,7 @@ const styles = StyleSheet.create({
   },
   bildeContainer: {
     width: "100%",
-    height: 380,
+    height: 350,
     marginBottom: 20
   },
   mainInfoContainer: {
@@ -160,6 +219,17 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: "100%",
     width: "100%"
+  },
+  kjellerAntall: {
+    fontSize: 17,
+    paddingBottom: 20
+  },
+  leggIKjellerKnapp: {
+    borderRadius: 50,
+    height: 50,
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 

@@ -13,6 +13,15 @@ const StrekkodeScanner = ({ navigation }) => {
   }, []);
 
   const handleBarCodeScanned = ({ data }) => {
+    // firebase
+    //   .database()
+    //   .ref("/kjeller")
+    //   .orderByChild("basic/productId")
+    //   .equalTo(produkt.basic.productId)
+    //   .once("value")
+    //   .then(result => {
+    //     console.log(result);
+    //   })
     navigation.navigate("Vin", { data: data });
   };
 
