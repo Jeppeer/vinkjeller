@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -14,6 +15,7 @@ import { opprettProduktBasertPaa } from "./ProduktHelper";
 
 const Produkt = ({ route }) => {
   const { produkt } = route.params;
+  const [isLoading, setIsLoading] = useState(true);
   const [antallIKjeller, setAntallIKjeller] = useState(0);
   const [produktRef, setProduktRef] = useState(null);
   let firebaseRef = firebase.database().ref("kjeller");
@@ -31,6 +33,7 @@ const Produkt = ({ route }) => {
         ) {
           setAntallIKjeller(Object.values(result.val())[0].antallIKjeller);
           setProduktRef(Object.keys(result.val())[0]);
+          setIsLoading(false);
         }
       });
 
@@ -64,92 +67,104 @@ const Produkt = ({ route }) => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.bildeContainer}>
-          <Image
-            style={styles.bilde}
-            source={{
-              uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.basic.productId}-1.jpg`
-            }}
-          />
+      {isLoading ? (
+        <View style={styles.spinner}>
+          <ActivityIndicator color={colors.primaryButton} size="large" />
         </View>
-        <View style={styles.mainInfoContainer}>
-          <Text style={styles.produktNavn}>
-            {produkt.basic.productShortName}{" "}
-            {produkt.basic.vintage !== 0 && produkt.basic.vintage}
-          </Text>
-          <Text style={styles.produktRegion}>
-            {produkt.origins.origin.country}
-            {produkt.origins.origin.region &&
-              `, ${produkt.origins.origin.region}`}
-            {produkt.origins.origin.subRegion &&
-              `, ${produkt.origins.origin.subRegion}`}
-          </Text>
-          <Text style={styles.produktPris}>
-            Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
-          </Text>
-          <Text style={styles.kjellerAntall}>
-            Antall i kjeller: {antallIKjeller}
-          </Text>
-          <Pressable
-            onPress={leggIKjeller}
-            style={({ pressed }) => [
-              {
-                backgroundColor: pressed
-                  ? colors.primaryButtonPressed
-                  : colors.primaryButton
-              },
-              styles.leggIKjellerKnapp
-            ]}
-          >
-            <Text style={{ color: "white" }}>Legg i kjeller</Text>
-          </Pressable>
-        </View>
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.bildeContainer}>
+            <Image
+              style={styles.bilde}
+              source={{
+                uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.basic.productId}-1.jpg`
+              }}
+            />
+          </View>
+          <View style={styles.mainInfoContainer}>
+            <Text style={styles.produktNavn}>
+              {produkt.basic.productShortName}{" "}
+              {produkt.basic.vintage !== 0 && produkt.basic.vintage}
+            </Text>
+            <Text style={styles.produktRegion}>
+              {produkt.origins.origin.country}
+              {produkt.origins.origin.region &&
+                `, ${produkt.origins.origin.region}`}
+              {produkt.origins.origin.subRegion &&
+                `, ${produkt.origins.origin.subRegion}`}
+            </Text>
+            <Text style={styles.produktPris}>
+              Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
+            </Text>
+            <Text style={styles.kjellerAntall}>
+              Antall i kjeller: {antallIKjeller}
+            </Text>
+            {/*TODO: Legg til en modal som åpnes ved klikk. Der kan man legge til/fjerne antall fra kjelleren*/}
+            <Pressable
+              onPress={leggIKjeller}
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed
+                    ? colors.primaryButtonPressed
+                    : colors.primaryButton
+                },
+                styles.leggIKjellerKnapp
+              ]}
+            >
+              <Text style={{ color: "white" }}>
+                {antallIKjeller === 0
+                  ? "Legg i kjeller"
+                  : "Oppdater antall i kjeller"}
+              </Text>
+            </Pressable>
+          </View>
 
-        <View style={extededInfoStyle.container}>
-          <ProduktDetalj
-            detaljNavn="Varetype"
-            data={produkt.classification.productTypeName}
-          />
-          <ProduktDetalj
-            detaljNavn="Varenummer"
-            data={produkt.basic.productId}
-          />
-          {produkt.basic.vintage !== 0 && (
-            <ProduktDetalj detaljNavn="Årgang" data={produkt.basic.vintage} />
-          )}
-          <ProduktDetalj
-            detaljNavn="Land, distrikt, underdistrikt"
-            data={`${produkt.origins.origin.country}${produkt.origins.origin
-              .region && `, ${produkt.origins.origin.region}`}${produkt.origins
-              .origin.subRegion && `, ${produkt.origins.origin.subRegion}`}`}
-          />
-          <ProduktDetalj
-            detaljNavn="Råstoff"
-            data={getIngredienser(produkt.ingredients)}
-          />
-          <ProduktDetalj
-            detaljNavn="Lagringsgrad"
-            data={produkt.properties.storagePotential}
-          />
-          <ProduktDetalj
-            detaljNavn="Passer til"
-            data={getPasserTil(produkt.description.recommendedFood)}
-          />
-          <ProduktDetalj
-            detaljNavn="Produsent"
-            data={produkt.logistics.manufacturerName}
-          />
-          <ProduktDetalj
-            detaljNavn="Alkoholprosent"
-            data={`${produkt.basic.alcoholContent}%`}
-          />
-          <ProduktDetalj
-            detaljNavn="Utvalg"
-            data={produkt.assortment.assortment}
-          />
+          <View style={extededInfoStyle.container}>
+            <ProduktDetalj
+              detaljNavn="Varetype"
+              data={produkt.classification.productTypeName}
+            />
+            <ProduktDetalj
+              detaljNavn="Varenummer"
+              data={produkt.basic.productId}
+            />
+            {produkt.basic.vintage !== 0 && (
+              <ProduktDetalj detaljNavn="Årgang" data={produkt.basic.vintage} />
+            )}
+            <ProduktDetalj
+              detaljNavn="Land, distrikt, underdistrikt"
+              data={`${produkt.origins.origin.country}${produkt.origins.origin
+                .region && `, ${produkt.origins.origin.region}`}${produkt
+                .origins.origin.subRegion &&
+                `, ${produkt.origins.origin.subRegion}`}`}
+            />
+            <ProduktDetalj
+              detaljNavn="Råstoff"
+              data={getIngredienser(produkt.ingredients)}
+            />
+            <ProduktDetalj
+              detaljNavn="Lagringsgrad"
+              data={produkt.properties.storagePotential}
+            />
+            <ProduktDetalj
+              detaljNavn="Passer til"
+              data={getPasserTil(produkt.description.recommendedFood)}
+            />
+            <ProduktDetalj
+              detaljNavn="Produsent"
+              data={produkt.logistics.manufacturerName}
+            />
+            <ProduktDetalj
+              detaljNavn="Alkoholprosent"
+              data={`${produkt.basic.alcoholContent}%`}
+            />
+            <ProduktDetalj
+              detaljNavn="Utvalg"
+              data={produkt.assortment.assortment}
+            />
+          </View>
         </View>
-      </View>
+      )}
     </ScrollView>
   );
 };
@@ -230,6 +245,11 @@ const styles = StyleSheet.create({
     width: "50%",
     justifyContent: "center",
     alignItems: "center"
+  },
+  spinner: {
+    flex: 1,
+    flexDirection: "column",
+    paddingTop: 20
   }
 });
 
