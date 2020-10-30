@@ -13,9 +13,10 @@ export const opprettProduktBasertPaa = produkt => {
     utvalg: produkt.assortment.assortment,
     region: {
       land: produkt.origins.origin.country,
-      region: produkt.origins.origin.country,
-      subRegion: produkt.origins.origin.country
-    }
+      region: produkt.origins.origin.region,
+      subRegion: produkt.origins.origin.subRegion
+    },
+    pris: Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)
   };
 };
 

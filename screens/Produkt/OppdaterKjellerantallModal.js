@@ -15,7 +15,7 @@ const OppdaterKjellerantallModal = ({
   antallIKjeller,
   oppdaterKjellerantall
 }) => {
-  const [oppdatertAntall, setOppdatertAntall] = useState(antallIKjeller);
+  const [oppdatertAntall, setOppdatertAntall] = useState(antallIKjeller.toString());
 
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>

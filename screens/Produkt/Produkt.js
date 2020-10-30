@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -26,10 +26,12 @@ const Produkt = ({ route }) => {
   const [antallIKjeller, setAntallIKjeller] = useState(0);
   const [produktRef, setProduktRef] = useState(null);
   const [visModal, setVisModal] = useState(false);
+  const produktLastet = useRef(false);
   let firebaseRef = firebase.database().ref("kjeller");
 
   useEffect(() => {
     firebaseRef.on("child_changed", produktOppdatert);
+    firebaseRef.limitToLast(1).on("child_added", produktLagtTil);
     firebaseRef
       .orderByChild("produktId")
       .equalTo(produkt.basic.productId)
@@ -41,23 +43,46 @@ const Produkt = ({ route }) => {
         ) {
           setAntallIKjeller(Object.values(result.val())[0].antallIKjeller);
           setProduktRef(Object.keys(result.val())[0]);
-          setIsLoading(false);
         }
+        setIsLoading(false);
       });
 
-    return () => firebaseRef.off("child_changed", produktOppdatert);
+    return () => {
+      firebaseRef.off("child_changed", produktOppdatert);
+      firebaseRef.off("child_added", produktLagtTil);
+    };
   }, []);
 
   const produktOppdatert = produkt => {
     setAntallIKjeller(produkt.val().antallIKjeller);
   };
 
+  const produktLagtTil = nyttProdukt => {
+    if (produktLastet.current) {
+      setProduktRef(nyttProdukt.key);
+      firebaseRef
+        .child(nyttProdukt.key)
+        .once("value")
+        .then(result => {
+          setAntallIKjeller(result.val().antallIKjeller);
+        });
+    }
+    produktLastet.current = true;
+  };
+
   const oppdaterKjellerantall = antall => {
-    // TODO: Dette virker ikke dersom den ikke finnes i kjeller fra før
-    firebase
-      .database()
-      .ref(`kjeller/${produktRef}`)
-      .update({ antallIKjeller: antall });
+    if (produktRef) {
+      firebase
+        .database()
+        .ref(`kjeller/${produktRef}`)
+        .update({ antallIKjeller: antall });
+    } else {
+      const nyttProdukt = firebaseRef.push();
+      nyttProdukt.set({
+        ...opprettProduktBasertPaa(produkt),
+        antallIKjeller: antall
+      });
+    }
   };
 
   return (
