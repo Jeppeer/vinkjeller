@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
+  Modal,
+  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -11,13 +13,19 @@ import {
 import ProduktDetalj from "./ProduktDetalj";
 import { colors } from "../../styles/common";
 import * as firebase from "firebase";
-import { opprettProduktBasertPaa } from "./ProduktHelper";
+import {
+  getIngredienser,
+  getPasserTil,
+  opprettProduktBasertPaa
+} from "./ProduktHelper";
+import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 
 const Produkt = ({ route }) => {
   const { produkt } = route.params;
   const [isLoading, setIsLoading] = useState(true);
   const [antallIKjeller, setAntallIKjeller] = useState(0);
   const [produktRef, setProduktRef] = useState(null);
+  const [visModal, setVisModal] = useState(false);
   let firebaseRef = firebase.database().ref("kjeller");
 
   useEffect(() => {
@@ -44,25 +52,12 @@ const Produkt = ({ route }) => {
     setAntallIKjeller(produkt.val().antallIKjeller);
   };
 
-  const getIngredienser = ingredienser => {
-    if (ingredienser.grapes.length) {
-      return ingredienser.grapes
-        .map(grape => `${grape.grapeDesc} ${grape.grapePct}%`)
-        .join(", ");
-    } else {
-      return ingredienser.ingredients;
-    }
-  };
-
-  const getPasserTil = anbefaltMat => {
-    return anbefaltMat.map(matType => matType.foodDesc).join(", ");
-  };
-
-  const leggIKjeller = antall => {
+  const oppdaterKjellerantall = antall => {
+    // TODO: Dette virker ikke dersom den ikke finnes i kjeller fra før
     firebase
       .database()
       .ref(`kjeller/${produktRef}`)
-      .update({ antallIKjeller: antallIKjeller + 1 });
+      .update({ antallIKjeller: antall });
   };
 
   return (
@@ -99,9 +94,8 @@ const Produkt = ({ route }) => {
             <Text style={styles.kjellerAntall}>
               Antall i kjeller: {antallIKjeller}
             </Text>
-            {/*TODO: Legg til en modal som åpnes ved klikk. Der kan man legge til/fjerne antall fra kjelleren*/}
             <Pressable
-              onPress={leggIKjeller}
+              onPress={() => setVisModal(true)}
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed
@@ -163,6 +157,12 @@ const Produkt = ({ route }) => {
               data={produkt.assortment.assortment}
             />
           </View>
+          <OppdaterKjellerantallModal
+            visModal={visModal}
+            setVisModal={setVisModal}
+            antallIKjeller={antallIKjeller}
+            oppdaterKjellerantall={oppdaterKjellerantall}
+          />
         </View>
       )}
     </ScrollView>

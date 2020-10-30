@@ -18,3 +18,17 @@ export const opprettProduktBasertPaa = produkt => {
     }
   };
 };
+
+export const getIngredienser = ingredienser => {
+  if (ingredienser.grapes.length) {
+    return ingredienser.grapes
+      .map(grape => `${grape.grapeDesc} ${grape.grapePct}%`)
+      .join(", ");
+  } else {
+    return ingredienser.ingredients;
+  }
+};
+
+export const getPasserTil = anbefaltMat => {
+  return anbefaltMat.map(matType => matType.foodDesc).join(", ");
+};
