@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
-  Modal,
-  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -23,10 +21,9 @@ import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 const Produkt = ({ route }) => {
   const { produkt } = route.params;
   const [isLoading, setIsLoading] = useState(true);
-  const [antallIKjeller, setAntallIKjeller] = useState(0);
+  const [antallIKjeller, setAntallIKjeller] = useState("0");
   const [produktRef, setProduktRef] = useState(null);
   const [visModal, setVisModal] = useState(false);
-  const produktLastet = useRef(false);
   let firebaseRef = firebase.database().ref("kjeller");
 
   useEffect(() => {
@@ -58,7 +55,7 @@ const Produkt = ({ route }) => {
   };
 
   const produktLagtTil = nyttProdukt => {
-    if (produktLastet.current) {
+    if (nyttProdukt.val().produktId === produkt.basic.productId) {
       setProduktRef(nyttProdukt.key);
       firebaseRef
         .child(nyttProdukt.key)
@@ -67,16 +64,24 @@ const Produkt = ({ route }) => {
           setAntallIKjeller(result.val().antallIKjeller);
         });
     }
-    produktLastet.current = true;
   };
 
   const oppdaterKjellerantall = antall => {
     if (produktRef) {
-      firebase
-        .database()
-        .ref(`kjeller/${produktRef}`)
-        .update({ antallIKjeller: antall });
-    } else {
+      if (antall === "0") {
+        firebase
+          .database()
+          .ref(`kjeller/${produktRef}`)
+          .remove();
+        setProduktRef(null);
+        setAntallIKjeller("0");
+      } else {
+        firebase
+          .database()
+          .ref(`kjeller/${produktRef}`)
+          .update({ antallIKjeller: antall });
+      }
+    } else if (antall !== "0") {
       const nyttProdukt = firebaseRef.push();
       nyttProdukt.set({
         ...opprettProduktBasertPaa(produkt),
@@ -131,7 +136,7 @@ const Produkt = ({ route }) => {
               ]}
             >
               <Text style={{ color: "white" }}>
-                {antallIKjeller === 0
+                {antallIKjeller === "0"
                   ? "Legg i kjeller"
                   : "Oppdater antall i kjeller"}
               </Text>
