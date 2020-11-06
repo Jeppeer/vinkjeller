@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -18,13 +18,51 @@ import {
 } from "./ProduktHelper";
 import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 
+const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
+const OPPDATER_KJELLERANTALL = "OPPDATER_KJELLERANTALL";
+const OPPDATER_PRODUKTREF = "OPPDATER_PRODUKTREF";
+const OPPDATER_DRIKKEVINDU = "OPPDATER_DRIKKEVINDU";
+
+const databaseProduktReducer = (state, action) => {
+  switch (action.type) {
+    case SET_PRODUKT_STATE:
+      return {
+        antallIKjeller: action.payload.antallIKjeller,
+        drikkevindu: action.payload.drikkevindu,
+        produktRef: action.payload.produktRef
+      };
+    case OPPDATER_KJELLERANTALL:
+      return {
+        ...state,
+        antallIKjeller: action.antallIKjeller
+      };
+    case OPPDATER_PRODUKTREF:
+      return {
+        ...state,
+        produktRef: action.produktRef
+      };
+    case OPPDATER_DRIKKEVINDU:
+      return {
+        ...state,
+        drikkevindu: {
+          fra: action.drikkevinduFra,
+          til: action.drikkevinduTil
+        }
+      };
+  }
+};
+
 const Produkt = ({ route }) => {
   const { produkt } = route.params;
   const [isLoading, setIsLoading] = useState(true);
-  const [antallIKjeller, setAntallIKjeller] = useState("0");
-  const [produktRef, setProduktRef] = useState(null);
   const [visModal, setVisModal] = useState(false);
   let firebaseRef = firebase.database().ref("kjeller");
+  const [produktState, dispatch] = useReducer(databaseProduktReducer, {
+    antallIKjeller: "0",
+    drikkevinduFra: null,
+    drikkevinduTil: null,
+    produktRef: null
+  });
 
   useEffect(() => {
     firebaseRef.on("child_changed", produktOppdatert);
@@ -38,8 +76,14 @@ const Produkt = ({ route }) => {
           result.val() &&
           Object.values(result.val())[0].aargang === produkt.basic.vintage
         ) {
-          setAntallIKjeller(Object.values(result.val())[0].antallIKjeller);
-          setProduktRef(Object.keys(result.val())[0]);
+          dispatch({
+            type: SET_PRODUKT_STATE,
+            payload: {
+              antallIKjeller: Object.values(result.val())[0].antallIKjeller,
+              drikkevindu: Object.values(result.val())[0].drikkevindu,
+              produktRef: Object.keys(result.val())[0]
+            }
+          });
         }
         setIsLoading(false);
       });
@@ -51,50 +95,59 @@ const Produkt = ({ route }) => {
   }, []);
 
   const produktOppdatert = produkt => {
-    setAntallIKjeller(produkt.val().antallIKjeller);
+    dispatch({
+      type: OPPDATER_KJELLERANTALL,
+      antallIKjeller: produkt.val().antallIKjeller
+    });
   };
 
   const produktLagtTil = nyttProdukt => {
     if (nyttProdukt.val().produktId === produkt.basic.productId) {
-      setProduktRef(nyttProdukt.key);
+      dispatch({ type: OPPDATER_PRODUKTREF, produktRef: nyttProdukt.key });
       firebaseRef
         .child(nyttProdukt.key)
         .once("value")
         .then(result => {
-          setAntallIKjeller(result.val().antallIKjeller);
+          dispatch({
+            type: OPPDATER_KJELLERANTALL,
+            antallIKjeller: result.val().antallIKjeller
+          });
         });
     }
   };
 
-  const oppdaterKjellerantall = data => {
-    if (produktRef) {
-      if (antall === "0") {
+  const oppdaterProdukt = data => {
+    if (produktState.produktRef) {
+      if (data.antallIKjeller === "0") {
         firebase
           .database()
-          .ref(`kjeller/${produktRef}`)
+          .ref(`kjeller/${produktState.produktRef}`)
           .remove();
-        setProduktRef(null);
-        setAntallIKjeller("0");
+        dispatch({ type: OPPDATER_PRODUKTREF, produktRef: null });
+        dispatch({
+          type: OPPDATER_KJELLERANTALL,
+          antallIKjeller: "0"
+        });
       } else {
         firebase
           .database()
-          .ref(`kjeller/${produktRef}`)
+          .ref(`kjeller/${produktState.produktRef}`)
           .update({
-            antallIKjeller: data.antall,
+            antallIKjeller: data.antallIKjeller,
             drikkevindu: {
               fra: data.drikkevinduFra,
-              til: drikkevinduTil
+              til: data.drikkevinduTil
             }
           });
       }
-    } else if (data.antall !== "0") {
+    } else if (data.antallIKjeller !== "0") {
       const nyttProdukt = firebaseRef.push();
       nyttProdukt.set({
         ...opprettProduktBasertPaa(produkt),
-        antallIKjeller: data.antall,
+        antallIKjeller: data.antallIKjeller,
         drikkevindu: {
           fra: data.drikkevinduFra,
-          til: drikkevinduTil
+          til: data.drikkevinduTil
         }
       });
     }
@@ -132,7 +185,7 @@ const Produkt = ({ route }) => {
               Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
             </Text>
             <Text style={styles.kjellerAntall}>
-              Antall i kjeller: {antallIKjeller}
+              Antall i kjeller: {produktState.antallIKjeller}
             </Text>
             <Pressable
               onPress={() => setVisModal(true)}
@@ -146,7 +199,7 @@ const Produkt = ({ route }) => {
               ]}
             >
               <Text style={{ color: "white" }}>
-                {antallIKjeller === "0"
+                {produktState.antallIKjeller === "0"
                   ? "Legg i kjeller"
                   : "Oppdater antall i kjeller"}
               </Text>
@@ -200,8 +253,9 @@ const Produkt = ({ route }) => {
           <OppdaterKjellerantallModal
             visModal={visModal}
             setVisModal={setVisModal}
-            antallIKjeller={antallIKjeller}
-            oppdaterKjellerantall={oppdaterKjellerantall}
+            produktState={produktState}
+            dispatch={dispatch}
+            oppdaterProdukt={oppdaterProdukt}
           />
         </View>
       )}

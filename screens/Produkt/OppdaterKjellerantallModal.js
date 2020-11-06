@@ -5,30 +5,37 @@ import {
   Text,
   View,
   StyleSheet,
-  TextInput,
+  CheckBox,
+  TextInput
 } from "react-native";
 import { colors } from "../../styles/common";
-import CheckBox from "@react-native-community/checkbox";
+// import CheckBox from "@react-native-community/checkbox";
 
 const OppdaterKjellerantallModal = ({
   visModal,
   setVisModal,
-  antallIKjeller,
-  oppdaterKjellerantall
+  produktState,
+  oppdaterProdukt
 }) => {
   const [oppdatertAntall, setOppdatertAntall] = useState(
-    antallIKjeller.toString()
+    produktState.antallIKjeller.toString()
   );
-  const [visDrikkevindu, setVisDrikkevindu] = useState(false);
-  const [drikkevinduFra, setDrikkevinduFra] = useState(null);
-  const [drikkevinduTil, setDrikkevinduTil] = useState(null);
+  const [visDrikkevindu, setVisDrikkevindu] = useState(
+    produktState.drikkevindu !== undefined
+  );
+  const [drikkevinduFra, setDrikkevinduFra] = useState(
+    produktState.drikkevindu !== undefined ? produktState.drikkevindu.fra : null
+  );
+  const [drikkevinduTil, setDrikkevinduTil] = useState(
+    produktState.drikkevindu !== undefined ? produktState.drikkevindu.til : null
+  );
 
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>
       <View style={{ flex: 1, justifyContent: "center" }}>
         <View style={styles.modal}>
           <Text style={styles.modalTekst}>
-            {antallIKjeller === 0
+            {produktState.antallIKjeller === 0
               ? "Velg antall du vil legge i kjeller"
               : "Oppdater antall i kjeller"}
           </Text>
@@ -211,12 +218,18 @@ const OppdaterKjellerantallModal = ({
                 styles.oppdaterAntallKnapp
               ]}
               onPress={() => {
-                oppdaterKjellerantall(oppdatertAntall);
+                oppdaterProdukt({
+                  antallIKjeller: oppdatertAntall,
+                  drikkevinduFra: visDrikkevindu ? drikkevinduFra : null,
+                  drikkevinduTil: visDrikkevindu ? drikkevinduTil : null
+                });
                 setVisModal(false);
               }}
             >
               <Text style={{ color: "white", padding: 20 }}>
-                {antallIKjeller === 0 ? "Legg i kjeller" : "Oppdater antall"}
+                {produktState.antallIKjeller === 0
+                  ? "Legg i kjeller"
+                  : "Oppdater antall"}
               </Text>
             </Pressable>
           </View>
