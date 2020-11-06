@@ -9,7 +9,7 @@ import {
   View
 } from "react-native";
 import ProduktDetalj from "./ProduktDetalj";
-import { colors } from "../../styles/common";
+import { colors, spinner } from "../../styles/common";
 import * as firebase from "firebase";
 import {
   getIngredienser,
@@ -156,7 +156,7 @@ const Produkt = ({ route }) => {
   return (
     <ScrollView>
       {isLoading ? (
-        <View style={styles.spinner}>
+        <View style={spinner}>
           <ActivityIndicator color={colors.primaryButton} size="large" />
         </View>
       ) : (
@@ -339,11 +339,6 @@ const styles = StyleSheet.create({
     width: "50%",
     justifyContent: "center",
     alignItems: "center"
-  },
-  spinner: {
-    flex: 1,
-    flexDirection: "column",
-    paddingTop: 20
   }
 });
 

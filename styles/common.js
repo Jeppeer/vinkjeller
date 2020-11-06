@@ -20,3 +20,9 @@ export const text = {
     paddingBottom: 5
   }
 };
+
+export const spinner = {
+  flex: 1,
+  flexDirection: "column",
+  paddingTop: 20
+};
