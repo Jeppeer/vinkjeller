@@ -66,7 +66,7 @@ const Produkt = ({ route }) => {
     }
   };
 
-  const oppdaterKjellerantall = antall => {
+  const oppdaterKjellerantall = data => {
     if (produktRef) {
       if (antall === "0") {
         firebase
@@ -79,13 +79,23 @@ const Produkt = ({ route }) => {
         firebase
           .database()
           .ref(`kjeller/${produktRef}`)
-          .update({ antallIKjeller: antall });
+          .update({
+            antallIKjeller: data.antall,
+            drikkevindu: {
+              fra: data.drikkevinduFra,
+              til: drikkevinduTil
+            }
+          });
       }
-    } else if (antall !== "0") {
+    } else if (data.antall !== "0") {
       const nyttProdukt = firebaseRef.push();
       nyttProdukt.set({
         ...opprettProduktBasertPaa(produkt),
-        antallIKjeller: antall
+        antallIKjeller: data.antall,
+        drikkevindu: {
+          fra: data.drikkevinduFra,
+          til: drikkevinduTil
+        }
       });
     }
   };

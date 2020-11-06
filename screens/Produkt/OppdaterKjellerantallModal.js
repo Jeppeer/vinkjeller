@@ -5,9 +5,10 @@ import {
   Text,
   View,
   StyleSheet,
-  TextInput
+  TextInput,
 } from "react-native";
 import { colors } from "../../styles/common";
+import CheckBox from "@react-native-community/checkbox";
 
 const OppdaterKjellerantallModal = ({
   visModal,
@@ -15,7 +16,12 @@ const OppdaterKjellerantallModal = ({
   antallIKjeller,
   oppdaterKjellerantall
 }) => {
-  const [oppdatertAntall, setOppdatertAntall] = useState(antallIKjeller.toString());
+  const [oppdatertAntall, setOppdatertAntall] = useState(
+    antallIKjeller.toString()
+  );
+  const [visDrikkevindu, setVisDrikkevindu] = useState(false);
+  const [drikkevinduFra, setDrikkevinduFra] = useState(null);
+  const [drikkevinduTil, setDrikkevinduTil] = useState(null);
 
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>
@@ -27,7 +33,7 @@ const OppdaterKjellerantallModal = ({
               : "Oppdater antall i kjeller"}
           </Text>
 
-          <View style={{ flexDirection: "row", marginBottom: 15 }}>
+          <View style={{ flexDirection: "row" }}>
             <Pressable
               style={({ pressed }) => [
                 {
@@ -39,7 +45,9 @@ const OppdaterKjellerantallModal = ({
               ]}
               onPress={() => {
                 if (oppdatertAntall > 0) {
-                  setOppdatertAntall((parseInt(oppdatertAntall) - 1).toString());
+                  setOppdatertAntall(
+                    (parseInt(oppdatertAntall) - 1).toString()
+                  );
                 }
               }}
             >
@@ -66,6 +74,115 @@ const OppdaterKjellerantallModal = ({
             >
               <Text style={{ color: "white", fontSize: 30 }}>+</Text>
             </Pressable>
+          </View>
+
+          <View>
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                value={visDrikkevindu}
+                onValueChange={() => {
+                  setVisDrikkevindu(!visDrikkevindu);
+                  setDrikkevinduFra(new Date().getFullYear().toString());
+                  setDrikkevinduTil(new Date().getFullYear().toString());
+                }}
+                style={styles.checkbox}
+              />
+              <Text style={styles.label}>Legg til drikkevindu?</Text>
+            </View>
+            {visDrikkevindu && (
+              <View style={{ marginBottom: 15 }}>
+                <View style={styles.drikkevinduContainer}>
+                  <Text style={styles.drikkevinduLabel}>Fra</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <Pressable
+                      style={({ pressed }) => [
+                        {
+                          backgroundColor: pressed
+                            ? colors.primaryButtonPressed
+                            : colors.primaryButton
+                        },
+                        styles.plussMinusKnapp
+                      ]}
+                      onPress={() => {
+                        setDrikkevinduFra(
+                          (parseInt(drikkevinduFra) - 1).toString()
+                        );
+                      }}
+                    >
+                      <Text style={{ color: "white", fontSize: 30 }}>-</Text>
+                    </Pressable>
+                    <TextInput
+                      style={styles.aarInput}
+                      value={drikkevinduFra}
+                      keyboardType="numeric"
+                      onChangeText={tekst => setDrikkevinduFra(tekst)}
+                    />
+                    <Pressable
+                      style={({ pressed }) => [
+                        {
+                          backgroundColor: pressed
+                            ? colors.primaryButtonPressed
+                            : colors.primaryButton
+                        },
+                        styles.plussMinusKnapp
+                      ]}
+                      onPress={() => {
+                        setDrikkevinduFra(
+                          (parseInt(drikkevinduFra) + 1).toString()
+                        );
+                      }}
+                    >
+                      <Text style={{ color: "white", fontSize: 30 }}>+</Text>
+                    </Pressable>
+                  </View>
+                </View>
+                <View style={styles.drikkevinduContainer}>
+                  <Text style={styles.drikkevinduLabel}>Til</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <Pressable
+                      style={({ pressed }) => [
+                        {
+                          backgroundColor: pressed
+                            ? colors.primaryButtonPressed
+                            : colors.primaryButton
+                        },
+                        styles.plussMinusKnapp
+                      ]}
+                      onPress={() => {
+                        setDrikkevinduTil(
+                          (parseInt(drikkevinduTil) - 1).toString()
+                        );
+                      }}
+                    >
+                      <Text style={{ color: "white", fontSize: 30 }}>-</Text>
+                    </Pressable>
+                    <TextInput
+                      style={styles.aarInput}
+                      value={drikkevinduTil}
+                      keyboardType="numeric"
+                      onChangeText={tekst => setDrikkevinduTil(tekst)}
+                    />
+                    <Pressable
+                      style={({ pressed }) => [
+                        {
+                          backgroundColor: pressed
+                            ? colors.primaryButtonPressed
+                            : colors.primaryButton
+                        },
+                        styles.plussMinusKnapp
+                      ]}
+                      onPress={() => {
+                        setDrikkevinduTil(
+                          (parseInt(drikkevinduTil) + 1).toString()
+                        );
+                      }}
+                    >
+                      <Text style={{ color: "white", fontSize: 30 }}>+</Text>
+                    </Pressable>
+                  </View>
+                </View>
+              </View>
+            )}
           </View>
 
           <View style={styles.modalKnapper}>
@@ -159,6 +276,31 @@ const styles = StyleSheet.create({
   },
   modalKnapper: {
     flexDirection: "row"
+  },
+  drikkevinduContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  drikkevinduLabel: {
+    marginRight: 10,
+    paddingTop: 8
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20
+  },
+  checkbox: {
+    alignSelf: "center"
+  },
+  label: {
+    margin: 8
+  },
+  aarInput: {
+    height: 50,
+    width: 70,
+    fontSize: 18,
+    paddingBottom: 15,
+    textAlign: "center"
   }
 });
 
