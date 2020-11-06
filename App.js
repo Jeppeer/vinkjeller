@@ -1,7 +1,7 @@
 import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-import VinOversikt from "./screens/VinOversikt";
+import Kjelleroversikt from "./screens/Kjelleroversikt/Kjelleroversikt";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Produkt from "./screens/Produkt/Produkt";
@@ -169,7 +169,7 @@ function VinOversiktScreen() {
         headerTitleAlign: "center"
       }}
     >
-      <SoekStack.Screen name="VinOversikt" component={VinOversikt} />
+      <SoekStack.Screen name="Kjelleroversikt" component={Kjelleroversikt} />
       <SoekStack.Screen name="Produkt" component={Produkt} />
     </SoekStack.Navigator>
   );

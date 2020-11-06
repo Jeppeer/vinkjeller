@@ -16,7 +16,8 @@ export const opprettProduktBasertPaa = produkt => {
       region: produkt.origins.origin.region,
       subRegion: produkt.origins.origin.subRegion
     },
-    pris: Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)
+    pris: Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2),
+    produktType: produkt.classification.productTypeName
   };
 };
 
