@@ -71,12 +71,12 @@ const Produkt = ({ route }) => {
     firebaseRef.limitToLast(1).on("child_added", produktLagtTil);
     firebaseRef
       .orderByChild("produktId")
-      .equalTo(produkt.basic.productId)
+      .equalTo(produkt.produktId)
       .once("value")
       .then(result => {
         if (
           result.val() &&
-          Object.values(result.val())[0].aargang === produkt.basic.vintage
+          Object.values(result.val())[0].aargang === produkt.aargang
         ) {
           dispatch({
             type: SET_PRODUKT_STATE,
@@ -105,7 +105,7 @@ const Produkt = ({ route }) => {
   };
 
   const produktLagtTil = nyttProdukt => {
-    if (nyttProdukt.val().produktId === produkt.basic.productId) {
+    if (nyttProdukt.val().produktId === produkt.produktId) {
       dispatch({ type: OPPDATER_PRODUKTREF, produktRef: nyttProdukt.key });
       firebaseRef
         .child(nyttProdukt.key)
@@ -170,23 +170,20 @@ const Produkt = ({ route }) => {
             <Image
               style={styles.bilde}
               source={{
-                uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.basic.productId}-1.jpg`
+                uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.produktId}-1.jpg`
               }}
             />
           </View>
           <View style={styles.mainInfoContainer}>
             <Text style={styles.produktNavn}>
-              {produkt.basic.productShortName}{" "}
-              {produkt.basic.vintage !== 0 && produkt.basic.vintage}
+              {produkt.produktNavn} {produkt.aargang !== 0 && produkt.aargang}
             </Text>
             <Text style={styles.produktRegion}>
-              {produkt.origins.origin.country}
-              {produkt.origins.origin.region &&
-                `, ${produkt.origins.origin.region}`}
-              {produkt.origins.origin.subRegion &&
-                `, ${produkt.origins.origin.subRegion}`}
+              {produkt.region.land}
+              {produkt.region.region && `, ${produkt.region.region}`}
+              {produkt.region.subRegion && `, ${produkt.region.subRegion}`}
             </Text>
-            <Pris pris={produkt.prices[0].salesPrice} />
+            <Pris pris={produkt.pris} />
             <Text style={styles.kjellerAntall}>
               Antall i kjeller: {produktState.antallIKjeller}
             </Text>
@@ -210,48 +207,38 @@ const Produkt = ({ route }) => {
           </View>
 
           <View style={extededInfoStyle.container}>
-            <ProduktDetalj
-              detaljNavn="Varetype"
-              data={produkt.classification.productTypeName}
-            />
-            <ProduktDetalj
-              detaljNavn="Varenummer"
-              data={produkt.basic.productId}
-            />
-            {produkt.basic.vintage !== 0 && (
-              <ProduktDetalj detaljNavn="Årgang" data={produkt.basic.vintage} />
+            <ProduktDetalj detaljNavn="Varetype" data={produkt.produktType} />
+            <ProduktDetalj detaljNavn="Varenummer" data={produkt.produktId} />
+            {produkt.aargang !== 0 && (
+              <ProduktDetalj detaljNavn="Årgang" data={produkt.aargang} />
             )}
             <ProduktDetalj
               detaljNavn="Land, distrikt, underdistrikt"
-              data={`${produkt.origins.origin.country}${produkt.origins.origin
-                .region && `, ${produkt.origins.origin.region}`}${produkt
-                .origins.origin.subRegion &&
-                `, ${produkt.origins.origin.subRegion}`}`}
+              data={`${produkt.region.land}${produkt.region.region &&
+                `, ${produkt.region.region.region}`}${produkt.region
+                .subRegion && `, ${produkt.region.subRegion}`}`}
             />
             <ProduktDetalj
               detaljNavn="Råstoff"
-              data={getIngredienser(produkt.ingredients)}
+              data={getIngredienser(produkt.raastoff)}
             />
             <ProduktDetalj
               detaljNavn="Lagringsgrad"
-              data={produkt.properties.storagePotential}
+              data={produkt.lagringsgrad ? produkt.lagringsgrad : "-"}
             />
             <ProduktDetalj
               detaljNavn="Passer til"
-              data={getPasserTil(produkt.description.recommendedFood)}
+              data={getPasserTil(produkt.anbefaltMat)}
             />
-            <ProduktDetalj
-              detaljNavn="Produsent"
-              data={produkt.logistics.manufacturerName}
-            />
+            {/*<ProduktDetalj*/}
+            {/*  detaljNavn="Produsent"*/}
+            {/*  data={produkt.logistics.manufacturerName}*/}
+            {/*/>*/}
             <ProduktDetalj
               detaljNavn="Alkoholprosent"
-              data={`${produkt.basic.alcoholContent}%`}
+              data={`${produkt.alkoholprosent}%`}
             />
-            <ProduktDetalj
-              detaljNavn="Utvalg"
-              data={produkt.assortment.assortment}
-            />
+            <ProduktDetalj detaljNavn="Utvalg" data={produkt.utvalg} />
           </View>
           <OppdaterKjellerantallModal
             visModal={visModal}

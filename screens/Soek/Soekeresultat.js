@@ -2,10 +2,13 @@ import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Pris from "../../components/Pris";
 import { colors } from "../../styles/common";
+import { opprettProduktBasertPaa } from "../Produkt/ProduktHelper";
 
 const Soekeresultat = ({ produkt, navigation }) => {
   const velgProdukt = produkt => {
-    navigation.navigate("Produkt", { produkt: produkt });
+    navigation.navigate("Produkt", {
+      produkt: opprettProduktBasertPaa(produkt)
+    });
   };
 
   return (

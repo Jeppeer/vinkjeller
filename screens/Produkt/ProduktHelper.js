@@ -23,15 +23,17 @@ export const opprettProduktBasertPaa = produkt => {
 };
 
 export const getIngredienser = ingredienser => {
-  if (ingredienser.grapes.length) {
-    return ingredienser.grapes
-      .map(grape => `${grape.grapeDesc} ${grape.grapePct}%`)
+  if (Array.isArray(ingredienser)) {
+    return ingredienser
+      .map(drue => `${drue.grapeDesc} ${drue.grapePct}%`)
       .join(", ");
   } else {
-    return ingredienser.ingredients;
+    return ingredienser;
   }
 };
 
 export const getPasserTil = anbefaltMat => {
-  return anbefaltMat.map(matType => matType.foodDesc).join(", ");
+  return anbefaltMat.length
+    ? anbefaltMat.map(matType => matType.foodDesc).join(", ")
+    : "-";
 };
