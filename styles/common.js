@@ -3,7 +3,7 @@ export const colors = {
   primaryButtonPressed: "#424654",
   primaryBg: "#282c34",
   primarySelected: "#fff",
-  borderColor: "#3a5d57"
+  borderColor: "#ebedf0"
 };
 
 export const text = {

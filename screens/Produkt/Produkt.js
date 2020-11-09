@@ -17,6 +17,7 @@ import {
   opprettProduktBasertPaa
 } from "./ProduktHelper";
 import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
+import Pris from "../../components/Pris";
 
 const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
 const OPPDATER_KJELLERANTALL = "OPPDATER_KJELLERANTALL";
@@ -185,9 +186,7 @@ const Produkt = ({ route }) => {
               {produkt.origins.origin.subRegion &&
                 `, ${produkt.origins.origin.subRegion}`}
             </Text>
-            <Text style={styles.produktPris}>
-              Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
-            </Text>
+            <Pris pris={produkt.prices[0].salesPrice} />
             <Text style={styles.kjellerAntall}>
               Antall i kjeller: {produktState.antallIKjeller}
             </Text>
@@ -292,35 +291,17 @@ const styles = StyleSheet.create({
   },
   mainInfoContainer: {
     alignItems: "center",
-    borderBottomColor: "lightgray",
-    borderBottomWidth: 1,
     paddingBottom: 15,
     paddingLeft: 15,
     paddingRight: 15
   },
   produktNavn: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
     paddingBottom: 10
   },
-  produktId: {
-    fontSize: 15,
-    color: "gray",
-    paddingBottom: 10
-  },
   produktRegion: {
-    fontSize: 17,
-    paddingBottom: 10
-  },
-  produktPris: {
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingBottom: 10
-  },
-  produktType: {
-    fontSize: 15,
-    color: "gray",
     paddingBottom: 10
   },
   item: {
@@ -334,7 +315,6 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   kjellerAntall: {
-    fontSize: 17,
     paddingBottom: 20
   },
   leggIKjellerKnapp: {

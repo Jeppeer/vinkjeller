@@ -1,5 +1,7 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import Pris from "../../components/Pris";
+import { colors } from "../../styles/common";
 
 const Kjellerelement = ({ element, navigation }) => {
   const velgElement = element => {
@@ -22,14 +24,13 @@ const Kjellerelement = ({ element, navigation }) => {
           <Text style={styles.produktNavn}>
             {element.navn} {element.aargang !== 0 && element.aargang}
           </Text>
-          <Text style={styles.produktRegion}>
-            {element.region.land}
-            {element.region.region && `, ${element.region.region}`}
-            {element.region.subRegion && `, ${element.region.subRegion}`}
-          </Text>
-          <Text style={styles.produktId}>{element.produktId}</Text>
-          <Text style={styles.produktPris}>
-            Kr. {Number.parseFloat(element.pris).toFixed(2)}
+          <Pris pris={element.pris} />
+          <Text>Antall i kjeller: {element.antallIKjeller}</Text>
+          <Text style={{ paddingBottom: 10 }}>
+            Drikkevindu:{" "}
+            {element.drikkevindu
+              ? `${element.drikkevindu.fra} - ${element.drikkevindu.til}`
+              : "Ikke angitt"}
           </Text>
         </View>
       </View>
@@ -42,19 +43,24 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     padding: 15,
-    borderBottomWidth: 0.5,
-    height: 250
+    borderBottomWidth: 1,
+    borderColor: colors.borderColor,
+    height: 200
   },
   bildeContainer: {
     width: "20%",
     marginRight: 15
   },
+  bilde: {
+    height: "100%",
+    width: "100%",
+    resizeMode: "contain"
+  },
   infoContainer: {
     width: "80%"
   },
   produktNavn: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 18,
     paddingBottom: 10
   },
   produktId: {
@@ -62,13 +68,7 @@ const styles = StyleSheet.create({
     color: "gray",
     paddingBottom: 10
   },
-  produktRegion: {
-    fontSize: 17,
-    paddingBottom: 10
-  },
   produktPris: {
-    fontSize: 17,
-    fontWeight: "bold",
     paddingBottom: 10
   },
   produktType: {
@@ -80,10 +80,6 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16
-  },
-  bilde: {
-    height: "100%",
-    width: "100%"
   }
 });
 

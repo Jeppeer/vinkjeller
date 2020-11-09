@@ -1,5 +1,7 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import Pris from "../../components/Pris";
+import { colors } from "../../styles/common";
 
 const Soekeresultat = ({ produkt, navigation }) => {
   const velgProdukt = produkt => {
@@ -33,9 +35,7 @@ const Soekeresultat = ({ produkt, navigation }) => {
               `, ${produkt.origins.origin.subRegion}`}
           </Text>
           <Text style={styles.produktId}>{produkt.basic.productId}</Text>
-          <Text style={styles.produktPris}>
-            Kr. {Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2)}
-          </Text>
+          <Pris pris={produkt.prices[0].salesPrice} />
         </View>
       </View>
     </Pressable>
@@ -46,9 +46,9 @@ const styles = StyleSheet.create({
   produktContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: 15,
-    borderBottomWidth: 0.5,
-    height: 250
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: colors.borderColor
   },
   bildeContainer: {
     width: "20%",
@@ -58,26 +58,17 @@ const styles = StyleSheet.create({
     width: "80%"
   },
   produktNavn: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 18,
     paddingBottom: 10
   },
   produktId: {
-    fontSize: 15,
     color: "gray",
     paddingBottom: 10
   },
   produktRegion: {
-    fontSize: 17,
-    paddingBottom: 10
-  },
-  produktPris: {
-    fontSize: 17,
-    fontWeight: "bold",
     paddingBottom: 10
   },
   produktType: {
-    fontSize: 15,
     color: "gray",
     paddingBottom: 10
   },
@@ -88,7 +79,8 @@ const styles = StyleSheet.create({
   },
   bilde: {
     height: "100%",
-    width: "100%"
+    width: "100%",
+    resizeMode: "contain"
   }
 });
 

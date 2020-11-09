@@ -19,7 +19,6 @@ const Kjelleroversikt = ({ navigation }) => {
   const firebaseRef = firebase.database().ref("kjeller");
 
   useEffect(() => {
-
     // TODO: Det må legges til slik at listen oppdateres når noe legges til
 
     firebaseRef
@@ -58,19 +57,19 @@ const Kjelleroversikt = ({ navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        backgroundColor: "white",
-        flex: 1,
-        flexDirection: "column"
-      }}
-    >
+    <View style={{ height: "100%" }}>
       {isLoading ? (
         <View style={spinner}>
           <ActivityIndicator color={colors.primaryButton} size="large" />
         </View>
       ) : (
-        <View>
+        <View
+          style={{
+            backgroundColor: "white",
+            flex: 1,
+            flexDirection: "column"
+          }}
+        >
           <View style={styles.filterContainer}>
             <Pressable
               style={({ pressed }) => [
@@ -129,20 +128,18 @@ const Kjelleroversikt = ({ navigation }) => {
               <Text style={styles.knappTekst}>Annet</Text>
             </Pressable>
           </View>
-          <View style={{ marginBottom: 20 }}>
-            <FlatList
-              data={filtrertKjellerinnhold}
-              ListEmptyComponent={
-                <Text style={{ textAlign: "center", marginTop: 20 }}>
-                  Ingen elementer med valgt filter
-                </Text>
-              }
-              renderItem={item => (
-                <Kjellerelement element={item.item} navigation={navigation} />
-              )}
-              keyExtractor={item => item.produktId}
-            />
-          </View>
+          <FlatList
+            data={filtrertKjellerinnhold}
+            ListEmptyComponent={
+              <Text style={{ textAlign: "center", marginTop: 20 }}>
+                Ingen elementer med valgt filter
+              </Text>
+            }
+            renderItem={item => (
+              <Kjellerelement element={item.item} navigation={navigation} />
+            )}
+            keyExtractor={item => item.produktId}
+          />
         </View>
       )}
     </View>
