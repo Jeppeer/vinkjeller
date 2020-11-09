@@ -29,7 +29,8 @@ const databaseProduktReducer = (state, action) => {
       return {
         antallIKjeller: action.payload.antallIKjeller,
         drikkevindu: action.payload.drikkevindu,
-        produktRef: action.payload.produktRef
+        produktRef: action.payload.produktRef,
+        notat: action.payload.notat
       };
     case OPPDATER_KJELLERANTALL:
       return {
@@ -81,7 +82,8 @@ const Produkt = ({ route }) => {
             payload: {
               antallIKjeller: Object.values(result.val())[0].antallIKjeller,
               drikkevindu: Object.values(result.val())[0].drikkevindu,
-              produktRef: Object.keys(result.val())[0]
+              produktRef: Object.keys(result.val())[0],
+              notat: Object.values(result.val())[0].notat
             }
           });
         }
@@ -137,7 +139,8 @@ const Produkt = ({ route }) => {
             drikkevindu: {
               fra: data.drikkevinduFra,
               til: data.drikkevinduTil
-            }
+            },
+            notat: data.notat
           });
       }
     } else if (data.antallIKjeller !== "0") {
@@ -148,7 +151,8 @@ const Produkt = ({ route }) => {
         drikkevindu: {
           fra: data.drikkevinduFra,
           til: data.drikkevinduTil
-        }
+        },
+        notat: data.notat
       });
     }
   };

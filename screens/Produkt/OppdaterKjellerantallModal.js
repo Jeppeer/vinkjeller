@@ -17,6 +17,7 @@ const OppdaterKjellerantallModal = ({
   produktState,
   oppdaterProdukt
 }) => {
+  const [notat, setNotat] = useState(produktState.notat);
   const [oppdatertAntall, setOppdatertAntall] = useState(
     produktState.antallIKjeller.toString()
   );
@@ -192,6 +193,15 @@ const OppdaterKjellerantallModal = ({
             )}
           </View>
 
+          <TextInput
+            style={styles.notatInput}
+            value={notat}
+            onChangeText={tekst => setNotat(tekst)}
+            numberOfLines={2}
+            multiline
+            placeholder='Skriv et notat'
+          />
+
           <View style={styles.modalKnapper}>
             <Pressable
               style={({ pressed }) => [
@@ -221,7 +231,8 @@ const OppdaterKjellerantallModal = ({
                 oppdaterProdukt({
                   antallIKjeller: oppdatertAntall,
                   drikkevinduFra: visDrikkevindu ? drikkevinduFra : null,
-                  drikkevinduTil: visDrikkevindu ? drikkevinduTil : null
+                  drikkevinduTil: visDrikkevindu ? drikkevinduTil : null,
+                  notat: notat
                 });
                 setVisModal(false);
               }}
@@ -266,6 +277,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingBottom: 15,
     textAlign: "center"
+  },
+  notatInput: {
+    width: "100%",
+    borderRadius: 2,
+    padding: 10,
+    backgroundColor: "#ebedf0",
+    marginBottom: 15
   },
   oppdaterAntallKnapp: {
     borderRadius: 50,
