@@ -5,17 +5,17 @@ import { colors } from "../../styles/common";
 import { api } from "../../service/api";
 
 const Soek = ({ navigation }) => {
-  const [soekeTerm, setSoekeTerm] = useState("3465401");
-  const [isLoading, setIsLoading] = useState(false);
+  const [soekeTerm, setSoekeTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const config = {
+    headers: {
+      "Ocp-Apim-Subscription-Key": "b2c1c8d6dfa9405db0ff0c3411ed1ed2"
+    }
+  };
 
   const search = () => {
     setIsLoading(true);
     let soekeUrl;
-    let config = {
-      headers: {
-        "Ocp-Apim-Subscription-Key": "b2c1c8d6dfa9405db0ff0c3411ed1ed2"
-      }
-    };
     if (Number.isNaN(Number(soekeTerm))) {
       soekeUrl = `https://apis.vinmonopolet.no/products/v0/details-normal?productShortNameContains=${soekeTerm.replace(
         /\s/g,
@@ -51,6 +51,7 @@ const Soek = ({ navigation }) => {
         onSubmitEditing={search}
         returnKeyType="search"
         showLoading={isLoading}
+        loadingProps={{ color: colors.primaryButton }}
       />
     </View>
   );

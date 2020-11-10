@@ -176,7 +176,7 @@ const Produkt = ({ route }) => {
           </View>
           <View style={styles.mainInfoContainer}>
             <Text style={styles.produktNavn}>
-              {produkt.produktNavn} {produkt.aargang !== 0 && produkt.aargang}
+              {produkt.navn} {produkt.aargang !== 0 && produkt.aargang}
             </Text>
             <Text style={styles.produktRegion}>
               {produkt.region.land}
