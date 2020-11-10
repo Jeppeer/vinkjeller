@@ -147,13 +147,13 @@ const Produkt = ({ route }) => {
     } else if (data.antallIKjeller !== "0") {
       const nyttProdukt = firebaseRef.push();
       nyttProdukt.set({
-        ...opprettProduktBasertPaa(produkt),
+        ...produkt,
         antallIKjeller: data.antallIKjeller,
         drikkevindu: {
           fra: data.drikkevinduFra,
           til: data.drikkevinduTil
         },
-        notat: data.notat
+        notat: data.notat || ""
       });
     }
   };

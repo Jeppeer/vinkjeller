@@ -6,7 +6,7 @@ import { api } from "../../service/api";
 
 const Soek = ({ navigation }) => {
   const [soekeTerm, setSoekeTerm] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const config = {
     headers: {
       "Ocp-Apim-Subscription-Key": "b2c1c8d6dfa9405db0ff0c3411ed1ed2"
@@ -39,7 +39,7 @@ const Soek = ({ navigation }) => {
       }}
     >
       <SearchBar
-        placeholder="Søk..."
+        placeholder="Søk"
         onChangeText={setSoekeTerm}
         value={soekeTerm}
         inputContainerStyle={{ backgroundColor: "white" }}
