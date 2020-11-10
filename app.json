@@ -23,7 +23,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.vinkjeller.vinkjeller",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.vinkjeller.vinkjeller",
+      "versionCode": 1
     },
     "description": ""
   }
