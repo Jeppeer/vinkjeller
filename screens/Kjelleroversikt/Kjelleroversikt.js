@@ -19,36 +19,39 @@ const Kjelleroversikt = ({ navigation }) => {
   const firebaseRef = firebase.database().ref("kjeller");
 
   useEffect(() => {
-    // TODO: Det må legges til slik at listen oppdateres når noe legges til
-
-    firebaseRef
-      .orderByChild("produktId")
-      .once("value")
-      .then(resultat => {
-        setKjellerinnhold(Object.values(resultat.val()));
-        setFiltrertKjellerinnhold(Object.values(resultat.val()));
-        setIsLoading(false);
-      });
-    return () => setKjellerinnhold([]);
+    firebaseRef.on("value", data => {
+      setIsLoading(true);
+      kjellerinnholdEndret(data);
+    });
+    return () => firebaseRef.off("value", kjellerinnholdEndret);
   }, []);
 
+  const filtrerInnhold = (kjellerinnhold, produktFilter) => {
+    return kjellerinnhold.filter(element => {
+      if (produktFilter === "Annet") {
+        return (
+          element.produktType !== "Rødvin" &&
+          element.produktType !== "Hvitvin" &&
+          element.produktType !== "Musserende vin"
+        );
+      } else if (produktFilter) {
+        return element.produktType === produktFilter;
+      } else {
+        return true;
+      }
+    });
+  };
+
   useEffect(() => {
-    setFiltrertKjellerinnhold(
-      kjellerinnhold.filter(element => {
-        if (produktFilter === "Annet") {
-          return (
-            element.produktType !== "Rødvin" &&
-            element.produktType !== "Hvitvin" &&
-            element.produktType !== "Musserende vin"
-          );
-        } else if (produktFilter) {
-          return element.produktType === produktFilter;
-        } else {
-          return true;
-        }
-      })
-    );
+    setFiltrertKjellerinnhold(filtrerInnhold(kjellerinnhold, produktFilter));
   }, [produktFilter]);
+
+  const kjellerinnholdEndret = oppdatertKjellerinnhold => {
+    setKjellerinnhold(Object.values(oppdatertKjellerinnhold.val()));
+    setFiltrertKjellerinnhold(Object.values(oppdatertKjellerinnhold.val()));
+    setProduktFilter(null);
+    setIsLoading(false);
+  };
 
   const setFilter = filter => {
     filter === produktFilter

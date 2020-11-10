@@ -33,7 +33,7 @@ export const getIngredienser = ingredienser => {
 };
 
 export const getPasserTil = anbefaltMat => {
-  return anbefaltMat.length
+  return anbefaltMat && anbefaltMat.length
     ? anbefaltMat.map(matType => matType.foodDesc).join(", ")
     : "-";
 };
