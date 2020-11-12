@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { colors } from "../../styles/common";
 import { api } from "../../service/api";
@@ -33,10 +33,21 @@ const Soek = ({ navigation }) => {
     <View
       style={{
         flex: 1,
-        justifyContent: "flex-start",
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: colors.primaryBg
       }}
     >
+      <Text
+        style={{
+          color: "white",
+          margin: 20,
+          textAlign: "center"
+        }}
+      >
+        Søk etter produkt i Vinmonopolets utvalg. Du kan søke etter tittel på
+        vare eller varenummer.
+      </Text>
       <SearchBar
         placeholder="Søk"
         onChangeText={setSoekeTerm}
@@ -45,7 +56,9 @@ const Soek = ({ navigation }) => {
         containerStyle={{
           backgroundColor: colors.primaryBg,
           borderTopWidth: 0,
-          borderBottomWidth: 0
+          borderBottomWidth: 0,
+          margin: 0,
+          width: "90%"
         }}
         onSubmitEditing={search}
         returnKeyType="search"

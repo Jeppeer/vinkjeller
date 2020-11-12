@@ -79,8 +79,9 @@ export default function App() {
         tabBarOptions={{
           activeTintColor: colors.primarySelected,
           style: {
-            backgroundColor: colors.primaryBg,
-            borderTopColor: colors.borderColor
+            backgroundColor: colors.secondaryBg,
+            borderTopWidth: 0,
+            height: 60
           },
           tabStyle: {
             alignItems: "center",
@@ -88,7 +89,8 @@ export default function App() {
           },
           labelStyle: {
             marginTop: -5,
-            marginBottom: 5
+            marginBottom: 5,
+            fontSize: 13
           }
         }}
         initialRouteName="StrekkodeScanner"
@@ -184,7 +186,13 @@ function StrekkodeScannerScreen() {
         headerTitleAlign: "center"
       }}
     >
-      <SoekStack.Screen name="StrekkodeScanner" component={StrekkodeScanner} />
+      <SoekStack.Screen
+        name="StrekkodeScanner"
+        options={{
+          title: "Scan en vare"
+        }}
+        component={StrekkodeScanner}
+      />
       <SoekStack.Screen name="Produkt" component={Produkt} />
     </SoekStack.Navigator>
   );
