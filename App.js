@@ -79,7 +79,7 @@ export default function App() {
         tabBarOptions={{
           activeTintColor: colors.primarySelected,
           style: {
-            backgroundColor: colors.secondaryBg,
+            backgroundColor: colors.primaryBg,
             borderTopWidth: 0,
             height: 60
           },
