@@ -25,12 +25,15 @@ const Kjellerelement = ({ element, navigation }) => {
             {element.navn} {element.aargang !== 0 && element.aargang}
           </Text>
           <Pris pris={element.pris} />
-          <Text>Antall i kjeller: {element.antallIKjeller}</Text>
-          <Text style={{ paddingBottom: 10 }}>
+          <Text style={{paddingBottom: 2}}>Antall i kjeller: {element.antallIKjeller}</Text>
+          <Text style={{paddingBottom: 2}}>
             Drikkevindu:{" "}
             {element.drikkevindu
               ? `${element.drikkevindu.fra} - ${element.drikkevindu.til}`
               : "Ikke angitt"}
+          </Text>
+          <Text style={{ paddingBottom: 10 }}>
+            Notat: {element.notat !== "" ? element.notat : "Ingen notater"}
           </Text>
         </View>
       </View>
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderColor: colors.borderColor,
-    height: 200
+    height: 220
   },
   bildeContainer: {
     width: "20%",

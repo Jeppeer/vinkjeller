@@ -16,7 +16,7 @@ import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 import Pris from "../../components/Pris";
 
 const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
-const OPPDATER_KJELLERANTALL = "OPPDATER_KJELLERANTALL";
+const OPPDATER_PRODUKT = "OPPDATER_PRODUKT";
 const OPPDATER_PRODUKTREF = "OPPDATER_PRODUKTREF";
 const OPPDATER_DRIKKEVINDU = "OPPDATER_DRIKKEVINDU";
 
@@ -29,10 +29,12 @@ const databaseProduktReducer = (state, action) => {
         produktRef: action.payload.produktRef,
         notat: action.payload.notat
       };
-    case OPPDATER_KJELLERANTALL:
+    case OPPDATER_PRODUKT:
       return {
         ...state,
-        antallIKjeller: action.antallIKjeller
+        antallIKjeller: action.antallIKjeller,
+        notat: action.notat,
+        drikkevindu: action.payload.drikkevindu
       };
     case OPPDATER_PRODUKTREF:
       return {
@@ -57,8 +59,8 @@ const Produkt = ({ route }) => {
   let firebaseRef = firebase.database().ref("kjeller");
   const [produktState, dispatch] = useReducer(databaseProduktReducer, {
     antallIKjeller: "0",
-    drikkevinduFra: null,
-    drikkevinduTil: null,
+    drikkevindu: undefined,
+    notat: "",
     produktRef: null
   });
 
@@ -95,21 +97,30 @@ const Produkt = ({ route }) => {
 
   const produktOppdatert = produkt => {
     dispatch({
-      type: OPPDATER_KJELLERANTALL,
-      antallIKjeller: produkt.val().antallIKjeller
+      type: SET_PRODUKT_STATE,
+      payload: {
+        antallIKjeller: produkt.val().antallIKjeller,
+        drikkevindu: produkt.val().drikkevindu,
+        produktRef: produkt.key,
+        notat: produkt.val().notat
+      }
     });
   };
 
   const produktLagtTil = nyttProdukt => {
     if (nyttProdukt.val().produktId === produkt.produktId) {
-      dispatch({ type: OPPDATER_PRODUKTREF, produktRef: nyttProdukt.key });
       firebaseRef
         .child(nyttProdukt.key)
         .once("value")
         .then(result => {
           dispatch({
-            type: OPPDATER_KJELLERANTALL,
-            antallIKjeller: result.val().antallIKjeller
+            type: SET_PRODUKT_STATE,
+            payload: {
+              antallIKjeller: result.val().antallIKjeller,
+              drikkevindu: result.val().drikkevindu,
+              produktRef: nyttProdukt.key,
+              notat: result.val().notat
+            }
           });
         });
     }
@@ -122,10 +133,14 @@ const Produkt = ({ route }) => {
           .database()
           .ref(`kjeller/${produktState.produktRef}`)
           .remove();
-        dispatch({ type: OPPDATER_PRODUKTREF, produktRef: null });
         dispatch({
-          type: OPPDATER_KJELLERANTALL,
-          antallIKjeller: "0"
+          type: SET_PRODUKT_STATE,
+          payload: {
+            antallIKjeller: "0",
+            drikkevindu: undefined,
+            produktRef: null,
+            notat: ""
+          }
         });
       } else {
         firebase
@@ -133,10 +148,13 @@ const Produkt = ({ route }) => {
           .ref(`kjeller/${produktState.produktRef}`)
           .update({
             antallIKjeller: data.antallIKjeller,
-            drikkevindu: {
-              fra: data.drikkevinduFra,
-              til: data.drikkevinduTil
-            },
+            drikkevindu:
+              data.drikkevindu !== undefined
+                ? {
+                    fra: data.drikkevindu.fra,
+                    til: data.drikkevindu.til
+                  }
+                : null,
             notat: data.notat
           });
       }
@@ -145,10 +163,13 @@ const Produkt = ({ route }) => {
       nyttProdukt.set({
         ...produkt,
         antallIKjeller: data.antallIKjeller,
-        drikkevindu: {
-          fra: data.drikkevinduFra,
-          til: data.drikkevinduTil
-        },
+        drikkevindu:
+          data.drikkevindu !== undefined
+            ? {
+                fra: data.drikkevindu.fra,
+                til: data.drikkevindu.til
+              }
+            : null,
         notat: data.notat || ""
       });
     }
@@ -180,9 +201,26 @@ const Produkt = ({ route }) => {
               {produkt.region.subRegion && `, ${produkt.region.subRegion}`}
             </Text>
             <Pris pris={produkt.pris} />
-            <Text style={styles.kjellerAntall}>
-              Antall i kjeller: {produktState.antallIKjeller}
-            </Text>
+            <View style={styles.personligInfoContainer}>
+              <View style={styles.infoBoks}>
+                <Text style={{ fontWeight: "bold" }}>Antall i kjeller</Text>
+                <Text>{produktState.antallIKjeller}</Text>
+              </View>
+              <View style={styles.infoBoks}>
+                <Text style={{ fontWeight: "bold" }}>Drikkevindu</Text>
+                <Text>
+                  {produktState.drikkevindu !== undefined
+                    ? `${produktState.drikkevindu.fra} - ${produktState.drikkevindu.til}`
+                    : "Ikke angitt"}
+                </Text>
+              </View>
+              <View style={styles.infoBoks}>
+                <Text style={{ fontWeight: "bold" }}>Notat</Text>
+                <Text>
+                  {produktState.notat ? produktState.notat : "Ingen notater"}
+                </Text>
+              </View>
+            </View>
             <Pressable
               onPress={() => setVisModal(true)}
               style={({ pressed }) => [
@@ -197,7 +235,7 @@ const Produkt = ({ route }) => {
               <Text style={{ color: "white" }}>
                 {produktState.antallIKjeller === "0"
                   ? "Legg i kjeller"
-                  : "Oppdater antall i kjeller"}
+                  : "Oppdater"}
               </Text>
             </Pressable>
           </View>
@@ -269,7 +307,7 @@ const styles = StyleSheet.create({
   },
   bildeContainer: {
     width: "100%",
-    height: 350,
+    height: 315,
     marginBottom: 20
   },
   mainInfoContainer: {
@@ -297,15 +335,27 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%"
   },
-  kjellerAntall: {
-    paddingBottom: 20
-  },
   leggIKjellerKnapp: {
     borderRadius: 50,
     height: 50,
     width: "50%",
     justifyContent: "center",
     alignItems: "center"
+  },
+  personligInfoContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: 15,
+    marginBottom: 20,
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5
+  },
+  infoBoks: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    padding: 5
   }
 });
 

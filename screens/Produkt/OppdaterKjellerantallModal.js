@@ -199,7 +199,7 @@ const OppdaterKjellerantallModal = ({
             onChangeText={tekst => setNotat(tekst)}
             numberOfLines={2}
             multiline
-            placeholder='Skriv et notat'
+            placeholder="Skriv et notat"
           />
 
           <View style={styles.modalKnapper}>
@@ -230,8 +230,12 @@ const OppdaterKjellerantallModal = ({
               onPress={() => {
                 oppdaterProdukt({
                   antallIKjeller: oppdatertAntall,
-                  drikkevinduFra: visDrikkevindu ? drikkevinduFra : null,
-                  drikkevinduTil: visDrikkevindu ? drikkevinduTil : null,
+                  drikkevindu: visDrikkevindu
+                    ? {
+                        fra: drikkevinduFra,
+                        til: drikkevinduTil
+                      }
+                    : undefined,
                   notat: notat
                 });
                 setVisModal(false);
