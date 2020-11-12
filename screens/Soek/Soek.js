@@ -3,15 +3,14 @@ import { View } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { colors } from "../../styles/common";
 import { api } from "../../service/api";
+import {
+  produktIdSoek,
+  vinmonopolet_config
+} from "../../service/vinmonopoletApi";
 
 const Soek = ({ navigation }) => {
   const [soekeTerm, setSoekeTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const config = {
-    headers: {
-      "Ocp-Apim-Subscription-Key": "b2c1c8d6dfa9405db0ff0c3411ed1ed2"
-    }
-  };
 
   const search = () => {
     setIsLoading(true);
@@ -22,9 +21,9 @@ const Soek = ({ navigation }) => {
         "_"
       )}`;
     } else {
-      soekeUrl = `https://apis.vinmonopolet.no/products/v0/details-normal?productId=${soekeTerm}`;
+      soekeUrl = produktIdSoek(soekeTerm);
     }
-    api.get(soekeUrl, config).then(resultat => {
+    api.get(soekeUrl, vinmonopolet_config).then(resultat => {
       setIsLoading(false);
       navigation.navigate("Soekeresultater", { soekeresultat: resultat.data });
     });

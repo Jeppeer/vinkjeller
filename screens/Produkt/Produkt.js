@@ -11,11 +11,7 @@ import {
 import ProduktDetalj from "./ProduktDetalj";
 import { colors, spinner } from "../../styles/common";
 import * as firebase from "firebase";
-import {
-  getIngredienser,
-  getPasserTil,
-  opprettProduktBasertPaa
-} from "./ProduktHelper";
+import { getIngredienser, getPasserTil } from "./ProduktHelper";
 import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 import Pris from "../../components/Pris";
 

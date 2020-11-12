@@ -10,6 +10,7 @@ import Soekeresultater from "./screens/Soek/Soekeresultater";
 import { colors } from "./styles/common";
 import * as firebase from "firebase";
 import { InteractionManager, Platform } from "react-native";
+import StrekkodeScanner from "./screens/StrekkodeScanner";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -105,6 +106,20 @@ export default function App() {
           }}
         />
         <Tab.Screen
+          name="StrekkodeScannerScreen"
+          component={StrekkodeScannerScreen}
+          options={{
+            tabBarLabel: "Strekkode",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="barcode-scan"
+                color={color}
+                size={20}
+              />
+            )
+          }}
+        />
+        <Tab.Screen
           name="VinOversiktScreen"
           component={VinOversiktScreen}
           options={{
@@ -150,6 +165,26 @@ function SoekScreen() {
         component={Soekeresultater}
         options={({ route }) => ({ title: route.params.name })}
       />
+      <SoekStack.Screen name="Produkt" component={Produkt} />
+    </SoekStack.Navigator>
+  );
+}
+
+function StrekkodeScannerScreen() {
+  return (
+    <SoekStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.primaryBg
+        },
+        headerTintColor: colors.primarySelected,
+        headerTitleStyle: {
+          fontWeight: "bold"
+        },
+        headerTitleAlign: "center"
+      }}
+    >
+      <SoekStack.Screen name="StrekkodeScanner" component={StrekkodeScanner} />
       <SoekStack.Screen name="Produkt" component={Produkt} />
     </SoekStack.Navigator>
   );
