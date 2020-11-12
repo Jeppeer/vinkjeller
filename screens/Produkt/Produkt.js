@@ -14,6 +14,7 @@ import * as firebase from "firebase";
 import { getIngredienser, getPasserTil } from "./ProduktHelper";
 import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 import Pris from "../../components/Pris";
+import EksternScore from "./EksternScore";
 
 const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
 const OPPDATER_PRODUKT = "OPPDATER_PRODUKT";
@@ -239,6 +240,8 @@ const Produkt = ({ route }) => {
               </Text>
             </Pressable>
           </View>
+
+          <EksternScore produktId={produkt.produktId} />
 
           <View style={extededInfoStyle.container}>
             <ProduktDetalj detaljNavn="Varetype" data={produkt.produktType} />
