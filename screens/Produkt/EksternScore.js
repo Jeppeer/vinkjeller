@@ -45,7 +45,7 @@ const EksternScore = ({ produktId }) => {
       >
         Vurderinger
       </Text>
-      {dnScore && (
+      {dnScore ? (
         <View style={{ borderWidth: 0.5, padding: 15 }}>
           <Text style={{ textAlign: "center", fontWeight: "bold" }}>DN</Text>
           <View style={styles.score}>
@@ -65,6 +65,8 @@ const EksternScore = ({ produktId }) => {
             <Text>{dnScore.smaksnotat}</Text>
           </View>
         </View>
+      ) : (
+        <Text style={{ alignSelf: "center" }}>Ingen vurderinger</Text>
       )}
     </View>
   );
