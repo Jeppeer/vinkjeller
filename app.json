@@ -24,11 +24,11 @@
     ],
     "ios": {
       "bundleIdentifier": "com.vinkjeller.vinkjeller",
-      "buildNumber": "2.0.0"
+      "buildNumber": "3.0.0"
     },
     "android": {
       "package": "com.vinkjeller.vinkjeller",
-      "versionCode": 2
+      "versionCode": 3
     },
     "description": ""
   }
