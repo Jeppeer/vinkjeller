@@ -207,20 +207,24 @@ const Produkt = ({ route }) => {
                 <Text style={{ fontWeight: "bold" }}>Antall i kjeller</Text>
                 <Text>{produktState.antallIKjeller}</Text>
               </View>
-              <View style={styles.infoBoks}>
-                <Text style={{ fontWeight: "bold" }}>Drikkevindu</Text>
-                <Text>
-                  {produktState.drikkevindu !== undefined
-                    ? `${produktState.drikkevindu.fra} - ${produktState.drikkevindu.til}`
-                    : "Ikke angitt"}
-                </Text>
-              </View>
-              <View style={styles.infoBoks}>
-                <Text style={{ fontWeight: "bold" }}>Notat</Text>
-                <Text>
-                  {produktState.notat ? produktState.notat : "Ingen notater"}
-                </Text>
-              </View>
+              {produktState.antallIKjeller > 0 && (
+                <View style={styles.infoBoks}>
+                  <Text style={{ fontWeight: "bold" }}>Drikkevindu</Text>
+                  <Text>
+                    {produktState.drikkevindu !== undefined
+                      ? `${produktState.drikkevindu.fra} - ${produktState.drikkevindu.til}`
+                      : "Ikke angitt"}
+                  </Text>
+                </View>
+              )}
+              {produktState.antallIKjeller > 0 && (
+                <View style={styles.infoBoks}>
+                  <Text style={{ fontWeight: "bold" }}>Notat</Text>
+                  <Text>
+                    {produktState.notat ? produktState.notat : "Ingen notater"}
+                  </Text>
+                </View>
+              )}
             </View>
             <Pressable
               onPress={() => setVisModal(true)}

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View } from "react-native";
+import {FlatList, Text, View} from "react-native";
 import Soekeresultat from "./Soekeresultat";
 
 const Soekeresultater = ({ route, navigation }) => {
@@ -11,6 +11,11 @@ const Soekeresultater = ({ route, navigation }) => {
           <Soekeresultat produkt={item.item} navigation={navigation} />
         )}
         keyExtractor={item => item.basic.productId}
+        ListEmptyComponent={
+          <Text style={{ textAlign: "center", marginTop: 20 }}>
+            Ingen treff.
+          </Text>
+        }
       />
     </View>
   );
