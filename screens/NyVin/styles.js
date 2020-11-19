@@ -3,7 +3,9 @@ import { input } from "../../styles/common";
 
 export const nyVinStyles = StyleSheet.create({
   labelStyle: {
-    color: input.primaryColor
+    color: input.primaryColor,
+    fontSize: 14,
+    marginBottom: 5
   },
   separateLabel: {
     paddingLeft: 10,
@@ -12,7 +14,9 @@ export const nyVinStyles = StyleSheet.create({
     fontWeight: "bold"
   },
   inputContainerStyle: {
-    borderBottomColor: input.primaryColor
+    borderBottomColor: input.primaryColor,
+    borderBottomWidth: 0.5,
+    marginBottom: 5,
   },
   lineInput: {
     marginBottom: 15,

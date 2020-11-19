@@ -213,7 +213,13 @@ function VinOversiktScreen() {
     >
       <SoekStack.Screen name="Kjelleroversikt" component={Kjelleroversikt} />
       <SoekStack.Screen name="Produkt" component={Produkt} />
-      <SoekStack.Screen name="NyVin" component={NyVin} />
+      <SoekStack.Screen
+        name="NyVin"
+        options={{
+          title: "Legg til ny vin"
+        }}
+        component={NyVin}
+      />
     </SoekStack.Navigator>
   );
 }

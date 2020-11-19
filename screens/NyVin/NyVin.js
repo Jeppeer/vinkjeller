@@ -10,9 +10,12 @@ import Region from "./Region";
 const NyVin = () => {
   return (
     <ScrollView style={{ backgroundColor: "white", flex: 1 }}>
-      <View style={{ margin: 20 }}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={{ fontSize: 20 }}>Legg ny flaske i kjelleren</Text>
+      <View style={{ margin: 30 }}>
+        <View>
+          <Text style={{ textAlign: "center",marginBottom: 20 }}>
+            Her kan du legge til ny vin som ikke finnes på Vinmonopolet. Felter
+            merket med stjerne er obligatoriske.
+          </Text>
         </View>
         <Formik
           initialValues={{ navn: "", druer: [] }}
