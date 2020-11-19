@@ -10,6 +10,7 @@ import {
 import * as firebase from "firebase";
 import Kjellerelement from "./Kjellerelement";
 import { colors, spinner } from "../../styles/common";
+import LeggTilKnapp from "../../components/knapp/LeggTilKnapp";
 
 const Kjelleroversikt = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -58,6 +59,8 @@ const Kjelleroversikt = ({ navigation }) => {
       ? setProduktFilter(null)
       : setProduktFilter(filter);
   };
+
+  const leggTilVin = () => navigation.navigate("NyVin");
 
   return (
     <View style={{ height: "100%" }}>
@@ -143,6 +146,7 @@ const Kjelleroversikt = ({ navigation }) => {
             )}
             keyExtractor={item => item.produktId}
           />
+          <LeggTilKnapp onClick={leggTilVin} />
         </View>
       )}
     </View>

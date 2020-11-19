@@ -11,6 +11,7 @@ import { colors } from "./styles/common";
 import * as firebase from "firebase";
 import { InteractionManager, Platform } from "react-native";
 import StrekkodeScanner from "./screens/StrekkodeScanner";
+import NyVin from "./screens/NyVin/NyVin";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -212,6 +213,7 @@ function VinOversiktScreen() {
     >
       <SoekStack.Screen name="Kjelleroversikt" component={Kjelleroversikt} />
       <SoekStack.Screen name="Produkt" component={Produkt} />
+      <SoekStack.Screen name="NyVin" component={NyVin} />
     </SoekStack.Navigator>
   );
 }
