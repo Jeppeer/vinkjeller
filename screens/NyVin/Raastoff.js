@@ -6,7 +6,7 @@ import { FieldArray } from "formik";
 import { nyVinStyles } from "./styles";
 
 const Raastoff = ({ handleBlur, handleChange, values }) => (
-  <View>
+  <View style={{ marginBottom: 20 }}>
     <Text style={[nyVinStyles.labelStyle, nyVinStyles.separateLabel]}>
       Råstoff
     </Text>
@@ -31,21 +31,29 @@ const Raastoff = ({ handleBlur, handleChange, values }) => (
                     onBlur={handleBlur("drue")}
                     value={drue.navn}
                     returnKeyType="next"
-                    inputContainerStyle={[nyVinStyles.inputContainerStyle]}
+                    inputContainerStyle={[
+                      nyVinStyles.inputContainerStyle,
+                      { marginBottom: 0 }
+                    ]}
                     labelStyle={nyVinStyles.labelStyle}
                   />
                 </View>
-                <View style={{ width: "30%" }}>
+                <View style={[nyVinStyles.inputMedBenevning, { width: "30%" }]}>
                   <Input
-                    label="Prosent %"
+                    label="Prosent"
                     keyboardType="numeric"
                     onChangeText={handleChange("drikkevinduFra")}
                     onBlur={handleBlur("drikkevinduFra")}
                     value={drue.prosent}
                     returnKeyType="next"
-                    inputContainerStyle={[nyVinStyles.inputContainerStyle]}
+                    containerStyle={{ width: "auto" }}
+                    inputContainerStyle={[
+                      nyVinStyles.inputContainerStyle,
+                      { marginBottom: 0 }
+                    ]}
                     labelStyle={nyVinStyles.labelStyle}
                   />
+                  <Text>%</Text>
                 </View>
               </View>
             ))}

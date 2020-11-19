@@ -20,7 +20,7 @@ const Drikkevindu = ({ handleChange, handleBlur, values }) => {
           containerStyle={{ width: "auto" }}
           inputContainerStyle={[
             nyVinStyles.inputContainerStyle,
-            nyVinStyles.aarInput
+            nyVinStyles.tallInput
           ]}
           labelStyle={nyVinStyles.labelStyle}
         />
@@ -35,7 +35,7 @@ const Drikkevindu = ({ handleChange, handleBlur, values }) => {
           containerStyle={{ width: "auto" }}
           inputContainerStyle={[
             nyVinStyles.inputContainerStyle,
-            nyVinStyles.aarInput
+            nyVinStyles.tallInput
           ]}
           labelStyle={nyVinStyles.labelStyle}
         />
