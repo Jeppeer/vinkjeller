@@ -80,8 +80,7 @@ export default function App() {
           activeTintColor: colors.primarySelected,
           style: {
             backgroundColor: colors.primaryBg,
-            borderTopWidth: 0,
-            height: 60
+            borderTopWidth: 0
           },
           tabStyle: {
             alignItems: "center",
@@ -93,7 +92,6 @@ export default function App() {
             fontSize: 13
           }
         }}
-        initialRouteName="StrekkodeScanner"
         activeColor={colors.primarySelected}
         barStyle={{ backgroundColor: colors.primaryBg }}
       >
