@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import React, { useState, useLayoutEffect, useRef } from "react";
+import { Button, ScrollView, Text, View } from "react-native";
 import { Formik } from "formik";
 import { Input } from "react-native-elements";
 import Drikkevindu from "./Drikkevindu";
@@ -8,21 +8,43 @@ import { nyVinStyles } from "./styles";
 import Region from "./Region";
 import Knapp from "../../components/knapp/Knapp";
 
-const NyVin = () => {
+const NyVin = ({ navigation }) => {
   const [visEkstraFelter, setVisEkstraFelter] = useState(false);
+  const formRef = useRef();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        if (formRef.current) {
+          return (
+            <Knapp
+              knappetekst="Lagre"
+              onPress={() => {
+                formRef.current.handleSubmit();
+              }}
+              styles={{backgroundColor: 'transparent'}}
+            />
+          );
+        }
+      }
+    });
+  }, [navigation]);
 
   return (
     <ScrollView style={{ backgroundColor: "white", flex: 1 }}>
       <View style={{ margin: 30 }}>
         <View>
-          <Text style={{ textAlign: "center", marginBottom: 20 }}>
-            Her kan du legge til ny vin som ikke finnes på Vinmonopolet. Felter
+          <Text style={{ textAlign: "center", marginBottom: 30 }}>
+            Her kan du registrere vin som ikke finnes på Vinmonopolet. Felter
             merket med stjerne er obligatoriske.
           </Text>
         </View>
         <Formik
+          innerRef={formRef}
           initialValues={{ navn: "", druer: [] }}
-          onSubmit={values => console.log(values)}
+          onSubmit={values => {
+            console.log("Submitting!");
+          }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <View>
@@ -107,7 +129,7 @@ const NyVin = () => {
                 knappetekst={
                   visEkstraFelter ? "Sjul ekstra felter" : "Vis ekstra felter"
                 }
-                styles={{ margin: 10 }}
+                styles={{ margin: 10, marginBottom: 30 }}
               />
 
               {visEkstraFelter && (
