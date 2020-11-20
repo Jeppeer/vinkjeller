@@ -5,7 +5,7 @@ const ProduktDetalj = ({ detaljNavn, data }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.detaljNavn}>{detaljNavn}:</Text>
-      <Text>{data}</Text>
+      <Text>{data ? data : "-"}</Text>
     </View>
   );
 };

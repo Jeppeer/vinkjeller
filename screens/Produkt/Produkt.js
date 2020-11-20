@@ -265,7 +265,7 @@ const Produkt = ({ route }) => {
             />
             <ProduktDetalj
               detaljNavn="Lagringsgrad"
-              data={produkt.lagringsgrad ? produkt.lagringsgrad : "-"}
+              data={produkt.lagringsgrad}
             />
             <ProduktDetalj
               detaljNavn="Passer til"
@@ -277,7 +277,9 @@ const Produkt = ({ route }) => {
             {/*/>*/}
             <ProduktDetalj
               detaljNavn="Alkoholprosent"
-              data={`${produkt.alkoholprosent}%`}
+              data={
+                produkt.alkoholprosent ? `${produkt.alkoholprosent}%` : null
+              }
             />
             <ProduktDetalj detaljNavn="Utvalg" data={produkt.utvalg} />
           </View>

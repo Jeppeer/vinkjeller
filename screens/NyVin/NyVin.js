@@ -7,10 +7,13 @@ import Raastoff from "./Raastoff";
 import { nyVinStyles } from "./styles";
 import Region from "./Region";
 import Knapp from "../../components/knapp/Knapp";
+import * as firebase from "firebase";
 
 const NyVin = ({ navigation }) => {
   const [visEkstraFelter, setVisEkstraFelter] = useState(false);
   const formRef = useRef();
+
+  let firebaseRef = firebase.database().ref("kjeller");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -22,7 +25,7 @@ const NyVin = ({ navigation }) => {
               onPress={() => {
                 formRef.current.handleSubmit();
               }}
-              styles={{backgroundColor: 'transparent'}}
+              styles={{ backgroundColor: "transparent", height: 70 }}
             />
           );
         }
@@ -43,7 +46,10 @@ const NyVin = ({ navigation }) => {
           innerRef={formRef}
           initialValues={{ navn: "", druer: [] }}
           onSubmit={values => {
-            console.log("Submitting!");
+            const nyttProdukt = firebaseRef.push();
+            nyttProdukt.set(values).then(() => {
+              navigation.goBack();
+            });
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -127,7 +133,7 @@ const NyVin = ({ navigation }) => {
               <Knapp
                 onPress={() => setVisEkstraFelter(!visEkstraFelter)}
                 knappetekst={
-                  visEkstraFelter ? "Sjul ekstra felter" : "Vis ekstra felter"
+                  visEkstraFelter ? "Skjul ekstra felter" : "Vis ekstra felter"
                 }
                 styles={{ margin: 10, marginBottom: 30 }}
               />

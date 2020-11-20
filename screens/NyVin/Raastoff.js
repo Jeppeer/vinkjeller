@@ -4,16 +4,19 @@ import Knapp from "../../components/knapp/Knapp";
 import { Input } from "react-native-elements";
 import { FieldArray } from "formik";
 import { nyVinStyles } from "./styles";
+import IkonKnapp from "../../components/knapp/IkonKnapp";
+import { AntDesign } from "@expo/vector-icons";
+import { colors } from "../../styles/common";
 
 const Raastoff = ({ handleBlur, handleChange, values }) => (
   <View style={{ marginBottom: 20 }}>
-    <Text style={[nyVinStyles.labelStyle, nyVinStyles.separateLabel]}>
-      Råstoff
-    </Text>
     <FieldArray
       name="druer"
       render={arrayHelpers => (
         <View style={{ alignItems: "flex-start" }}>
+          <Text style={[nyVinStyles.labelStyle, nyVinStyles.separateLabel]}>
+            Råstoff
+          </Text>
           {values.druer &&
             values.druer.length > 0 &&
             values.druer.map((drue, index) => (
@@ -24,7 +27,7 @@ const Raastoff = ({ handleBlur, handleChange, values }) => (
                   flexDirection: "row"
                 }}
               >
-                <View style={{ width: "70%" }}>
+                <View style={{ flexGrow: 1 }}>
                   <Input
                     label="Drue"
                     onChangeText={handleChange("drue")}
@@ -38,12 +41,12 @@ const Raastoff = ({ handleBlur, handleChange, values }) => (
                     labelStyle={nyVinStyles.labelStyle}
                   />
                 </View>
-                <View style={[nyVinStyles.inputMedBenevning, { width: "30%" }]}>
+                <View style={[nyVinStyles.inputMedBenevning]}>
                   <Input
                     label="Prosent"
                     keyboardType="numeric"
-                    onChangeText={handleChange("drikkevinduFra")}
-                    onBlur={handleBlur("drikkevinduFra")}
+                    onChangeText={handleChange("prosent")}
+                    onBlur={handleBlur("prosent")}
                     value={drue.prosent}
                     returnKeyType="next"
                     containerStyle={{ width: "auto" }}
@@ -54,6 +57,16 @@ const Raastoff = ({ handleBlur, handleChange, values }) => (
                     labelStyle={nyVinStyles.labelStyle}
                   />
                   <Text>%</Text>
+                  <IkonKnapp
+                    styles={{ marginLeft: 10 }}
+                    onPress={() => arrayHelpers.remove(index)}
+                  >
+                    <AntDesign
+                      name="minuscircle"
+                      size={24}
+                      color={colors.primaryButton}
+                    />
+                  </IkonKnapp>
                 </View>
               </View>
             ))}

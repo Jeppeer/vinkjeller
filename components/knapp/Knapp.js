@@ -24,8 +24,7 @@ const Knapp = ({ styles, onPress, knappetekst }) => {
 const knappStyles = StyleSheet.create({
   knapp: {
     borderRadius: 50,
-    height: 50,
-    padding: 20,
+    padding: 15,
     justifyContent: "center",
     alignItems: "center"
   }
