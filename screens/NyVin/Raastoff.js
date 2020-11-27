@@ -8,7 +8,7 @@ import IkonKnapp from "../../components/knapp/IkonKnapp";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../../styles/common";
 
-const Raastoff = ({ handleBlur, handleChange, values }) => (
+const Raastoff = ({ handleChange, values }) => (
   <View style={{ marginBottom: 20 }}>
     <FieldArray
       name="druer"
@@ -31,7 +31,6 @@ const Raastoff = ({ handleBlur, handleChange, values }) => (
                   <Input
                     label="Drue"
                     onChangeText={handleChange("drue")}
-                    onBlur={handleBlur("drue")}
                     value={drue.navn}
                     returnKeyType="next"
                     inputContainerStyle={[
@@ -46,7 +45,6 @@ const Raastoff = ({ handleBlur, handleChange, values }) => (
                     label="Prosent"
                     keyboardType="numeric"
                     onChangeText={handleChange("prosent")}
-                    onBlur={handleBlur("prosent")}
                     value={drue.prosent}
                     returnKeyType="next"
                     containerStyle={{ width: "auto" }}

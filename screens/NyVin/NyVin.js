@@ -39,8 +39,8 @@ const NyVin = ({ navigation }) => {
       <View style={{ margin: 30 }}>
         <View>
           <Text style={{ textAlign: "center", marginBottom: 30 }}>
-            Her kan du registrere vin som ikke finnes på Vinmonopolet. Felter
-            merket med stjerne er obligatoriske.
+            Her kan du registrere vin som ikke finnes på Vinmonopolet. Dersom
+            vinen allerede finnes på Vinmonopolet kan du finne den under 'Søk'.
           </Text>
         </View>
         <Formik
@@ -53,12 +53,11 @@ const NyVin = ({ navigation }) => {
             });
           }}
         >
-          {({ handleChange, handleBlur, handleSubmit, values, setValues }) => (
+          {({ handleChange, handleBlur, values, setValues }) => (
             <View>
               <Input
                 label="Navn på vin*"
                 onChangeText={handleChange("navn")}
-                onBlur={handleBlur("navn")}
                 value={values.navn}
                 returnKeyType="next"
                 inputContainerStyle={nyVinStyles.inputContainerStyle}
@@ -67,7 +66,6 @@ const NyVin = ({ navigation }) => {
               <Input
                 label="Produsent"
                 onChangeText={handleChange("produsent")}
-                onBlur={handleBlur("produsent")}
                 value={values.produsent}
                 returnKeyType="next"
                 inputContainerStyle={nyVinStyles.inputContainerStyle}
@@ -77,7 +75,6 @@ const NyVin = ({ navigation }) => {
                 label="Årgang"
                 keyboardType="numeric"
                 onChangeText={handleChange("aargang")}
-                onBlur={handleBlur("aargang")}
                 value={values.aargang}
                 returnKeyType="next"
                 inputContainerStyle={[
@@ -90,7 +87,6 @@ const NyVin = ({ navigation }) => {
                 label="År kjøpt"
                 keyboardType="numeric"
                 onChangeText={handleChange("aarKjopt")}
-                onBlur={handleBlur("aarKjopt")}
                 value={values.aarKjopt}
                 returnKeyType="next"
                 inputContainerStyle={[
@@ -104,7 +100,6 @@ const NyVin = ({ navigation }) => {
                   label="Pris"
                   keyboardType="numeric"
                   onChangeText={handleChange("pris")}
-                  onBlur={handleBlur("pris")}
                   value={values.pris}
                   returnKeyType="next"
                   containerStyle={{ width: "auto" }}
@@ -119,17 +114,12 @@ const NyVin = ({ navigation }) => {
               <Input
                 label="Notat"
                 onChangeText={handleChange("notat")}
-                onBlur={handleBlur("notat")}
                 value={values.notat}
                 returnKeyType="next"
                 inputContainerStyle={nyVinStyles.inputContainerStyle}
                 labelStyle={nyVinStyles.labelStyle}
               />
-              <Region
-                handleBlur={handleBlur}
-                handleChange={handleChange}
-                values={values}
-              />
+              <Region handleChange={handleChange} values={values} />
 
               <View style={{ margin: 10 }}>
                 <Text style={[nyVinStyles.labelStyle, { fontWeight: "bold" }]}>
@@ -171,22 +161,13 @@ const NyVin = ({ navigation }) => {
 
               {visEkstraFelter && (
                 <View>
-                  <Drikkevindu
-                    handleBlur={handleBlur}
-                    handleChange={handleChange}
-                    values={values}
-                  />
-                  <Raastoff
-                    values={values}
-                    handleChange={handleChange}
-                    handleBlur={handleBlur}
-                  />
+                  <Drikkevindu handleChange={handleChange} values={values} />
+                  <Raastoff values={values} handleChange={handleChange} />
                   <View style={nyVinStyles.inputMedBenevning}>
                     <Input
                       label="Alkohol"
                       keyboardType="numeric"
                       onChangeText={handleChange("alkoholprosent")}
-                      onBlur={handleBlur("alkoholprosent")}
                       value={values.alkoholprosent}
                       returnKeyType="next"
                       containerStyle={{ width: "auto" }}
