@@ -38,7 +38,10 @@ const Kjellerelement = ({ element, produktRef, navigation }) => {
               : "Ikke angitt"}
           </Text>
           <Text style={{ paddingBottom: 10 }}>
-            Notat: {element.notat !== "" ? element.notat : "Ingen notater"}
+            Notat:{" "}
+            {element.notat !== "" && element.notat
+              ? element.notat
+              : "Ingen notater"}
           </Text>
         </View>
       </View>

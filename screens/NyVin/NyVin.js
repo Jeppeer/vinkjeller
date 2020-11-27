@@ -8,6 +8,7 @@ import { nyVinStyles } from "./styles";
 import Region from "./Region";
 import Knapp from "../../components/knapp/Knapp";
 import * as firebase from "firebase";
+import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
 
 const NyVin = ({ navigation }) => {
   const [visEkstraFelter, setVisEkstraFelter] = useState(false);
@@ -44,7 +45,7 @@ const NyVin = ({ navigation }) => {
         </View>
         <Formik
           innerRef={formRef}
-          initialValues={{ navn: "", druer: [] }}
+          initialValues={{ antallIKjeller: "1" }}
           onSubmit={values => {
             const nyttProdukt = firebaseRef.push();
             nyttProdukt.set(values).then(() => {
@@ -52,7 +53,7 @@ const NyVin = ({ navigation }) => {
             });
           }}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
+          {({ handleChange, handleBlur, handleSubmit, values, setValues }) => (
             <View>
               <Input
                 label="Navn på vin*"
@@ -129,6 +130,36 @@ const NyVin = ({ navigation }) => {
                 handleChange={handleChange}
                 values={values}
               />
+
+              <View style={{ margin: 10 }}>
+                <Text style={[nyVinStyles.labelStyle, { fontWeight: "bold" }]}>
+                  Velg antall
+                </Text>
+                <PlussMinusTeller
+                  inputVerdi={values.antallIKjeller}
+                  onPressMinus={() => {
+                    if (values.antallIKjeller > 1) {
+                      {
+                        setValues({
+                          ...values,
+                          antallIKjeller: (
+                            parseInt(values.antallIKjeller) - 1
+                          ).toString()
+                        });
+                      }
+                    }
+                  }}
+                  onPressPluss={() => {
+                    setValues({
+                      ...values,
+                      antallIKjeller: (
+                        parseInt(values.antallIKjeller) + 1
+                      ).toString()
+                    });
+                  }}
+                  onChangeText={handleChange("antallIKjeller")}
+                />
+              </View>
 
               <Knapp
                 onPress={() => setVisEkstraFelter(!visEkstraFelter)}
