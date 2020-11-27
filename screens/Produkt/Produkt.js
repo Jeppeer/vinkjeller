@@ -222,6 +222,12 @@ const Produkt = ({ route }) => {
             data={getIngredienser(produkt.raastoff)}
           />
           <ProduktDetalj
+            detaljNavn="Volum"
+            data={
+              produkt.volum ? `${parseFloat(produkt.volum) * 100} cl` : null
+            }
+          />
+          <ProduktDetalj
             detaljNavn="Lagringsgrad"
             data={produkt.lagringsgrad}
           />
@@ -231,14 +237,17 @@ const Produkt = ({ route }) => {
               data={getPasserTil(produkt.anbefaltMat)}
             />
           )}
-          {/*<ProduktDetalj*/}
-          {/*  detaljNavn="Produsent"*/}
-          {/*  data={produkt.logistics.manufacturerName}*/}
-          {/*/>*/}
+          <ProduktDetalj
+            detaljNavn="Produsent"
+            data={produkt.produsent}
+          />
           <ProduktDetalj
             detaljNavn="Alkoholprosent"
             data={produkt.alkoholprosent ? `${produkt.alkoholprosent}%` : null}
           />
+          <ProduktDetalj detaljNavn="Smak" data={produkt.smak} />
+          <ProduktDetalj detaljNavn="Lukt" data={produkt.lukt} />
+          <ProduktDetalj detaljNavn="Farge" data={produkt.farge} />
           {produkt.utvalg && (
             <ProduktDetalj detaljNavn="Utvalg" data={produkt.utvalg} />
           )}

@@ -47,7 +47,8 @@ const NyVin = ({ navigation }) => {
           innerRef={formRef}
           initialValues={{
             antallIKjeller: "1",
-            raastoff: []
+            raastoff: [],
+            volum: "75"
           }}
           onSubmit={values => {
             const nyttProdukt = firebaseRef.push();
@@ -177,6 +178,23 @@ const NyVin = ({ navigation }) => {
                 <View>
                   <Drikkevindu handleChange={handleChange} values={values} />
                   <Raastoff values={values} handleChange={handleChange} />
+
+                  <View style={nyVinStyles.inputMedBenevning}>
+                    <Input
+                      label="Volum"
+                      keyboardType="numeric"
+                      onChangeText={handleChange("volum")}
+                      value={values.volum}
+                      returnKeyType="next"
+                      containerStyle={{ width: "auto" }}
+                      inputContainerStyle={[
+                        nyVinStyles.inputContainerStyle,
+                        nyVinStyles.tallInput
+                      ]}
+                      labelStyle={nyVinStyles.labelStyle}
+                    />
+                    <Text>cl</Text>
+                  </View>
                   <View style={nyVinStyles.inputMedBenevning}>
                     <Input
                       label="Alkohol"
@@ -193,6 +211,30 @@ const NyVin = ({ navigation }) => {
                     />
                     <Text>%</Text>
                   </View>
+                  <Input
+                    label="Smak"
+                    onChangeText={handleChange("smak")}
+                    value={values.smak}
+                    returnKeyType="next"
+                    inputContainerStyle={nyVinStyles.inputContainerStyle}
+                    labelStyle={nyVinStyles.labelStyle}
+                  />
+                  <Input
+                    label="Lukt"
+                    onChangeText={handleChange("lukt")}
+                    value={values.lukt}
+                    returnKeyType="next"
+                    inputContainerStyle={nyVinStyles.inputContainerStyle}
+                    labelStyle={nyVinStyles.labelStyle}
+                  />
+                  <Input
+                    label="Farge"
+                    onChangeText={handleChange("farge")}
+                    value={values.farge}
+                    returnKeyType="next"
+                    inputContainerStyle={nyVinStyles.inputContainerStyle}
+                    labelStyle={nyVinStyles.labelStyle}
+                  />
                 </View>
               )}
             </View>

@@ -17,30 +17,11 @@ export const opprettProduktBasertPaa = produkt => ({
   },
   pris: Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2),
   produktType: produkt.classification.subProductTypeName,
-  aarKjopt: new Date().getFullYear()
-});
-
-export const opprettNyttProdukt = values => ({
-  navn: values.navn,
-  aargang: values.aargang ? values.aargang : 0,
-  // raastoff: produkt.ingredients.grapes.length
-  //   ? produkt.ingredients.grapes
-  //   : produkt.ingredients.ingredients,
-  produsent: values.produsent,
-  alkoholprosent: values.alkoholprosent,
-  region: {
-    land: values.land,
-    region: values.region
-  },
-  pris: Number.parseFloat(values.pris).toFixed(2),
-  // produktType: produkt.classification.subProductTypeName,
-  aarKjopt: values.aarKjopt,
-  notat: values.notat,
-  drikkevindu: {
-    fra: values.drikkevinduFra,
-    til: values.drikkevinduTil
-  }
-  // antallIKjeller: values.antallIKjeller
+  aarKjopt: new Date().getFullYear(),
+  smak: produkt.description.characteristics.taste,
+  farge: produkt.description.characteristics.colour,
+  lukt: produkt.description.characteristics.odour,
+  volum: produkt.basic.volume
 });
 
 export const getIngredienser = ingredienser => {

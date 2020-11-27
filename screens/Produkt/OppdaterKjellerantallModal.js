@@ -32,14 +32,6 @@ const OppdaterKjellerantallModal = ({
     produktState.drikkevindu !== undefined ? produktState.drikkevindu.til : null
   );
 
-  const onPressMinus = () => {
-    if (oppdatertAntall > 0) {
-      setOppdatertAntall((parseInt(oppdatertAntall) - 1).toString());
-    }
-  };
-  const onPressPluss = () =>
-    setOppdatertAntall((parseInt(oppdatertAntall) + 1).toString());
-
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>
       <View style={{ flex: 1, justifyContent: "center" }}>
@@ -51,8 +43,14 @@ const OppdaterKjellerantallModal = ({
           </Text>
 
           <PlussMinusTeller
-            onPressMinus={() => onPressMinus}
-            onPressPluss={() => onPressPluss}
+            onPressMinus={() => {
+              if (oppdatertAntall > 0) {
+                setOppdatertAntall((parseInt(oppdatertAntall) - 1).toString());
+              }
+            }}
+            onPressPluss={() =>
+              setOppdatertAntall((parseInt(oppdatertAntall) + 1).toString())
+            }
             inputVerdi={oppdatertAntall}
             onChangeText={tekst => setOppdatertAntall(tekst)}
           />
