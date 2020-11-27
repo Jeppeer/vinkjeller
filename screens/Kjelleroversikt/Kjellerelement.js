@@ -3,9 +3,12 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Pris from "../../components/Pris";
 import { colors } from "../../styles/common";
 
-const Kjellerelement = ({ element, navigation }) => {
+const Kjellerelement = ({ element, produktRef, navigation }) => {
   const velgElement = element => {
-    navigation.navigate("Produkt", { produkt: element });
+    navigation.navigate("Produkt", {
+      produkt: element,
+      produktRef: produktRef
+    });
   };
 
   return (
@@ -25,8 +28,10 @@ const Kjellerelement = ({ element, navigation }) => {
             {element.navn} {element.aargang !== 0 && element.aargang}
           </Text>
           <Pris pris={element.pris} />
-          <Text style={{paddingBottom: 2}}>Antall i kjeller: {element.antallIKjeller}</Text>
-          <Text style={{paddingBottom: 2}}>
+          <Text style={{ paddingBottom: 2 }}>
+            Antall i kjeller: {element.antallIKjeller}
+          </Text>
+          <Text style={{ paddingBottom: 2 }}>
             Drikkevindu:{" "}
             {element.drikkevindu
               ? `${element.drikkevindu.fra} - ${element.drikkevindu.til}`

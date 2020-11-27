@@ -48,8 +48,16 @@ const Kjelleroversikt = ({ navigation }) => {
   }, [produktFilter]);
 
   const kjellerinnholdEndret = oppdatertKjellerinnhold => {
-    setKjellerinnhold(Object.entries(oppdatertKjellerinnhold.val()));
-    setFiltrertKjellerinnhold(Object.entries(oppdatertKjellerinnhold.val()));
+    setKjellerinnhold(
+      oppdatertKjellerinnhold.val()
+        ? Object.entries(oppdatertKjellerinnhold.val())
+        : []
+    );
+    setFiltrertKjellerinnhold(
+      oppdatertKjellerinnhold.val()
+        ? Object.entries(oppdatertKjellerinnhold.val())
+        : []
+    );
     setProduktFilter(null);
     setIsLoading(false);
   };
@@ -142,7 +150,11 @@ const Kjelleroversikt = ({ navigation }) => {
               </Text>
             }
             renderItem={item => (
-              <Kjellerelement element={item.item[1]} navigation={navigation} />
+              <Kjellerelement
+                element={item.item[1]}
+                produktRef={item.item[0]}
+                navigation={navigation}
+              />
             )}
             keyExtractor={item => item[0]}
           />
