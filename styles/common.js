@@ -1,5 +1,6 @@
 export const colors = {
   primaryButton: "#282c34",
+  primaryInputUnderline: "#282c34",
   primaryButtonPressed: "#424654",
   primaryBg: "#282c34",
   primarySelected: "#fff",
@@ -19,6 +20,10 @@ export const text = {
     fontSize: "",
     paddingBottom: 5
   }
+};
+
+export const input = {
+  primaryColor: "#282c34"
 };
 
 export const spinner = {

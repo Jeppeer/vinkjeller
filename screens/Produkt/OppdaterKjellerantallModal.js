@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import {
+  CheckBox,
   Modal,
   Pressable,
-  Text,
-  View,
   StyleSheet,
-  CheckBox,
-  TextInput
+  Text,
+  TextInput,
+  View
 } from "react-native";
 import { colors } from "../../styles/common";
+import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
 // import CheckBox from "@react-native-community/checkbox";
 
 const OppdaterKjellerantallModal = ({
@@ -31,6 +32,14 @@ const OppdaterKjellerantallModal = ({
     produktState.drikkevindu !== undefined ? produktState.drikkevindu.til : null
   );
 
+  const onPressMinus = () => {
+    if (oppdatertAntall > 0) {
+      setOppdatertAntall((parseInt(oppdatertAntall) - 1).toString());
+    }
+  };
+  const onPressPluss = () =>
+    setOppdatertAntall((parseInt(oppdatertAntall) + 1).toString());
+
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>
       <View style={{ flex: 1, justifyContent: "center" }}>
@@ -41,48 +50,12 @@ const OppdaterKjellerantallModal = ({
               : "Oppdater antall i kjeller"}
           </Text>
 
-          <View style={{ flexDirection: "row" }}>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed
-                    ? colors.primaryButtonPressed
-                    : colors.primaryButton
-                },
-                styles.plussMinusKnapp
-              ]}
-              onPress={() => {
-                if (oppdatertAntall > 0) {
-                  setOppdatertAntall(
-                    (parseInt(oppdatertAntall) - 1).toString()
-                  );
-                }
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 30 }}>-</Text>
-            </Pressable>
-            <TextInput
-              style={styles.antallInput}
-              value={oppdatertAntall}
-              keyboardType="numeric"
-              onChangeText={tekst => setOppdatertAntall(tekst)}
-            />
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed
-                    ? colors.primaryButtonPressed
-                    : colors.primaryButton
-                },
-                styles.plussMinusKnapp
-              ]}
-              onPress={() => {
-                setOppdatertAntall((parseInt(oppdatertAntall) + 1).toString());
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 30 }}>+</Text>
-            </Pressable>
-          </View>
+          <PlussMinusTeller
+            onPressMinus={() => onPressMinus}
+            onPressPluss={() => onPressPluss}
+            inputVerdi={oppdatertAntall}
+            onChangeText={tekst => setOppdatertAntall(tekst)}
+          />
 
           <View>
             <View style={styles.checkboxContainer}>
@@ -101,93 +74,39 @@ const OppdaterKjellerantallModal = ({
               <View style={{ marginBottom: 15 }}>
                 <View style={styles.drikkevinduContainer}>
                   <Text style={styles.drikkevinduLabel}>Fra</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Pressable
-                      style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? colors.primaryButtonPressed
-                            : colors.primaryButton
-                        },
-                        styles.plussMinusKnapp
-                      ]}
-                      onPress={() => {
-                        setDrikkevinduFra(
-                          (parseInt(drikkevinduFra) - 1).toString()
-                        );
-                      }}
-                    >
-                      <Text style={{ color: "white", fontSize: 30 }}>-</Text>
-                    </Pressable>
-                    <TextInput
-                      style={styles.aarInput}
-                      value={drikkevinduFra}
-                      keyboardType="numeric"
-                      onChangeText={tekst => setDrikkevinduFra(tekst)}
-                    />
-                    <Pressable
-                      style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? colors.primaryButtonPressed
-                            : colors.primaryButton
-                        },
-                        styles.plussMinusKnapp
-                      ]}
-                      onPress={() => {
-                        setDrikkevinduFra(
-                          (parseInt(drikkevinduFra) + 1).toString()
-                        );
-                      }}
-                    >
-                      <Text style={{ color: "white", fontSize: 30 }}>+</Text>
-                    </Pressable>
-                  </View>
+                  <PlussMinusTeller
+                    onPressMinus={() => {
+                      setDrikkevinduFra(
+                        (parseInt(drikkevinduFra) - 1).toString()
+                      );
+                    }}
+                    onPressPluss={() => {
+                      setDrikkevinduFra(
+                        (parseInt(drikkevinduFra) + 1).toString()
+                      );
+                    }}
+                    inputVerdi={drikkevinduFra}
+                    onChangeText={tekst => setDrikkevinduFra(tekst)}
+                    style={{ width: 70 }}
+                  />
                 </View>
                 <View style={styles.drikkevinduContainer}>
                   <Text style={styles.drikkevinduLabel}>Til</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Pressable
-                      style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? colors.primaryButtonPressed
-                            : colors.primaryButton
-                        },
-                        styles.plussMinusKnapp
-                      ]}
-                      onPress={() => {
-                        setDrikkevinduTil(
-                          (parseInt(drikkevinduTil) - 1).toString()
-                        );
-                      }}
-                    >
-                      <Text style={{ color: "white", fontSize: 30 }}>-</Text>
-                    </Pressable>
-                    <TextInput
-                      style={styles.aarInput}
-                      value={drikkevinduTil}
-                      keyboardType="numeric"
-                      onChangeText={tekst => setDrikkevinduTil(tekst)}
-                    />
-                    <Pressable
-                      style={({ pressed }) => [
-                        {
-                          backgroundColor: pressed
-                            ? colors.primaryButtonPressed
-                            : colors.primaryButton
-                        },
-                        styles.plussMinusKnapp
-                      ]}
-                      onPress={() => {
-                        setDrikkevinduTil(
-                          (parseInt(drikkevinduTil) + 1).toString()
-                        );
-                      }}
-                    >
-                      <Text style={{ color: "white", fontSize: 30 }}>+</Text>
-                    </Pressable>
-                  </View>
+                  <PlussMinusTeller
+                    onPressMinus={() => {
+                      setDrikkevinduTil(
+                        (parseInt(drikkevinduTil) - 1).toString()
+                      );
+                    }}
+                    onPressPluss={() => {
+                      setDrikkevinduTil(
+                        (parseInt(drikkevinduTil) + 1).toString()
+                      );
+                    }}
+                    inputVerdi={drikkevinduTil}
+                    onChangeText={tekst => setDrikkevinduTil(tekst)}
+                    style={{ width: 70 }}
+                  />
                 </View>
               </View>
             )}
@@ -244,7 +163,7 @@ const OppdaterKjellerantallModal = ({
               <Text style={{ color: "white", padding: 20 }}>
                 {produktState.antallIKjeller === 0
                   ? "Legg i kjeller"
-                  : "Oppdater antall"}
+                  : "Oppdater"}
               </Text>
             </Pressable>
           </View>
@@ -271,16 +190,9 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   modalTekst: {
-    marginBottom: 20,
+    marginBottom: 10,
     fontWeight: "bold",
     fontSize: 18
-  },
-  antallInput: {
-    height: 50,
-    width: 50,
-    fontSize: 18,
-    paddingBottom: 15,
-    textAlign: "center"
   },
   notatInput: {
     width: "100%",
@@ -314,28 +226,21 @@ const styles = StyleSheet.create({
   },
   drikkevinduContainer: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between"
   },
   drikkevinduLabel: {
-    marginRight: 10,
-    paddingTop: 8
+    marginRight: 10
   },
   checkboxContainer: {
     flexDirection: "row",
-    marginBottom: 20
+    marginBottom: 10
   },
   checkbox: {
     alignSelf: "center"
   },
   label: {
     margin: 8
-  },
-  aarInput: {
-    height: 50,
-    width: 70,
-    fontSize: 18,
-    paddingBottom: 15,
-    textAlign: "center"
   }
 });
 

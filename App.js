@@ -11,6 +11,7 @@ import { colors } from "./styles/common";
 import * as firebase from "firebase";
 import { InteractionManager, Platform } from "react-native";
 import StrekkodeScanner from "./screens/StrekkodeScanner";
+import NyVin from "./screens/NyVin/NyVin";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -58,7 +59,7 @@ if (Platform.OS === "android") {
 }
 
 const Tab = createBottomTabNavigator();
-const SoekStack = createStackNavigator();
+const StackNavigator = createStackNavigator();
 
 export default function App() {
   const firebaseConfig = {
@@ -140,7 +141,7 @@ export default function App() {
 
 function SoekScreen() {
   return (
-    <SoekStack.Navigator
+    <StackNavigator.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.primaryBg,
@@ -153,26 +154,26 @@ function SoekScreen() {
         headerTitleAlign: "center"
       }}
     >
-      <SoekStack.Screen
+      <StackNavigator.Screen
         name="Soek"
         component={Soek}
         options={{
           title: "Søk"
         }}
       />
-      <SoekStack.Screen
+      <StackNavigator.Screen
         name="Soekeresultater"
         component={Soekeresultater}
         options={({ route }) => ({ title: route.params.name })}
       />
-      <SoekStack.Screen name="Produkt" component={Produkt} />
-    </SoekStack.Navigator>
+      <StackNavigator.Screen name="Produkt" component={Produkt} />
+    </StackNavigator.Navigator>
   );
 }
 
 function StrekkodeScannerScreen() {
   return (
-    <SoekStack.Navigator
+    <StackNavigator.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.primaryBg
@@ -184,21 +185,21 @@ function StrekkodeScannerScreen() {
         headerTitleAlign: "center"
       }}
     >
-      <SoekStack.Screen
+      <StackNavigator.Screen
         name="StrekkodeScanner"
         options={{
           title: "Scan en vare"
         }}
         component={StrekkodeScanner}
       />
-      <SoekStack.Screen name="Produkt" component={Produkt} />
-    </SoekStack.Navigator>
+      <StackNavigator.Screen name="Produkt" component={Produkt} />
+    </StackNavigator.Navigator>
   );
 }
 
 function VinOversiktScreen() {
   return (
-    <SoekStack.Navigator
+    <StackNavigator.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.primaryBg
@@ -210,8 +211,21 @@ function VinOversiktScreen() {
         headerTitleAlign: "center"
       }}
     >
-      <SoekStack.Screen name="Kjelleroversikt" component={Kjelleroversikt} />
-      <SoekStack.Screen name="Produkt" component={Produkt} />
-    </SoekStack.Navigator>
+      <StackNavigator.Screen
+        name="Kjelleroversikt"
+        options={{
+          title: "Kjeller",
+        }}
+        component={Kjelleroversikt}
+      />
+      <StackNavigator.Screen name="Produkt" component={Produkt} />
+      <StackNavigator.Screen
+        name="NyVin"
+        options={{
+          title: "Legg til ny vin",
+        }}
+        component={NyVin}
+      />
+    </StackNavigator.Navigator>
   );
 }

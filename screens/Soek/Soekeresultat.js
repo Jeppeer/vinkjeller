@@ -7,7 +7,13 @@ import { opprettProduktBasertPaa } from "../Produkt/ProduktHelper";
 const Soekeresultat = ({ produkt, navigation }) => {
   const velgProdukt = produkt => {
     navigation.navigate("Produkt", {
-      produkt: opprettProduktBasertPaa(produkt)
+      produkt: {
+        ...opprettProduktBasertPaa(produkt),
+        antallIKjeller: produkt.antallIKjeller ? produkt.antallIKjeller : 0,
+        drikkevindu: produkt.drikkevindu,
+        notat: produkt.notat ? produkt.notat : ""
+      },
+      produktRef: produkt.produktRef
     });
   };
 
@@ -37,6 +43,11 @@ const Soekeresultat = ({ produkt, navigation }) => {
             {produkt.origins.origin.subRegion &&
               `, ${produkt.origins.origin.subRegion}`}
           </Text>
+          {produkt.antallIKjeller && (
+            <Text style={{ paddingBottom: 2 }}>
+              Antall i kjeller: {produkt.antallIKjeller}
+            </Text>
+          )}
           <Text style={styles.produktId}>{produkt.basic.productId}</Text>
           <Pris pris={produkt.prices[0].salesPrice} />
         </View>
