@@ -48,20 +48,31 @@ const NyVin = ({ navigation }) => {
           initialValues={{ antallIKjeller: "1" }}
           onSubmit={values => {
             const nyttProdukt = firebaseRef.push();
+            if (!values.antallIKjeller) {
+              values.antallIKjeller = "1";
+            }
             nyttProdukt.set(values).then(() => {
               navigation.goBack();
             });
           }}
+          validate={values => {
+            const errors = {};
+            if (!values.navn) {
+              errors.navn = "Du må oppgi navn på vinen";
+            }
+            return errors;
+          }}
         >
-          {({ handleChange, handleBlur, values, setValues }) => (
+          {({ handleChange, errors, handleBlur, values, setValues }) => (
             <View>
               <Input
-                label="Navn på vin*"
+                label="Navn på vin"
                 onChangeText={handleChange("navn")}
                 value={values.navn}
                 returnKeyType="next"
                 inputContainerStyle={nyVinStyles.inputContainerStyle}
                 labelStyle={nyVinStyles.labelStyle}
+                errorMessage={errors["navn"]}
               />
               <Input
                 label="Produsent"
