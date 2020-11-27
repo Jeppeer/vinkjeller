@@ -45,7 +45,10 @@ const NyVin = ({ navigation }) => {
         </View>
         <Formik
           innerRef={formRef}
-          initialValues={{ antallIKjeller: "1" }}
+          initialValues={{
+            antallIKjeller: "1",
+            raastoff: []
+          }}
           onSubmit={values => {
             const nyttProdukt = firebaseRef.push();
             if (!values.antallIKjeller) {

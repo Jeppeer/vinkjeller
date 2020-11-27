@@ -11,15 +11,15 @@ import { colors } from "../../styles/common";
 const Raastoff = ({ handleChange, values }) => (
   <View style={{ marginBottom: 20 }}>
     <FieldArray
-      name="druer"
+      name="raastoff"
       render={arrayHelpers => (
         <View style={{ alignItems: "flex-start" }}>
           <Text style={[nyVinStyles.labelStyle, nyVinStyles.separateLabel]}>
             Råstoff
           </Text>
-          {values.druer &&
-            values.druer.length > 0 &&
-            values.druer.map((drue, index) => (
+          {values.raastoff &&
+            values.raastoff.length > 0 &&
+            values.raastoff.map((drue, index) => (
               <View
                 key={index}
                 style={{
@@ -30,8 +30,8 @@ const Raastoff = ({ handleChange, values }) => (
                 <View style={{ flexGrow: 1 }}>
                   <Input
                     label="Drue"
-                    onChangeText={handleChange("drue")}
-                    value={drue.navn}
+                    onChangeText={handleChange(`raastoff.${index}.grapeDesc`)}
+                    value={drue.grapeDesc}
                     returnKeyType="next"
                     inputContainerStyle={[
                       nyVinStyles.inputContainerStyle,
@@ -44,8 +44,8 @@ const Raastoff = ({ handleChange, values }) => (
                   <Input
                     label="Prosent"
                     keyboardType="numeric"
-                    onChangeText={handleChange("prosent")}
-                    value={drue.prosent}
+                    onChangeText={handleChange(`raastoff.${index}.grapePct`)}
+                    value={drue.grapePct}
                     returnKeyType="next"
                     containerStyle={{ width: "auto" }}
                     inputContainerStyle={[
@@ -69,7 +69,7 @@ const Raastoff = ({ handleChange, values }) => (
               </View>
             ))}
           <Knapp
-            onPress={() => arrayHelpers.push({ navn: "", prosent: "" })}
+            onPress={() => arrayHelpers.push({ grapeDesc: "", grapePct: "" })}
             knappetekst="Legg til drue"
             styles={{ marginLeft: 10 }}
           />
