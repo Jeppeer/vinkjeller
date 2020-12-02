@@ -1,6 +1,11 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useState,
+  useRef
+} from "react";
 import {
-  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -9,12 +14,13 @@ import {
   View
 } from "react-native";
 import ProduktDetalj from "./ProduktDetalj";
-import { colors, spinner } from "../../styles/common";
+import { colors } from "../../styles/common";
 import * as firebase from "firebase";
 import { getIngredienser, getPasserTil } from "./ProduktHelper";
 import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 import Pris from "../../components/Pris";
 import EksternScore from "./EksternScore";
+import Knapp from "../../components/knapp/Knapp";
 
 const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
 
@@ -30,15 +36,18 @@ const databaseProduktReducer = (state, action) => {
   }
 };
 
-const Produkt = ({ route }) => {
-  const { produkt, produktRef } = route.params;
+const Produkt = ({ route, navigation }) => {
+  const { produktRef } = route.params;
+  const produkt = useRef(route.params.produkt);
   const [visModal, setVisModal] = useState(false);
   let firebaseRef = firebase.database().ref("kjeller");
 
   const [produktState, dispatch] = useReducer(databaseProduktReducer, {
-    antallIKjeller: produkt.antallIKjeller ? produkt.antallIKjeller : 0,
-    drikkevindu: produkt.drikkevindu,
-    notat: produkt.notat ? produkt.notat : "",
+    antallIKjeller: produkt.current.antallIKjeller
+      ? produkt.current.antallIKjeller
+      : "0",
+    drikkevindu: produkt.current.drikkevindu,
+    notat: produkt.current.notat ? produkt.current.notat : "",
     produktRef: produktRef
   });
 
@@ -50,14 +59,35 @@ const Produkt = ({ route }) => {
     };
   }, []);
 
-  const produktOppdatert = produkt => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        if (produkt.current.lagtTilManuelt) {
+          return (
+            <Knapp
+              knappetekst="Endre"
+              onPress={() => {
+                navigation.navigate("EksternVin", {
+                  produkt: { ...produkt.current, ...produktState }
+                });
+              }}
+              styles={{ backgroundColor: "transparent", height: 70 }}
+            />
+          );
+        } else return null;
+      }
+    });
+  }, [navigation, produktState]);
+
+  const produktOppdatert = oppdatertProdukt => {
+    produkt.current = oppdatertProdukt.val();
     dispatch({
       type: SET_PRODUKT_STATE,
       payload: {
-        antallIKjeller: produkt.val().antallIKjeller,
-        drikkevindu: produkt.val().drikkevindu,
-        produktRef: produkt.key,
-        notat: produkt.val().notat
+        antallIKjeller: produkt.current.antallIKjeller,
+        drikkevindu: produkt.current.drikkevindu,
+        produktRef: oppdatertProdukt.key,
+        notat: produkt.current.notat
       }
     });
   };
@@ -109,7 +139,7 @@ const Produkt = ({ route }) => {
       };
       nyttProdukt
         .set({
-          ...produkt,
+          ...produkt.current,
           ...produktData
         })
         .then(() => {
@@ -139,22 +169,25 @@ const Produkt = ({ route }) => {
           <Image
             style={styles.bilde}
             source={{
-              uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.produktId}-1.jpg`
+              uri: `https://bilder.vinmonopolet.no/cache/515x515-0/${produkt.current.produktId}-1.jpg`
             }}
           />
         </View>
         <View style={styles.mainInfoContainer}>
           <Text style={styles.produktNavn}>
-            {produkt.navn} {produkt.aargang !== 0 && produkt.aargang}
+            {produkt.current.navn}{" "}
+            {produkt.current.aargang !== 0 && produkt.current.aargang}
           </Text>
-          {produkt.region && (
+          {produkt.current.region && (
             <Text style={styles.produktRegion}>
-              {produkt.region.land && produkt.region.land}
-              {produkt.region.region && `, ${produkt.region.region}`}
-              {produkt.region.subRegion && `, ${produkt.region.subRegion}`}
+              {produkt.current.region.land && produkt.current.region.land}
+              {produkt.current.region.region &&
+                `, ${produkt.current.region.region}`}
+              {produkt.current.region.subRegion &&
+                `, ${produkt.current.region.subRegion}`}
             </Text>
           )}
-          <Pris pris={produkt.pris} />
+          <Pris pris={produkt.current.pris} />
           <View style={styles.personligInfoContainer}>
             <View style={styles.infoBoks}>
               <Text style={{ fontWeight: "bold" }}>Antall i kjeller</Text>
@@ -198,58 +231,72 @@ const Produkt = ({ route }) => {
           </Pressable>
         </View>
 
-        <EksternScore produktId={produkt.produktId} />
+        {!produkt.current.lagtTilManuelt && (
+          <EksternScore produktId={produkt.current.produktId} />
+        )}
 
         <View style={extededInfoStyle.container}>
-          <ProduktDetalj detaljNavn="Varetype" data={produkt.produktType} />
-          {produkt.produktId && (
-            <ProduktDetalj detaljNavn="Varenummer" data={produkt.produktId} />
+          <ProduktDetalj
+            detaljNavn="Varetype"
+            data={produkt.current.produktType}
+          />
+          {produkt.current.produktId && (
+            <ProduktDetalj
+              detaljNavn="Varenummer"
+              data={produkt.current.produktId}
+            />
           )}
-          {produkt.aargang !== 0 && (
-            <ProduktDetalj detaljNavn="Årgang" data={produkt.aargang} />
+          {produkt.current.aargang !== 0 && (
+            <ProduktDetalj detaljNavn="Årgang" data={produkt.current.aargang} />
           )}
           <ProduktDetalj
             detaljNavn="Land, distrikt, underdistrikt"
             data={
-              produkt.region &&
-              `${produkt.region.land}${produkt.region.region &&
-                `, ${produkt.region.region.region}`}${produkt.region
-                .subRegion && `, ${produkt.region.subRegion}`}`
+              produkt.current.region &&
+              `${produkt.current.region.land}${produkt.current.region.region &&
+                `, ${produkt.current.region.region.region}`}${produkt.current
+                .region.subRegion && `, ${produkt.current.region.subRegion}`}`
             }
           />
           <ProduktDetalj
             detaljNavn="Råstoff"
-            data={getIngredienser(produkt.raastoff)}
+            data={getIngredienser(produkt.current.raastoff)}
           />
           <ProduktDetalj
             detaljNavn="Volum"
             data={
-              produkt.volum ? `${parseFloat(produkt.volum) * 100} cl` : null
+              produkt.current.volum
+                ? `${parseFloat(produkt.current.volum) * 100} cl`
+                : null
             }
           />
           <ProduktDetalj
             detaljNavn="Lagringsgrad"
-            data={produkt.lagringsgrad}
+            data={produkt.current.lagringsgrad}
           />
-          {produkt.anbefaltMat && (
+          {produkt.current.anbefaltMat && (
             <ProduktDetalj
               detaljNavn="Passer til"
-              data={getPasserTil(produkt.anbefaltMat)}
+              data={getPasserTil(produkt.current.anbefaltMat)}
             />
           )}
           <ProduktDetalj
             detaljNavn="Produsent"
-            data={produkt.produsent}
+            data={produkt.current.produsent}
           />
           <ProduktDetalj
             detaljNavn="Alkoholprosent"
-            data={produkt.alkoholprosent ? `${produkt.alkoholprosent}%` : null}
+            data={
+              produkt.current.alkoholprosent
+                ? `${produkt.current.alkoholprosent}%`
+                : null
+            }
           />
-          <ProduktDetalj detaljNavn="Smak" data={produkt.smak} />
-          <ProduktDetalj detaljNavn="Lukt" data={produkt.lukt} />
-          <ProduktDetalj detaljNavn="Farge" data={produkt.farge} />
-          {produkt.utvalg && (
-            <ProduktDetalj detaljNavn="Utvalg" data={produkt.utvalg} />
+          <ProduktDetalj detaljNavn="Smak" data={produkt.current.smak} />
+          <ProduktDetalj detaljNavn="Lukt" data={produkt.current.lukt} />
+          <ProduktDetalj detaljNavn="Farge" data={produkt.current.farge} />
+          {produkt.current.utvalg && (
+            <ProduktDetalj detaljNavn="Utvalg" data={produkt.current.utvalg} />
           )}
         </View>
         <OppdaterKjellerantallModal

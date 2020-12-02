@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import Knapp from "../../components/knapp/Knapp";
 import { Input } from "react-native-elements";
 import { FieldArray } from "formik";
-import { nyVinStyles } from "./styles";
+import { eksternVinStyles } from "./styles";
 import IkonKnapp from "../../components/knapp/IkonKnapp";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../../styles/common";
@@ -14,7 +14,7 @@ const Raastoff = ({ handleChange, values }) => (
       name="raastoff"
       render={arrayHelpers => (
         <View style={{ alignItems: "flex-start" }}>
-          <Text style={[nyVinStyles.labelStyle, nyVinStyles.separateLabel]}>
+          <Text style={[eksternVinStyles.labelStyle, eksternVinStyles.separateLabel]}>
             Råstoff
           </Text>
           {values.raastoff &&
@@ -34,13 +34,13 @@ const Raastoff = ({ handleChange, values }) => (
                     value={drue.grapeDesc}
                     returnKeyType="next"
                     inputContainerStyle={[
-                      nyVinStyles.inputContainerStyle,
+                      eksternVinStyles.inputContainerStyle,
                       { marginBottom: 0 }
                     ]}
-                    labelStyle={nyVinStyles.labelStyle}
+                    labelStyle={eksternVinStyles.labelStyle}
                   />
                 </View>
-                <View style={[nyVinStyles.inputMedBenevning]}>
+                <View style={[eksternVinStyles.inputMedBenevning]}>
                   <Input
                     label="Prosent"
                     keyboardType="numeric"
@@ -49,10 +49,10 @@ const Raastoff = ({ handleChange, values }) => (
                     returnKeyType="next"
                     containerStyle={{ width: "auto" }}
                     inputContainerStyle={[
-                      nyVinStyles.inputContainerStyle,
+                      eksternVinStyles.inputContainerStyle,
                       { marginBottom: 0 }
                     ]}
-                    labelStyle={nyVinStyles.labelStyle}
+                    labelStyle={eksternVinStyles.labelStyle}
                   />
                   <Text>%</Text>
                   <IkonKnapp

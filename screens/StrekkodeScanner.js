@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Dimensions,
   StyleSheet,
   Text,
   ToastAndroid,
@@ -16,8 +15,6 @@ import { useFocusEffect } from "@react-navigation/native";
 import { colors, spinner } from "../styles/common";
 import { Camera } from "expo-camera";
 import axios from "axios";
-
-const { width } = Dimensions.get("window");
 
 const StrekkodeScanner = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);

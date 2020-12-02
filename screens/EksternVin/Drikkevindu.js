@@ -1,41 +1,41 @@
 import React from "react";
 import { Input } from "react-native-elements";
 import { Text, View } from "react-native";
-import { nyVinStyles } from "./styles";
+import { eksternVinStyles } from "./styles";
 
 const Drikkevindu = ({ handleChange, values }) => {
   return (
     <View>
-      <Text style={[nyVinStyles.labelStyle, nyVinStyles.separateLabel]}>
+      <Text style={[eksternVinStyles.labelStyle, eksternVinStyles.separateLabel]}>
         Drikkevindu
       </Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Input
           label="Fra"
           keyboardType="numeric"
-          onChangeText={handleChange("drikkevinduFra")}
-          value={values.drikkevinduFra}
+          onChangeText={handleChange("drikkevindu.fra")}
+          value={values.drikkevindu ? values.drikkevindu.fra : ""}
           returnKeyType="next"
           containerStyle={{ width: "auto" }}
           inputContainerStyle={[
-            nyVinStyles.inputContainerStyle,
-            nyVinStyles.tallInput
+            eksternVinStyles.inputContainerStyle,
+            eksternVinStyles.tallInput
           ]}
-          labelStyle={nyVinStyles.labelStyle}
+          labelStyle={eksternVinStyles.labelStyle}
         />
         <Text>-</Text>
         <Input
           label="Til"
           keyboardType="numeric"
-          onChangeText={handleChange("drikkevinduTil")}
-          value={values.drikkevinduTil}
+          onChangeText={handleChange("drikkevindu.til")}
+          value={values.drikkevindu ? values.drikkevindu.til : ""}
           returnKeyType="next"
           containerStyle={{ width: "auto" }}
           inputContainerStyle={[
-            nyVinStyles.inputContainerStyle,
-            nyVinStyles.tallInput
+            eksternVinStyles.inputContainerStyle,
+            eksternVinStyles.tallInput
           ]}
-          labelStyle={nyVinStyles.labelStyle}
+          labelStyle={eksternVinStyles.labelStyle}
         />
       </View>
     </View>

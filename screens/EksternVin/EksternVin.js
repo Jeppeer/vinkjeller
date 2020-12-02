@@ -4,20 +4,22 @@ import { Formik } from "formik";
 import { Input } from "react-native-elements";
 import Drikkevindu from "./Drikkevindu";
 import Raastoff from "./Raastoff";
-import { nyVinStyles } from "./styles";
+import { eksternVinStyles } from "./styles";
 import Region from "./Region";
 import Knapp from "../../components/knapp/Knapp";
 import * as firebase from "firebase";
 import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
 
-const NyVin = ({ navigation }) => {
+const EksternVin = ({ route, navigation }) => {
+  const endretProdukt = route.params ? route.params.produkt : null;
   const [visEkstraFelter, setVisEkstraFelter] = useState(false);
   const formRef = useRef();
 
-  let firebaseRef = firebase.database().ref("kjeller");
+  let firebaseRef = firebase.database();
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      title: endretProdukt ? 'Endre vin' : 'Legg til ny vin',
       headerRight: () => {
         if (formRef.current) {
           return (
@@ -45,19 +47,40 @@ const NyVin = ({ navigation }) => {
         </View>
         <Formik
           innerRef={formRef}
-          initialValues={{
-            antallIKjeller: "1",
-            raastoff: [],
-            volum: "75"
-          }}
+          initialValues={
+            endretProdukt
+              ? endretProdukt
+              : {
+                  antallIKjeller: "1",
+                  raastoff: [],
+                  volum: "75",
+                  lagtTilManuelt: true,
+                  drikkevindu: {}
+                }
+          }
           onSubmit={values => {
-            const nyttProdukt = firebaseRef.push();
             if (!values.antallIKjeller) {
               values.antallIKjeller = "1";
             }
-            nyttProdukt.set(values).then(() => {
-              navigation.goBack();
-            });
+            if (!values.notat) {
+              values.notat = "";
+            }
+            if (!values.drikkevindu) {
+              values.drikkevindu = null;
+            }
+            if (endretProdukt) {
+              firebaseRef
+                .ref(`kjeller/${endretProdukt.produktRef}`)
+                .update(values)
+                .then(() => {
+                  navigation.goBack();
+                });
+            } else {
+              const nyttProdukt = firebaseRef.ref("kjeller").push();
+              nyttProdukt.set(values).then(() => {
+                navigation.goBack();
+              });
+            }
           }}
           validate={values => {
             const errors = {};
@@ -74,8 +97,8 @@ const NyVin = ({ navigation }) => {
                 onChangeText={handleChange("navn")}
                 value={values.navn}
                 returnKeyType="next"
-                inputContainerStyle={nyVinStyles.inputContainerStyle}
-                labelStyle={nyVinStyles.labelStyle}
+                inputContainerStyle={eksternVinStyles.inputContainerStyle}
+                labelStyle={eksternVinStyles.labelStyle}
                 errorMessage={errors["navn"]}
               />
               <Input
@@ -83,8 +106,8 @@ const NyVin = ({ navigation }) => {
                 onChangeText={handleChange("produsent")}
                 value={values.produsent}
                 returnKeyType="next"
-                inputContainerStyle={nyVinStyles.inputContainerStyle}
-                labelStyle={nyVinStyles.labelStyle}
+                inputContainerStyle={eksternVinStyles.inputContainerStyle}
+                labelStyle={eksternVinStyles.labelStyle}
               />
               <Input
                 label="Årgang"
@@ -93,10 +116,10 @@ const NyVin = ({ navigation }) => {
                 value={values.aargang}
                 returnKeyType="next"
                 inputContainerStyle={[
-                  nyVinStyles.inputContainerStyle,
-                  nyVinStyles.tallInput
+                  eksternVinStyles.inputContainerStyle,
+                  eksternVinStyles.tallInput
                 ]}
-                labelStyle={nyVinStyles.labelStyle}
+                labelStyle={eksternVinStyles.labelStyle}
               />
               <Input
                 label="År kjøpt"
@@ -105,12 +128,12 @@ const NyVin = ({ navigation }) => {
                 value={values.aarKjopt}
                 returnKeyType="next"
                 inputContainerStyle={[
-                  nyVinStyles.inputContainerStyle,
-                  nyVinStyles.tallInput
+                  eksternVinStyles.inputContainerStyle,
+                  eksternVinStyles.tallInput
                 ]}
-                labelStyle={nyVinStyles.labelStyle}
+                labelStyle={eksternVinStyles.labelStyle}
               />
-              <View style={nyVinStyles.inputMedBenevning}>
+              <View style={eksternVinStyles.inputMedBenevning}>
                 <Input
                   label="Pris"
                   keyboardType="numeric"
@@ -119,10 +142,10 @@ const NyVin = ({ navigation }) => {
                   returnKeyType="next"
                   containerStyle={{ width: "auto" }}
                   inputContainerStyle={[
-                    nyVinStyles.inputContainerStyle,
-                    nyVinStyles.tallInput
+                    eksternVinStyles.inputContainerStyle,
+                    eksternVinStyles.tallInput
                   ]}
-                  labelStyle={nyVinStyles.labelStyle}
+                  labelStyle={eksternVinStyles.labelStyle}
                 />
                 <Text>kr</Text>
               </View>
@@ -131,13 +154,13 @@ const NyVin = ({ navigation }) => {
                 onChangeText={handleChange("notat")}
                 value={values.notat}
                 returnKeyType="next"
-                inputContainerStyle={nyVinStyles.inputContainerStyle}
-                labelStyle={nyVinStyles.labelStyle}
+                inputContainerStyle={eksternVinStyles.inputContainerStyle}
+                labelStyle={eksternVinStyles.labelStyle}
               />
               <Region handleChange={handleChange} values={values} />
 
               <View style={{ margin: 10 }}>
-                <Text style={[nyVinStyles.labelStyle, { fontWeight: "bold" }]}>
+                <Text style={[eksternVinStyles.labelStyle, { fontWeight: "bold" }]}>
                   Velg antall
                 </Text>
                 <PlussMinusTeller
@@ -179,7 +202,7 @@ const NyVin = ({ navigation }) => {
                   <Drikkevindu handleChange={handleChange} values={values} />
                   <Raastoff values={values} handleChange={handleChange} />
 
-                  <View style={nyVinStyles.inputMedBenevning}>
+                  <View style={eksternVinStyles.inputMedBenevning}>
                     <Input
                       label="Volum"
                       keyboardType="numeric"
@@ -188,14 +211,14 @@ const NyVin = ({ navigation }) => {
                       returnKeyType="next"
                       containerStyle={{ width: "auto" }}
                       inputContainerStyle={[
-                        nyVinStyles.inputContainerStyle,
-                        nyVinStyles.tallInput
+                        eksternVinStyles.inputContainerStyle,
+                        eksternVinStyles.tallInput
                       ]}
-                      labelStyle={nyVinStyles.labelStyle}
+                      labelStyle={eksternVinStyles.labelStyle}
                     />
                     <Text>cl</Text>
                   </View>
-                  <View style={nyVinStyles.inputMedBenevning}>
+                  <View style={eksternVinStyles.inputMedBenevning}>
                     <Input
                       label="Alkohol"
                       keyboardType="numeric"
@@ -204,10 +227,10 @@ const NyVin = ({ navigation }) => {
                       returnKeyType="next"
                       containerStyle={{ width: "auto" }}
                       inputContainerStyle={[
-                        nyVinStyles.inputContainerStyle,
-                        nyVinStyles.tallInput
+                        eksternVinStyles.inputContainerStyle,
+                        eksternVinStyles.tallInput
                       ]}
-                      labelStyle={nyVinStyles.labelStyle}
+                      labelStyle={eksternVinStyles.labelStyle}
                     />
                     <Text>%</Text>
                   </View>
@@ -216,24 +239,24 @@ const NyVin = ({ navigation }) => {
                     onChangeText={handleChange("smak")}
                     value={values.smak}
                     returnKeyType="next"
-                    inputContainerStyle={nyVinStyles.inputContainerStyle}
-                    labelStyle={nyVinStyles.labelStyle}
+                    inputContainerStyle={eksternVinStyles.inputContainerStyle}
+                    labelStyle={eksternVinStyles.labelStyle}
                   />
                   <Input
                     label="Lukt"
                     onChangeText={handleChange("lukt")}
                     value={values.lukt}
                     returnKeyType="next"
-                    inputContainerStyle={nyVinStyles.inputContainerStyle}
-                    labelStyle={nyVinStyles.labelStyle}
+                    inputContainerStyle={eksternVinStyles.inputContainerStyle}
+                    labelStyle={eksternVinStyles.labelStyle}
                   />
                   <Input
                     label="Farge"
                     onChangeText={handleChange("farge")}
                     value={values.farge}
                     returnKeyType="next"
-                    inputContainerStyle={nyVinStyles.inputContainerStyle}
-                    labelStyle={nyVinStyles.labelStyle}
+                    inputContainerStyle={eksternVinStyles.inputContainerStyle}
+                    labelStyle={eksternVinStyles.labelStyle}
                   />
                 </View>
               )}
@@ -245,4 +268,4 @@ const NyVin = ({ navigation }) => {
   );
 };
 
-export default NyVin;
+export default EksternVin;

@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Input } from "react-native-elements";
-import { nyVinStyles } from "./styles";
+import { eksternVinStyles } from "./styles";
 
 const Region = ({ handleChange, values }) => {
   return (
@@ -12,8 +12,8 @@ const Region = ({ handleChange, values }) => {
         value={values.land}
         returnKeyType="next"
         containerStyle={{ width: "50%" }}
-        inputContainerStyle={nyVinStyles.inputContainerStyle}
-        labelStyle={nyVinStyles.labelStyle}
+        inputContainerStyle={eksternVinStyles.inputContainerStyle}
+        labelStyle={eksternVinStyles.labelStyle}
       />
       <Input
         label="Region"
@@ -21,8 +21,8 @@ const Region = ({ handleChange, values }) => {
         value={values.region}
         returnKeyType="next"
         containerStyle={{ width: "50%" }}
-        inputContainerStyle={nyVinStyles.inputContainerStyle}
-        labelStyle={nyVinStyles.labelStyle}
+        inputContainerStyle={eksternVinStyles.inputContainerStyle}
+        labelStyle={eksternVinStyles.labelStyle}
       />
     </View>
   );

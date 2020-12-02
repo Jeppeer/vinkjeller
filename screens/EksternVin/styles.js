@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { input } from "../../styles/common";
 
-export const nyVinStyles = StyleSheet.create({
+export const eksternVinStyles = StyleSheet.create({
   labelStyle: {
     color: input.primaryColor,
     fontSize: 14,

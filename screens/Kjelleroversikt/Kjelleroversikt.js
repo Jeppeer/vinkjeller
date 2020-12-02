@@ -68,7 +68,7 @@ const Kjelleroversikt = ({ navigation }) => {
       : setProduktFilter(filter);
   };
 
-  const leggTilVin = () => navigation.navigate("NyVin");
+  const leggTilVin = () => navigation.navigate("EksternVin");
 
   return (
     <View style={{ height: "100%" }}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CheckBox,
   Modal,
@@ -31,6 +31,22 @@ const OppdaterKjellerantallModal = ({
   const [drikkevinduTil, setDrikkevinduTil] = useState(
     produktState.drikkevindu !== undefined ? produktState.drikkevindu.til : null
   );
+
+  useEffect(() => {
+    setOppdatertAntall(produktState.antallIKjeller.toString());
+    setVisDrikkevindu(produktState.drikkevindu !== undefined);
+    setDrikkevinduFra(
+      produktState.drikkevindu !== undefined
+        ? produktState.drikkevindu.fra
+        : null
+    );
+    setDrikkevinduTil(
+      produktState.drikkevindu !== undefined
+        ? produktState.drikkevindu.til
+        : null
+    );
+    setNotat(produktState.notat);
+  }, [produktState]);
 
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>
