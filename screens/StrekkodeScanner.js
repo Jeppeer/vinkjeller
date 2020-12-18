@@ -17,10 +17,12 @@ import { Camera } from "expo-camera";
 import axios from "axios";
 
 const StrekkodeScanner = ({ navigation }) => {
+  const [showSpinner, setShowSpinner] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [mountKamera, setMountKamera] = useState(true);
   let firebaseRef = firebase.database();
+  let cameraRef;
 
   useEffect(() => {
     (async () => {
@@ -42,6 +44,8 @@ const StrekkodeScanner = ({ navigation }) => {
 
   const handleBarCodeScanned = ({ data }) => {
     Vibration.vibrate(30);
+    cameraRef.pausePreview();
+    setShowSpinner(true);
     setScanned(true);
     firebaseRef
       .ref("vinmonopolet_db")
@@ -65,6 +69,7 @@ const StrekkodeScanner = ({ navigation }) => {
             .then(
               axios.spread((produkt, kjellerelement) => {
                 setMountKamera(false);
+                setShowSpinner(false);
                 const element = kjellerelement.val()
                   ? Object.entries(kjellerelement.val())[0]
                   : undefined;
@@ -81,6 +86,7 @@ const StrekkodeScanner = ({ navigation }) => {
             );
         } else {
           ToastAndroid.show("Ingen treff.", ToastAndroid.SHORT);
+          setShowSpinner(false);
           setTimeout(() => setScanned(false), 3000);
         }
       });
@@ -102,10 +108,18 @@ const StrekkodeScanner = ({ navigation }) => {
       {mountKamera && (
         <Camera
           type={Camera.Constants.Type.back}
+          ref={ref => {
+            cameraRef = ref;
+          }}
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           ratio="16:9"
-          style={[StyleSheet.absoluteFillObject]}
+          style={StyleSheet.absoluteFillObject}
         />
+      )}
+      {showSpinner && (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <ActivityIndicator color={colors.primaryButton} size="large" />
+        </View>
       )}
     </View>
   );
