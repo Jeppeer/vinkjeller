@@ -8,7 +8,7 @@ import {
   TextInput,
   View
 } from "react-native";
-import { colors } from "../../styles/common";
+import { colors, modal } from "../../styles/common";
 import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
 // import CheckBox from "@react-native-community/checkbox";
 
@@ -51,8 +51,8 @@ const OppdaterKjellerantallModal = ({
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>
       <View style={{ flex: 1, justifyContent: "center" }}>
-        <View style={styles.modal}>
-          <Text style={styles.modalTekst}>
+        <View style={modal.modal}>
+          <Text style={modal.modalHeader}>
             {produktState.antallIKjeller === 0
               ? "Velg antall du vil legge i kjeller"
               : "Oppdater antall i kjeller"}
@@ -188,26 +188,6 @@ const OppdaterKjellerantallModal = ({
 };
 
 const styles = StyleSheet.create({
-  modal: {
-    alignItems: "center",
-    margin: 60,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  modalTekst: {
-    marginBottom: 10,
-    fontWeight: "bold",
-    fontSize: 18
-  },
   notatInput: {
     width: "100%",
     borderRadius: 2,

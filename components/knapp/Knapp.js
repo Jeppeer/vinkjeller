@@ -21,12 +21,15 @@ const Knapp = ({ styles, onPress, knappetekst }) => {
   );
 };
 
-const knappStyles = StyleSheet.create({
+export const knappStyles = StyleSheet.create({
   knapp: {
     borderRadius: 50,
     padding: 15,
     justifyContent: "center",
     alignItems: "center"
+  },
+  selected: {
+    backgroundColor: colors.primaryButtonPressed
   }
 });
 export default Knapp;
