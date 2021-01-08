@@ -229,23 +229,34 @@ const Produkt = ({ route, navigation }) => {
               </View>
             )}
           </View>
-          <Pressable
-            onPress={() => setVisModal(true)}
-            style={({ pressed }) => [
-              {
-                backgroundColor: pressed
-                  ? colors.primaryButtonPressed
-                  : colors.primaryButton
-              },
-              styles.leggIKjellerKnapp
-            ]}
-          >
-            <Text style={{ color: "white" }}>
-              {produktState.antallIKjeller === "0"
-                ? "Legg i kjeller"
-                : "Oppdater"}
-            </Text>
-          </Pressable>
+          <View style={{ flexDirection: "row" }}>
+            <Pressable
+              onPress={() => setVisModal(true)}
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed
+                    ? colors.primaryButtonPressed
+                    : colors.primaryButton
+                },
+                styles.leggIKjellerKnapp,
+                produktState.antallIKjeller > 0
+                  ? { marginRight: 10 }
+                  : { marginRight: 0 }
+              ]}
+            >
+              <Text style={{ color: "white" }}>
+                {produktState.antallIKjeller === "0"
+                  ? "Legg i kjeller"
+                  : "Oppdater"}
+              </Text>
+            </Pressable>
+            {produktState.antallIKjeller > 0 && (
+              <Knapp
+                onPress={() => oppdaterProdukt({ antallIKjeller: "0" })}
+                knappetekst="Fjern fra kjeller"
+              />
+            )}
+          </View>
         </View>
 
         {!produkt.current.lagtTilManuelt && (
