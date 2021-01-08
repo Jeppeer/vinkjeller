@@ -28,7 +28,7 @@ const FilterModal = ({ visModal, setVisFiltrerModal, filtrerInnhold }) => {
       propagateSwipe={true}
     >
       <View style={{ flex: 1, justifyContent: "center" }}>
-        <View style={modal.modal}>
+        <View style={[modal.modal, { padding: 20 }]}>
           <View style={{ width: "100%" }}>
             <Text style={[modal.modalHeader, { alignSelf: "center" }]}>
               Velg filter

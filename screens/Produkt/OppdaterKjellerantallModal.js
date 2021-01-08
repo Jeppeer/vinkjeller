@@ -3,6 +3,7 @@ import {
   CheckBox,
   Modal,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -52,8 +53,17 @@ const OppdaterKjellerantallModal = ({
 
   return (
     <Modal animationType="slide" transparent={true} visible={visModal}>
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <View style={modal.modal}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <ScrollView
+          style={[modal.modal, { maxHeight: "55%", width: "70%" }]}
+          contentContainerStyle={{ alignItems: "center", padding: 20 }}
+        >
           <Text style={modal.modalHeader}>Lagre vin</Text>
 
           <View style={{ marginBottom: 10 }}>
@@ -201,7 +211,7 @@ const OppdaterKjellerantallModal = ({
               </Text>
             </Pressable>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </Modal>
   );

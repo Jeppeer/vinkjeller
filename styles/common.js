@@ -36,11 +36,9 @@ export const spinner = {
 export const modal = {
   modal: {
     maxHeight: "80%",
-    alignItems: "center",
     margin: 60,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
