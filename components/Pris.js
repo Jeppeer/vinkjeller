@@ -1,16 +1,9 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
 const Pris = ({ pris, style }) => {
   return (
-    <Text
-      style={[
-        style,
-        {
-          paddingBottom: 10
-        }
-      ]}
-    >
+    <Text style={[style]}>
       Kr{" "}
       {pris
         ? Number.parseFloat(pris)

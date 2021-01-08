@@ -52,7 +52,12 @@ const Soekeresultat = ({ produkt, navigation }) => {
             </Text>
           )}
           <Text style={styles.produktId}>{produkt.basic.productId}</Text>
-          <Pris pris={produkt.prices[0].salesPrice} />
+          <Pris
+            pris={produkt.prices[0].salesPrice}
+            style={{
+              paddingBottom: 10
+            }}
+          />
         </View>
       </View>
     </Pressable>

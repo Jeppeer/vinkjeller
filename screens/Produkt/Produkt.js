@@ -194,7 +194,12 @@ const Produkt = ({ route, navigation }) => {
                 `, ${produkt.current.region.subRegion}`}
             </Text>
           )}
-          <Pris pris={produkt.current.pris} />
+          <Pris
+            pris={produkt.current.pris}
+            style={{
+              paddingBottom: 10
+            }}
+          />
           <View style={styles.personligInfoContainer}>
             <View style={styles.infoBoks}>
               <Text style={{ fontWeight: "bold" }}>Antall i kjeller</Text>

@@ -23,26 +23,43 @@ const Kjellerelement = ({ element, produktRef, navigation }) => {
           />
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.produktType}>{element.produktType}</Text>
           <Text style={styles.produktNavn}>
             {element.navn} {element.aargang !== 0 && element.aargang}
           </Text>
-          <Pris pris={element.pris} />
-          <Text style={{ paddingBottom: 2 }}>
-            Antall i kjeller: {element.antallIKjeller}
-          </Text>
-          <Text style={{ paddingBottom: 2 }}>
-            Drikkevindu:{" "}
-            {element.drikkevindu
-              ? `${element.drikkevindu.fra} - ${element.drikkevindu.til}`
-              : "Ikke angitt"}
-          </Text>
-          <Text style={{ paddingBottom: 10 }}>
-            Notat:{" "}
-            {element.notat !== "" && element.notat
-              ? element.notat
-              : "Ingen notater"}
-          </Text>
+          <View>
+            <Pris
+              style={{
+                paddingBottom: 5
+              }}
+              pris={element.pris}
+            />
+          </View>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            <View style={styles.infoBoks}>
+              <Text style={{ fontWeight: "bold" }}>Antall i kjeller</Text>
+              <Text>{element.antallIKjeller}</Text>
+            </View>
+            <View style={styles.infoBoks}>
+              <Text style={{ fontWeight: "bold" }}>År kjøpt</Text>
+              <Text>{element.aarKjopt ? element.aarKjopt : "Ikke angitt"}</Text>
+            </View>
+            <View style={styles.infoBoks}>
+              <Text style={{ fontWeight: "bold" }}>Drikkevindu</Text>
+              <Text>
+                {element.drikkevindu
+                  ? `${element.drikkevindu.fra} - ${element.drikkevindu.til}`
+                  : "Ikke angitt"}
+              </Text>
+            </View>
+            <View style={styles.infoBoks}>
+              <Text style={{ fontWeight: "bold" }}>Notat</Text>
+              <Text>
+                {element.notat !== "" && element.notat
+                  ? element.notat
+                  : "Ingen notater"}
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
     </Pressable>
@@ -53,15 +70,15 @@ const styles = StyleSheet.create({
   produktContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: 15,
-    paddingTop: 0,
+    paddingTop: 15,
+    paddingBottom: 15,
     borderBottomWidth: 1,
     borderColor: colors.borderColor,
-    height: 220
+    height: 180,
+    alignItems: "center"
   },
   bildeContainer: {
-    width: "20%",
-    marginRight: 15
+    width: "20%"
   },
   bilde: {
     height: "100%",
@@ -72,8 +89,9 @@ const styles = StyleSheet.create({
     width: "80%"
   },
   produktNavn: {
-    fontSize: 18,
-    paddingBottom: 10
+    fontWeight: "bold",
+    paddingBottom: 5,
+    paddingRight: 20
   },
   produktId: {
     fontSize: 15,
@@ -92,6 +110,14 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16
+  },
+  infoBoks: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    minWidth: "45%",
+    maxWidth: "45%",
+    paddingBottom: 5
   }
 });
 
