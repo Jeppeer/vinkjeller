@@ -3,6 +3,12 @@
 React Native-app for lagring av vinkjeller.
 
 ## Bygge ny versjon
+I de fleste tilfeller skal det holde å oppdatere javascripten, og det er derfor ikke behov for å bygge ny versjon. Dette gjøres ved å kjøre
+
+`expo publish`
+
+Det tar da et par minutter, så skal appen oppdatere seg selv ved neste oppstart.
+
 Bygging av ny versjon er godt beskrevet [her](https://docs.expo.io/distribution/building-standalone-apps/).
 
 ### Android
