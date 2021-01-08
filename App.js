@@ -167,6 +167,7 @@ function SoekScreen() {
         options={({ route }) => ({ title: route.params.name })}
       />
       <StackNavigator.Screen name="Produkt" component={Produkt} />
+      <StackNavigator.Screen name="EksternVin" component={EksternVin} />
     </StackNavigator.Navigator>
   );
 }

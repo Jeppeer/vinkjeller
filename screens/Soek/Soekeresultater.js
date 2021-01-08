@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import Soekeresultat from "./Soekeresultat";
 import * as firebase from "firebase";
+import Knapp from "../../components/knapp/Knapp";
 
 const Soekeresultater = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,6 +31,8 @@ const Soekeresultater = ({ route, navigation }) => {
       .flat();
   };
 
+  const leggTilVin = () => navigation.navigate("EksternVin");
+
   return (
     <View style={{ backgroundColor: "white", height: "100%" }}>
       {!isLoading && (
@@ -54,9 +57,23 @@ const Soekeresultater = ({ route, navigation }) => {
           }}
           keyExtractor={item => item.basic.productId}
           ListEmptyComponent={
-            <Text style={{ textAlign: "center", marginTop: 20 }}>
-              Ingen treff.
-            </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "center"
+              }}
+            >
+              <Text style={{ marginTop: 100 }}>
+                Ingen treff i Vinmonopolets sortiment.
+              </Text>
+              <Knapp
+                onPress={leggTilVin}
+                knappetekst="Legg til vin manuelt"
+                styles={{ marginTop: 20 }}
+              />
+            </View>
           }
         />
       )}

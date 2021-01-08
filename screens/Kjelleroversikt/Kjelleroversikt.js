@@ -18,7 +18,6 @@ const Kjelleroversikt = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [kjellerinnhold, setKjellerinnhold] = useState([]);
   const [filtrertKjellerinnhold, setFiltrertKjellerinnhold] = useState([]);
-  // const [produktFilter, setProduktFilter] = useState(null);
   const [visFiltrerModal, setVisFiltrerModal] = useState(false);
   const [antallAktiveFilter, setAntallAktiveFilter] = useState(0);
   const firebaseRef = firebase.database().ref("kjeller");
