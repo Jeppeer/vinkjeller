@@ -43,8 +43,9 @@ const StrekkodeScanner = ({ navigation }) => {
   );
 
   const handleBarCodeScanned = ({ data }) => {
+    const ref = cameraRef;
     Vibration.vibrate(30);
-    cameraRef.pausePreview();
+    ref.pausePreview();
     setShowSpinner(true);
     setScanned(true);
     firebaseRef
@@ -89,6 +90,7 @@ const StrekkodeScanner = ({ navigation }) => {
             );
         } else {
           ToastAndroid.show("Ingen treff.", ToastAndroid.SHORT);
+          ref.resumePreview();
           setShowSpinner(false);
           setTimeout(() => setScanned(false), 3000);
         }
