@@ -50,7 +50,7 @@ const Produkt = ({ route, navigation }) => {
     drikkevindu: produkt.current.drikkevindu,
     notat: produkt.current.notat ? produkt.current.notat : "",
     produktRef: produktRef,
-    aarKjopt: produkt.current.aarKjopt
+    aarKjopt: produkt.current.aarKjopt.toString()
   });
 
   useEffect(() => {
@@ -287,7 +287,7 @@ const Produkt = ({ route, navigation }) => {
             data={
               produkt.current.region &&
               `${produkt.current.region.land}${produkt.current.region.region &&
-                `, ${produkt.current.region.region.region}`}${produkt.current
+                `, ${produkt.current.region.region}`}${produkt.current
                 .region.subRegion && `, ${produkt.current.region.subRegion}`}`
             }
           />
