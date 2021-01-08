@@ -33,7 +33,7 @@ const Soekeresultat = ({ produkt, navigation }) => {
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.produktType}>
-            {produkt.classification.productTypeName.toUpperCase()}
+            {produkt.basic.productId} - {produkt.classification.productTypeName}
           </Text>
           <Text style={styles.produktNavn}>
             {produkt.basic.productShortName}{" "}
@@ -46,18 +46,17 @@ const Soekeresultat = ({ produkt, navigation }) => {
             {produkt.origins.origin.subRegion &&
               `, ${produkt.origins.origin.subRegion}`}
           </Text>
-          {produkt.antallIKjeller && (
-            <Text style={{ paddingBottom: 2 }}>
-              Antall i kjeller: {produkt.antallIKjeller}
-            </Text>
-          )}
-          <Text style={styles.produktId}>{produkt.basic.productId}</Text>
           <Pris
             pris={produkt.prices[0].salesPrice}
             style={{
               paddingBottom: 10
             }}
           />
+          {produkt.antallIKjeller && (
+            <Text style={{ fontWeight: "bold" }}>
+              Antall i kjeller: {produkt.antallIKjeller}
+            </Text>
+          )}
         </View>
       </View>
     </Pressable>
@@ -68,20 +67,23 @@ const styles = StyleSheet.create({
   produktContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
     borderBottomWidth: 1,
-    borderColor: colors.borderColor
+    borderColor: colors.borderColor,
+    height: 180,
+    alignItems: "center"
   },
   bildeContainer: {
-    width: "20%",
-    marginRight: 15
+    width: "20%"
   },
   infoContainer: {
     width: "80%"
   },
   produktNavn: {
-    fontSize: 18,
-    paddingBottom: 10
+    fontWeight: "bold",
+    paddingBottom: 5,
+    paddingRight: 20
   },
   produktId: {
     color: "gray",

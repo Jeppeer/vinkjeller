@@ -93,11 +93,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingRight: 20
   },
-  produktId: {
-    fontSize: 15,
-    color: "gray",
-    paddingBottom: 10
-  },
   produktPris: {
     paddingBottom: 10
   },
