@@ -2,11 +2,12 @@ import React from "react";
 import { Input } from "react-native-elements";
 import { Text, View } from "react-native";
 import { eksternVinStyles } from "./styles";
+import {inputStyles} from "../../styles/common";
 
 const Drikkevindu = ({ handleChange, values }) => {
   return (
     <View>
-      <Text style={[eksternVinStyles.labelStyle, eksternVinStyles.separateLabel]}>
+      <Text style={[inputStyles.labelStyle, inputStyles.separateLabel]}>
         Drikkevindu
       </Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -18,10 +19,10 @@ const Drikkevindu = ({ handleChange, values }) => {
           returnKeyType="next"
           containerStyle={{ width: "auto" }}
           inputContainerStyle={[
-            eksternVinStyles.inputContainerStyle,
+            inputStyles.inputContainerStyle,
             eksternVinStyles.tallInput
           ]}
-          labelStyle={eksternVinStyles.labelStyle}
+          labelStyle={inputStyles.labelStyle}
         />
         <Text>-</Text>
         <Input
@@ -32,10 +33,10 @@ const Drikkevindu = ({ handleChange, values }) => {
           returnKeyType="next"
           containerStyle={{ width: "auto" }}
           inputContainerStyle={[
-            eksternVinStyles.inputContainerStyle,
+            inputStyles.inputContainerStyle,
             eksternVinStyles.tallInput
           ]}
-          labelStyle={eksternVinStyles.labelStyle}
+          labelStyle={inputStyles.labelStyle}
         />
       </View>
     </View>

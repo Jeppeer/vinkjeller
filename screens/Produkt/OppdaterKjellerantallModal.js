@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CheckBox,
   Modal,
@@ -8,8 +8,9 @@ import {
   TextInput,
   View
 } from "react-native";
-import { colors, modal } from "../../styles/common";
+import { colors, inputStyles, modal } from "../../styles/common";
 import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
+import { Input } from "react-native-elements";
 // import CheckBox from "@react-native-community/checkbox";
 
 const OppdaterKjellerantallModal = ({
@@ -31,6 +32,7 @@ const OppdaterKjellerantallModal = ({
   const [drikkevinduTil, setDrikkevinduTil] = useState(
     produktState.drikkevindu !== undefined ? produktState.drikkevindu.til : null
   );
+  const [aarKjopt, setAarKjopt] = useState(produktState.aarKjopt);
 
   useEffect(() => {
     setOppdatertAntall(produktState.antallIKjeller.toString());
@@ -52,24 +54,41 @@ const OppdaterKjellerantallModal = ({
     <Modal animationType="slide" transparent={true} visible={visModal}>
       <View style={{ flex: 1, justifyContent: "center" }}>
         <View style={modal.modal}>
-          <Text style={modal.modalHeader}>
-            {produktState.antallIKjeller === 0
-              ? "Velg antall du vil legge i kjeller"
-              : "Oppdater antall i kjeller"}
-          </Text>
+          <Text style={modal.modalHeader}>Lagre vin</Text>
 
-          <PlussMinusTeller
-            onPressMinus={() => {
-              if (oppdatertAntall > 0) {
-                setOppdatertAntall((parseInt(oppdatertAntall) - 1).toString());
+          <View style={{ marginBottom: 10 }}>
+            <Text style={inputStyles.labelStyle}>
+              Velg antall du vil legge i kjeller
+            </Text>
+            <PlussMinusTeller
+              alignCenter
+              onPressMinus={() => {
+                if (oppdatertAntall > 0) {
+                  setOppdatertAntall(
+                    (parseInt(oppdatertAntall) - 1).toString()
+                  );
+                }
+              }}
+              onPressPluss={() =>
+                setOppdatertAntall((parseInt(oppdatertAntall) + 1).toString())
               }
-            }}
-            onPressPluss={() =>
-              setOppdatertAntall((parseInt(oppdatertAntall) + 1).toString())
-            }
-            inputVerdi={oppdatertAntall}
-            onChangeText={tekst => setOppdatertAntall(tekst)}
-          />
+              inputVerdi={oppdatertAntall}
+              onChangeText={tekst => setOppdatertAntall(tekst)}
+            />
+          </View>
+
+          <View>
+            <Input
+              label="År kjøpt"
+              keyboardType="numeric"
+              onChangeText={aar => setAarKjopt(aar.toString())}
+              value={aarKjopt}
+              returnKeyType="next"
+              inputContainerStyle={inputStyles.inputContainerStyle}
+              inputStyle={{ textAlign: "center" }}
+              labelStyle={inputStyles.labelStyle}
+            />
+          </View>
 
           <View>
             <View style={styles.checkboxContainer}>
@@ -169,7 +188,8 @@ const OppdaterKjellerantallModal = ({
                         til: drikkevinduTil
                       }
                     : undefined,
-                  notat: notat
+                  notat: notat,
+                  aarKjopt: aarKjopt
                 });
                 setVisModal(false);
               }}
@@ -234,7 +254,7 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   label: {
-    margin: 8
+    padding: 6
   }
 });
 

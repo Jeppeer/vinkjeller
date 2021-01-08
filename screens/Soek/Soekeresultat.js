@@ -11,7 +11,10 @@ const Soekeresultat = ({ produkt, navigation }) => {
         ...opprettProduktBasertPaa(produkt),
         antallIKjeller: produkt.antallIKjeller ? produkt.antallIKjeller : 0,
         drikkevindu: produkt.drikkevindu,
-        notat: produkt.notat ? produkt.notat : ""
+        notat: produkt.notat ? produkt.notat : "",
+        aarKjopt: produkt.aarKjopt
+          ? produkt.aarKjopt
+          : new Date().getFullYear().toString()
       },
       produktRef: produkt.produktRef
     });

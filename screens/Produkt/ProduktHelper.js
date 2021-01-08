@@ -17,7 +17,6 @@ export const opprettProduktBasertPaa = produkt => ({
   },
   pris: Number.parseFloat(produkt.prices[0].salesPrice).toFixed(2),
   produktType: produkt.classification.subProductTypeName,
-  aarKjopt: new Date().getFullYear(),
   smak: produkt.description.characteristics.taste,
   farge: produkt.description.characteristics.colour,
   lukt: produkt.description.characteristics.odour,

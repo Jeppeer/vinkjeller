@@ -3,10 +3,9 @@ import { Text, View } from "react-native";
 import Knapp from "../../components/knapp/Knapp";
 import { Input } from "react-native-elements";
 import { FieldArray } from "formik";
-import { eksternVinStyles } from "./styles";
 import IkonKnapp from "../../components/knapp/IkonKnapp";
 import { AntDesign } from "@expo/vector-icons";
-import { colors } from "../../styles/common";
+import { colors, inputStyles } from "../../styles/common";
 
 const Raastoff = ({ handleChange, values }) => (
   <View style={{ marginBottom: 20 }}>
@@ -14,7 +13,7 @@ const Raastoff = ({ handleChange, values }) => (
       name="raastoff"
       render={arrayHelpers => (
         <View style={{ alignItems: "flex-start" }}>
-          <Text style={[eksternVinStyles.labelStyle, eksternVinStyles.separateLabel]}>
+          <Text style={[inputStyles.labelStyle, inputStyles.separateLabel]}>
             Råstoff
           </Text>
           {values.raastoff &&
@@ -34,13 +33,13 @@ const Raastoff = ({ handleChange, values }) => (
                     value={drue.grapeDesc}
                     returnKeyType="next"
                     inputContainerStyle={[
-                      eksternVinStyles.inputContainerStyle,
+                      inputStyles.inputContainerStyle,
                       { marginBottom: 0 }
                     ]}
-                    labelStyle={eksternVinStyles.labelStyle}
+                    labelStyle={inputStyles.labelStyle}
                   />
                 </View>
-                <View style={[eksternVinStyles.inputMedBenevning]}>
+                <View style={[inputStyles.inputMedBenevning]}>
                   <Input
                     label="Prosent"
                     keyboardType="numeric"
@@ -49,10 +48,10 @@ const Raastoff = ({ handleChange, values }) => (
                     returnKeyType="next"
                     containerStyle={{ width: "auto" }}
                     inputContainerStyle={[
-                      eksternVinStyles.inputContainerStyle,
+                      inputStyles.inputContainerStyle,
                       { marginBottom: 0 }
                     ]}
-                    labelStyle={eksternVinStyles.labelStyle}
+                    labelStyle={inputStyles.labelStyle}
                   />
                   <Text>%</Text>
                   <IkonKnapp

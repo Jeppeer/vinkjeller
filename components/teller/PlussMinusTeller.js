@@ -9,10 +9,16 @@ const PlussMinusTeller = ({
   onPressPluss,
   inputVerdi,
   onChangeText,
-  style
+  style,
+  alignCenter
 }) => {
   return (
-    <View style={{ flexDirection: "row" }}>
+    <View
+      style={{
+        flexDirection: "row",
+        alignSelf: alignCenter ? "center" : "flex-start"
+      }}
+    >
       <IkonKnapp onPress={onPressMinus}>
         <AntDesign name="minuscircle" size={30} color={colors.primaryButton} />
       </IkonKnapp>

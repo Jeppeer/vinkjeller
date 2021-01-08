@@ -1,5 +1,5 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
-import { Button, ScrollView, Text, View } from "react-native";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { Formik } from "formik";
 import { Input } from "react-native-elements";
 import Drikkevindu from "./Drikkevindu";
@@ -9,6 +9,7 @@ import Region from "./Region";
 import Knapp from "../../components/knapp/Knapp";
 import * as firebase from "firebase";
 import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
+import { inputStyles } from "../../styles/common";
 
 const EksternVin = ({ route, navigation }) => {
   const endretProdukt = route.params ? route.params.produkt : null;
@@ -19,7 +20,7 @@ const EksternVin = ({ route, navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: endretProdukt ? 'Endre vin' : 'Legg til ny vin',
+      title: endretProdukt ? "Endre vin" : "Legg til ny vin",
       headerRight: () => {
         if (formRef.current) {
           return (
@@ -97,8 +98,8 @@ const EksternVin = ({ route, navigation }) => {
                 onChangeText={handleChange("navn")}
                 value={values.navn}
                 returnKeyType="next"
-                inputContainerStyle={eksternVinStyles.inputContainerStyle}
-                labelStyle={eksternVinStyles.labelStyle}
+                inputContainerStyle={inputStyles.inputContainerStyle}
+                labelStyle={inputStyles.labelStyle}
                 errorMessage={errors["navn"]}
               />
               <Input
@@ -106,8 +107,8 @@ const EksternVin = ({ route, navigation }) => {
                 onChangeText={handleChange("produsent")}
                 value={values.produsent}
                 returnKeyType="next"
-                inputContainerStyle={eksternVinStyles.inputContainerStyle}
-                labelStyle={eksternVinStyles.labelStyle}
+                inputContainerStyle={inputStyles.inputContainerStyle}
+                labelStyle={inputStyles.labelStyle}
               />
               <Input
                 label="Årgang"
@@ -116,10 +117,10 @@ const EksternVin = ({ route, navigation }) => {
                 value={values.aargang}
                 returnKeyType="next"
                 inputContainerStyle={[
-                  eksternVinStyles.inputContainerStyle,
+                  inputStyles.inputContainerStyle,
                   eksternVinStyles.tallInput
                 ]}
-                labelStyle={eksternVinStyles.labelStyle}
+                labelStyle={inputStyles.labelStyle}
               />
               <Input
                 label="År kjøpt"
@@ -128,12 +129,12 @@ const EksternVin = ({ route, navigation }) => {
                 value={values.aarKjopt}
                 returnKeyType="next"
                 inputContainerStyle={[
-                  eksternVinStyles.inputContainerStyle,
+                  inputStyles.inputContainerStyle,
                   eksternVinStyles.tallInput
                 ]}
-                labelStyle={eksternVinStyles.labelStyle}
+                labelStyle={inputStyles.labelStyle}
               />
-              <View style={eksternVinStyles.inputMedBenevning}>
+              <View style={inputStyles.inputMedBenevning}>
                 <Input
                   label="Pris"
                   keyboardType="numeric"
@@ -142,10 +143,10 @@ const EksternVin = ({ route, navigation }) => {
                   returnKeyType="next"
                   containerStyle={{ width: "auto" }}
                   inputContainerStyle={[
-                    eksternVinStyles.inputContainerStyle,
+                    inputStyles.inputContainerStyle,
                     eksternVinStyles.tallInput
                   ]}
-                  labelStyle={eksternVinStyles.labelStyle}
+                  labelStyle={inputStyles.labelStyle}
                 />
                 <Text>kr</Text>
               </View>
@@ -154,13 +155,13 @@ const EksternVin = ({ route, navigation }) => {
                 onChangeText={handleChange("notat")}
                 value={values.notat}
                 returnKeyType="next"
-                inputContainerStyle={eksternVinStyles.inputContainerStyle}
-                labelStyle={eksternVinStyles.labelStyle}
+                inputContainerStyle={inputStyles.inputContainerStyle}
+                labelStyle={inputStyles.labelStyle}
               />
               <Region handleChange={handleChange} values={values} />
 
               <View style={{ margin: 10 }}>
-                <Text style={[eksternVinStyles.labelStyle, { fontWeight: "bold" }]}>
+                <Text style={[inputStyles.labelStyle, { fontWeight: "bold" }]}>
                   Velg antall
                 </Text>
                 <PlussMinusTeller
@@ -202,7 +203,7 @@ const EksternVin = ({ route, navigation }) => {
                   <Drikkevindu handleChange={handleChange} values={values} />
                   <Raastoff values={values} handleChange={handleChange} />
 
-                  <View style={eksternVinStyles.inputMedBenevning}>
+                  <View style={inputStyles.inputMedBenevning}>
                     <Input
                       label="Volum"
                       keyboardType="numeric"
@@ -211,14 +212,14 @@ const EksternVin = ({ route, navigation }) => {
                       returnKeyType="next"
                       containerStyle={{ width: "auto" }}
                       inputContainerStyle={[
-                        eksternVinStyles.inputContainerStyle,
+                        inputStyles.inputContainerStyle,
                         eksternVinStyles.tallInput
                       ]}
-                      labelStyle={eksternVinStyles.labelStyle}
+                      labelStyle={inputStyles.labelStyle}
                     />
                     <Text>cl</Text>
                   </View>
-                  <View style={eksternVinStyles.inputMedBenevning}>
+                  <View style={inputStyles.inputMedBenevning}>
                     <Input
                       label="Alkohol"
                       keyboardType="numeric"
@@ -227,10 +228,10 @@ const EksternVin = ({ route, navigation }) => {
                       returnKeyType="next"
                       containerStyle={{ width: "auto" }}
                       inputContainerStyle={[
-                        eksternVinStyles.inputContainerStyle,
+                        inputStyles.inputContainerStyle,
                         eksternVinStyles.tallInput
                       ]}
-                      labelStyle={eksternVinStyles.labelStyle}
+                      labelStyle={inputStyles.labelStyle}
                     />
                     <Text>%</Text>
                   </View>
@@ -239,24 +240,24 @@ const EksternVin = ({ route, navigation }) => {
                     onChangeText={handleChange("smak")}
                     value={values.smak}
                     returnKeyType="next"
-                    inputContainerStyle={eksternVinStyles.inputContainerStyle}
-                    labelStyle={eksternVinStyles.labelStyle}
+                    inputContainerStyle={inputStyles.inputContainerStyle}
+                    labelStyle={inputStyles.labelStyle}
                   />
                   <Input
                     label="Lukt"
                     onChangeText={handleChange("lukt")}
                     value={values.lukt}
                     returnKeyType="next"
-                    inputContainerStyle={eksternVinStyles.inputContainerStyle}
-                    labelStyle={eksternVinStyles.labelStyle}
+                    inputContainerStyle={inputStyles.inputContainerStyle}
+                    labelStyle={inputStyles.labelStyle}
                   />
                   <Input
                     label="Farge"
                     onChangeText={handleChange("farge")}
                     value={values.farge}
                     returnKeyType="next"
-                    inputContainerStyle={eksternVinStyles.inputContainerStyle}
-                    labelStyle={eksternVinStyles.labelStyle}
+                    inputContainerStyle={inputStyles.inputContainerStyle}
+                    labelStyle={inputStyles.labelStyle}
                   />
                 </View>
               )}

@@ -35,7 +35,7 @@ export const spinner = {
 
 export const modal = {
   modal: {
-    maxHeight: '80%',
+    maxHeight: "80%",
     alignItems: "center",
     margin: 60,
     backgroundColor: "white",
@@ -54,5 +54,29 @@ export const modal = {
     marginBottom: 10,
     fontWeight: "bold",
     fontSize: 18
+  }
+};
+
+export const inputStyles = {
+  labelStyle: {
+    color: input.primaryColor,
+    fontSize: 14,
+    fontWeight: "bold"
+  },
+  inputContainerStyle: {
+    borderBottomColor: input.primaryColor,
+    borderBottomWidth: 0.5,
+    width: "auto"
+  },
+  separateLabel: {
+    paddingLeft: 10,
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  inputMedBenevning: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center"
   }
 };

@@ -78,7 +78,10 @@ const StrekkodeScanner = ({ navigation }) => {
                     ...opprettProduktBasertPaa(produkt.data[0]),
                     antallIKjeller: element ? element[1].antallIKjeller : 0,
                     drikkevindu: element ? element[1].drikkevindu : undefined,
-                    notat: element ? element[1].notat : ""
+                    notat: element ? element[1].notat : "",
+                    aarKjopt: element
+                      ? element[1].aarKjopt
+                      : new Date().getFullYear().toString()
                   },
                   produktRef: element && element[0]
                 });

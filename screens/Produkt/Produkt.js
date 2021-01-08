@@ -31,7 +31,8 @@ const databaseProduktReducer = (state, action) => {
         antallIKjeller: action.payload.antallIKjeller,
         drikkevindu: action.payload.drikkevindu,
         notat: action.payload.notat,
-        produktRef: action.payload.produktRef
+        produktRef: action.payload.produktRef,
+        aarKjopt: action.payload.aarKjopt
       };
   }
 };
@@ -48,7 +49,8 @@ const Produkt = ({ route, navigation }) => {
       : "0",
     drikkevindu: produkt.current.drikkevindu,
     notat: produkt.current.notat ? produkt.current.notat : "",
-    produktRef: produktRef
+    produktRef: produktRef,
+    aarKjopt: produkt.current.aarKjopt
   });
 
   useEffect(() => {
@@ -87,7 +89,8 @@ const Produkt = ({ route, navigation }) => {
         antallIKjeller: produkt.current.antallIKjeller,
         drikkevindu: produkt.current.drikkevindu,
         produktRef: oppdatertProdukt.key,
-        notat: produkt.current.notat
+        notat: produkt.current.notat,
+        aarKjopt: produkt.current.aarKjopt
       }
     });
   };
@@ -105,7 +108,8 @@ const Produkt = ({ route, navigation }) => {
             antallIKjeller: "0",
             drikkevindu: undefined,
             produktRef: null,
-            notat: ""
+            notat: "",
+            aarKjopt: null
           }
         });
       } else {
@@ -121,7 +125,8 @@ const Produkt = ({ route, navigation }) => {
                     til: data.drikkevindu.til
                   }
                 : null,
-            notat: data.notat
+            notat: data.notat,
+            aarKjopt: data.aarKjopt
           });
       }
     } else if (data.antallIKjeller !== "0") {
@@ -135,7 +140,8 @@ const Produkt = ({ route, navigation }) => {
                 til: data.drikkevindu.til
               }
             : null,
-        notat: data.notat || ""
+        notat: data.notat || "",
+        aarKjopt: data.aarKjopt
       };
       nyttProdukt
         .set({
@@ -155,7 +161,8 @@ const Produkt = ({ route, navigation }) => {
                     }
                   : undefined,
               notat: data.notat || "",
-              produktRef: nyttProdukt.key
+              produktRef: nyttProdukt.key,
+              aarKjopt: data.aarKjopt
             }
           });
         });
@@ -191,12 +198,22 @@ const Produkt = ({ route, navigation }) => {
           <View style={styles.personligInfoContainer}>
             <View style={styles.infoBoks}>
               <Text style={{ fontWeight: "bold" }}>Antall i kjeller</Text>
-              <Text>{produktState.antallIKjeller}</Text>
+              <Text style={{ textAlign: "center" }}>
+                {produktState.antallIKjeller}
+              </Text>
             </View>
             {produktState.antallIKjeller > 0 && (
               <View style={styles.infoBoks}>
+                <Text style={{ fontWeight: "bold" }}>År kjøpt</Text>
+                <Text style={{ textAlign: "center" }}>
+                  {produktState.aarKjopt}
+                </Text>
+              </View>
+            )}
+            {produktState.antallIKjeller > 0 && (
+              <View style={styles.infoBoks}>
                 <Text style={{ fontWeight: "bold" }}>Drikkevindu</Text>
-                <Text>
+                <Text style={{ textAlign: "center" }}>
                   {produktState.drikkevindu !== undefined
                     ? `${produktState.drikkevindu.fra} - ${produktState.drikkevindu.til}`
                     : "Ikke angitt"}
@@ -206,7 +223,7 @@ const Produkt = ({ route, navigation }) => {
             {produktState.antallIKjeller > 0 && (
               <View style={styles.infoBoks}>
                 <Text style={{ fontWeight: "bold" }}>Notat</Text>
-                <Text>
+                <Text style={{ textAlign: "center" }}>
                   {produktState.notat ? produktState.notat : "Ingen notater"}
                 </Text>
               </View>
@@ -373,13 +390,15 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 20,
     borderTopWidth: 0.5,
-    borderBottomWidth: 0.5
+    borderBottomWidth: 0.5,
+    flexWrap: "wrap"
   },
   infoBoks: {
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    padding: 5
+    padding: 5,
+    minWidth: "40%"
   }
 });
 
