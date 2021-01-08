@@ -45,7 +45,7 @@ const drikkevinduFilter = (element, drikkevinduFilter) => {
   if (!element.drikkevindu || !element.drikkevindu.fra) {
     return false;
   }
-  return element.drikkevindu.fra < new Date().getFullYear();
+  return element.drikkevindu.fra <= new Date().getFullYear();
 };
 
 export const filterModalStyles = StyleSheet.create({
