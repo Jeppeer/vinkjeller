@@ -97,12 +97,16 @@ export default function App() {
         barStyle={{ backgroundColor: colors.primaryBg }}
       >
         <Tab.Screen
-          name="SoekScreen"
-          component={SoekScreen}
+          name="VinOversiktScreen"
+          component={VinOversiktScreen}
           options={{
-            tabBarLabel: "Søk",
+            tabBarLabel: "Kjeller",
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="magnify" color={color} size={20} />
+              <MaterialCommunityIcons
+                name="bottle-wine"
+                color={color}
+                size={20}
+              />
             )
           }}
         />
@@ -121,16 +125,12 @@ export default function App() {
           }}
         />
         <Tab.Screen
-          name="VinOversiktScreen"
-          component={VinOversiktScreen}
+          name="SoekScreen"
+          component={SoekScreen}
           options={{
-            tabBarLabel: "Kjeller",
+            tabBarLabel: "Søk",
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                name="bottle-wine"
-                color={color}
-                size={20}
-              />
+              <MaterialCommunityIcons name="magnify" color={color} size={20} />
             )
           }}
         />
