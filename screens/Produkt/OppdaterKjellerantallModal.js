@@ -52,7 +52,12 @@ const OppdaterKjellerantallModal = ({
   }, [produktState]);
 
   return (
-    <Modal animationType="slide" transparent={true} visible={visModal}>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visModal}
+      onRequestClose={() => setVisModal(false)}
+    >
       <View
         style={{
           flex: 1,
@@ -61,7 +66,11 @@ const OppdaterKjellerantallModal = ({
         }}
       >
         <ScrollView
-          style={[modal.modal, { maxHeight: "55%", width: "70%" }]}
+          style={[
+            modal.modal,
+            { width: "70%" },
+            visDrikkevindu ? { maxHeight: "70%" } : { maxHeight: "55%" }
+          ]}
           contentContainerStyle={{ alignItems: "center", padding: 20 }}
         >
           <Text style={modal.modalHeader}>Lagre vin</Text>
