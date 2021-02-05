@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import Knapp, { knappStyles } from "../../components/knapp/Knapp";
-import { filterModalStyles } from "./filterUtil";
+import { filterModalStyles } from "./kjellerUtil";
 
 const ProduktTypeFilter = ({ produktFilter, oppdaterProduktFilter }) => {
   return (

@@ -12,7 +12,8 @@ import { colors, spinner } from "../../styles/common";
 import LeggTilKnapp from "../../components/knapp/LeggTilKnapp";
 import Knapp from "../../components/knapp/Knapp";
 import FilterModal from "./FilterModal";
-import { filtrer } from "./filterUtil";
+import SorterModal, { sortering } from "./SorterModal";
+import { filtrer, sorter } from "./kjellerUtil";
 
 const Kjelleroversikt = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,10 @@ const Kjelleroversikt = ({ navigation }) => {
   const [visFiltrerModal, setVisFiltrerModal] = useState(false);
   const [antallAktiveFilter, setAntallAktiveFilter] = useState(0);
   const firebaseRef = firebase.database().ref("kjeller");
+  const [valgtSortering, setValgtSortering] = useState(
+    sortering.lagtTilStigende.verdi
+  );
+  const [visSorterModal, setVisSorterModal] = useState(false);
 
   const valgteFilter = useRef([]);
 
@@ -33,19 +38,16 @@ const Kjelleroversikt = ({ navigation }) => {
   }, []);
 
   const kjellerinnholdEndret = oppdatertKjellerinnhold => {
-    setKjellerinnhold(
-      oppdatertKjellerinnhold.val()
-        ? Object.entries(oppdatertKjellerinnhold.val())
-        : []
-    );
-    setFiltrertKjellerinnhold(
-      oppdatertKjellerinnhold.val()
-        ? filtrer(
-            valgteFilter.current,
-            Object.entries(oppdatertKjellerinnhold.val())
-          )
-        : []
-    );
+    if (oppdatertKjellerinnhold.val()) {
+      const elementer = Object.entries(oppdatertKjellerinnhold.val());
+      setKjellerinnhold(elementer);
+      setFiltrertKjellerinnhold(
+        sorter(valgtSortering, filtrer(valgteFilter.current, elementer))
+      );
+    } else {
+      setKjellerinnhold([]);
+      setFiltrertKjellerinnhold([]);
+    }
     setIsLoading(false);
   };
 
@@ -56,7 +58,15 @@ const Kjelleroversikt = ({ navigation }) => {
       filter => filter !== null && filter !== false && aktiveFilter++
     );
     setAntallAktiveFilter(aktiveFilter);
-    setFiltrertKjellerinnhold(filtrer(filterListe, kjellerinnhold));
+    setFiltrertKjellerinnhold(
+      sorter(valgtSortering, filtrer(filterListe, kjellerinnhold))
+    );
+  };
+
+  const sorterInnhold = valgtSortering => {
+    setValgtSortering(valgtSortering);
+    setFiltrertKjellerinnhold(sorter(valgtSortering, filtrertKjellerinnhold));
+    setVisSorterModal(false);
   };
 
   const leggTilVin = () => navigation.navigate("EksternVin");
@@ -80,18 +90,22 @@ const Kjelleroversikt = ({ navigation }) => {
             ListEmptyComponent={
               <View>
                 <View style={styles.filterBar}>
-                  <Text style={{ fontWeight: "bold" }}>
-                    Ingen treff med valgte filter
-                  </Text>
-                  <Knapp
-                    onPress={() => setVisFiltrerModal(!visFiltrerModal)}
-                    knappetekst={
-                      antallAktiveFilter > 0
-                        ? `Filtrér (${antallAktiveFilter})`
-                        : "Filtrér"
-                    }
-                    styles={{ paddingRight: 25, paddingLeft: 25 }}
-                  />
+                  <Text style={{ fontWeight: "bold" }}>Ingen treff.</Text>
+                  <View style={{ flexDirection: "row" }}>
+                    <Knapp
+                      onPress={() => setVisFiltrerModal(!visFiltrerModal)}
+                      knappetekst={
+                        antallAktiveFilter > 0
+                          ? `Filtrér (${antallAktiveFilter})`
+                          : "Filtrér"
+                      }
+                      styles={{ marginRight: 10 }}
+                    />
+                    <Knapp
+                      onPress={() => setVisSorterModal(!visSorterModal)}
+                      knappetekst="Sorter"
+                    />
+                  </View>
                 </View>
               </View>
             }
@@ -106,18 +120,21 @@ const Kjelleroversikt = ({ navigation }) => {
                         ? "produkter"
                         : "produkt"
                     }`}</Text>
-                    <Knapp
-                      onPress={() => setVisFiltrerModal(!visFiltrerModal)}
-                      knappetekst={
-                        antallAktiveFilter > 0
-                          ? `Filtrér (${antallAktiveFilter})`
-                          : "Filtrér"
-                      }
-                      styles={{
-                        paddingRight: 25,
-                        paddingLeft: 25
-                      }}
-                    />
+                    <View style={{ flexDirection: "row" }}>
+                      <Knapp
+                        onPress={() => setVisFiltrerModal(!visFiltrerModal)}
+                        knappetekst={
+                          antallAktiveFilter > 0
+                            ? `Filtrér (${antallAktiveFilter})`
+                            : "Filtrér"
+                        }
+                        styles={{ marginRight: 10 }}
+                      />
+                      <Knapp
+                        onPress={() => setVisSorterModal(!visSorterModal)}
+                        knappetekst="Sortér"
+                      />
+                    </View>
                   </View>
                   <Kjellerelement
                     element={item[1]}
@@ -142,6 +159,12 @@ const Kjelleroversikt = ({ navigation }) => {
         visModal={visFiltrerModal}
         setVisFiltrerModal={setVisFiltrerModal}
         filtrerInnhold={filtrerInnhold}
+      />
+      <SorterModal
+        visModal={visSorterModal}
+        sorterInnhold={sorterInnhold}
+        valgtSortering={valgtSortering}
+        setVisModal={setVisSorterModal}
       />
     </View>
   );

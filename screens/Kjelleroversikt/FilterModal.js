@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { CheckBox, Modal, Text, View } from "react-native";
+import {
+  CheckBox,
+  Modal,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from "react-native";
 import { modal } from "../../styles/common";
 import Knapp from "../../components/knapp/Knapp";
 import ProduktTypeFilter from "./ProduktTypeFilter";
 import LandFilter from "./LandFilter";
-import { filterModalStyles } from "./filterUtil";
+import { filterModalStyles } from "./kjellerUtil";
 
 const FilterModal = ({ visModal, setVisFiltrerModal, filtrerInnhold }) => {
   const [produktFilter, setProduktFilter] = useState(null);
@@ -26,70 +32,77 @@ const FilterModal = ({ visModal, setVisFiltrerModal, filtrerInnhold }) => {
       transparent={true}
       visible={visModal}
       propagateSwipe={true}
+      onRequestClose={() => setVisFiltrerModal(false)}
     >
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <View style={[modal.modal, { padding: 20 }]}>
-          <View style={{ width: "100%" }}>
-            <Text style={[modal.modalHeader, { alignSelf: "center" }]}>
-              Velg filter
-            </Text>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          setVisFiltrerModal(false);
+        }}
+      >
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <View style={[modal.modal, { padding: 20 }]}>
+            <View style={{ width: "100%" }}>
+              <Text style={[modal.modalHeader, { alignSelf: "center" }]}>
+                Velg filter
+              </Text>
 
-            <ProduktTypeFilter
-              produktFilter={produktFilter}
-              oppdaterProduktFilter={oppdaterProduktFilter}
-            />
+              <ProduktTypeFilter
+                produktFilter={produktFilter}
+                oppdaterProduktFilter={oppdaterProduktFilter}
+              />
 
-            <LandFilter
-              landFilter={landFilter}
-              oppdaterLandFilter={oppdaterLandFilter}
-            />
-            <View style={filterModalStyles.checkboxContainer}>
-              <CheckBox
-                value={innenforDrikkevindu}
-                onValueChange={() =>
-                  setInnenforDrikkevindu(!innenforDrikkevindu)
-                }
-                style={filterModalStyles.checkbox}
+              <LandFilter
+                landFilter={landFilter}
+                oppdaterLandFilter={oppdaterLandFilter}
               />
-              <Text style={filterModalStyles.label}>Kan drikkes nå</Text>
-            </View>
+              <View style={filterModalStyles.checkboxContainer}>
+                <CheckBox
+                  value={innenforDrikkevindu}
+                  onValueChange={() =>
+                    setInnenforDrikkevindu(!innenforDrikkevindu)
+                  }
+                  style={filterModalStyles.checkbox}
+                />
+                <Text style={filterModalStyles.label}>Kan drikkes nå</Text>
+              </View>
 
-            <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-              <Knapp
-                styles={{ marginRight: 10 }}
-                onPress={() => setVisFiltrerModal(!visModal)}
-                knappetekst="Avbryt"
-              />
-              <Knapp
-                styles={{ marginRight: 10 }}
-                onPress={() => {
-                  setProduktFilter(null);
-                  setLandFilter(null);
-                  setInnenforDrikkevindu(false);
-                  filtrerInnhold({
-                    PRODUKT_TYPE: null,
-                    LAND: null,
-                    INNENFOR_DRIKKEVINDU: false
-                  });
-                  setVisFiltrerModal(!visModal);
-                }}
-                knappetekst="Nullstill"
-              />
-              <Knapp
-                onPress={() => {
-                  filtrerInnhold({
-                    PRODUKT_TYPE: produktFilter,
-                    LAND: landFilter,
-                    INNENFOR_DRIKKEVINDU: innenforDrikkevindu
-                  });
-                  setVisFiltrerModal(!visModal);
-                }}
-                knappetekst="Filtrér"
-              />
+              <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
+                <Knapp
+                  styles={{ marginRight: 10 }}
+                  onPress={() => setVisFiltrerModal(!visModal)}
+                  knappetekst="Avbryt"
+                />
+                <Knapp
+                  styles={{ marginRight: 10 }}
+                  onPress={() => {
+                    setProduktFilter(null);
+                    setLandFilter(null);
+                    setInnenforDrikkevindu(false);
+                    filtrerInnhold({
+                      PRODUKT_TYPE: null,
+                      LAND: null,
+                      INNENFOR_DRIKKEVINDU: false
+                    });
+                    setVisFiltrerModal(!visModal);
+                  }}
+                  knappetekst="Nullstill"
+                />
+                <Knapp
+                  onPress={() => {
+                    filtrerInnhold({
+                      PRODUKT_TYPE: produktFilter,
+                      LAND: landFilter,
+                      INNENFOR_DRIKKEVINDU: innenforDrikkevindu
+                    });
+                    setVisFiltrerModal(!visModal);
+                  }}
+                  knappetekst="Filtrér"
+                />
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

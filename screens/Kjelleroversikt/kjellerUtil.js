@@ -1,8 +1,44 @@
 import { StyleSheet } from "react-native";
+import { sortering } from "./SorterModal";
 
 export const PRODUKT_TYPE = "PRODUKT_TYPE";
 export const LAND = "LAND";
 export const INNENFOR_DRIKKEVINDU = "INNENFOR_DRIKKEVINDU";
+
+export const sorter = (valgtSortering, elementer) => {
+  switch (valgtSortering) {
+    case sortering.lagtTilStigende.verdi:
+      return elementer.sort(
+        (a, b) => new Date(a[1].tidLagtTil) - new Date(b[1].tidLagtTil)
+      );
+    case sortering.lagtTilSynkende.verdi:
+      return elementer.sort(
+        (a, b) => new Date(b[1].tidLagtTil) - new Date(a[1].tidLagtTil)
+      );
+    case sortering.aarKjoeptStigende.verdi:
+      return elementer.sort((a, b) => b[1].aarKjopt - a[1].aarKjopt);
+    case sortering.aarKjoeptSynkende.verdi:
+      return elementer.sort((a, b) => a[1].aarKjopt - b[1].aarKjopt);
+    case sortering.navnStigende.verdi:
+      return elementer.sort((a, b) => compare(a, b, "navn"));
+    case sortering.navnSynkende.verdi:
+      return elementer.sort((a, b) => compare(a, b, "navn")).reverse();
+    case sortering.prisLavesteFoerst.verdi:
+      return elementer.sort((a, b) => a[1].pris - b[1].pris);
+    case sortering.prisHoeyesteFoerst.verdi:
+      return elementer.sort((a, b) => b[1].pris - a[1].pris);
+  }
+};
+
+const compare = (a, b, field) => {
+  if (a[1][field] < b[1][field]) {
+    return -1;
+  }
+  if (a[1][field] > b[1][field]) {
+    return 1;
+  }
+  return 0;
+};
 
 export const filtrer = (filterListe, alleElementer) => {
   return alleElementer

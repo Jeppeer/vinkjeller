@@ -146,7 +146,8 @@ const Produkt = ({ route, navigation }) => {
       nyttProdukt
         .set({
           ...produkt.current,
-          ...produktData
+          ...produktData,
+          tidLagtTil: new Date().toString()
         })
         .then(() => {
           dispatch({
@@ -287,8 +288,8 @@ const Produkt = ({ route, navigation }) => {
             data={
               produkt.current.region &&
               `${produkt.current.region.land}${produkt.current.region.region &&
-                `, ${produkt.current.region.region}`}${produkt.current
-                .region.subRegion && `, ${produkt.current.region.subRegion}`}`
+                `, ${produkt.current.region.region}`}${produkt.current.region
+                .subRegion && `, ${produkt.current.region.subRegion}`}`
             }
           />
           <ProduktDetalj
