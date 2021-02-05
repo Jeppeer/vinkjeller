@@ -22,12 +22,10 @@ const Kjelleroversikt = ({ navigation }) => {
   const [visFiltrerModal, setVisFiltrerModal] = useState(false);
   const [antallAktiveFilter, setAntallAktiveFilter] = useState(0);
   const firebaseRef = firebase.database().ref("kjeller");
-  const [valgtSortering, setValgtSortering] = useState(
-    sortering.lagtTilStigende.verdi
-  );
   const [visSorterModal, setVisSorterModal] = useState(false);
 
   const valgteFilter = useRef([]);
+  const valgtSortering = useRef(sortering.lagtTilStigende.verdi);
 
   useEffect(() => {
     firebaseRef.on("value", data => {
@@ -42,7 +40,7 @@ const Kjelleroversikt = ({ navigation }) => {
       const elementer = Object.entries(oppdatertKjellerinnhold.val());
       setKjellerinnhold(elementer);
       setFiltrertKjellerinnhold(
-        sorter(valgtSortering, filtrer(valgteFilter.current, elementer))
+        sorter(valgtSortering.current, filtrer(valgteFilter.current, elementer))
       );
     } else {
       setKjellerinnhold([]);
@@ -59,13 +57,15 @@ const Kjelleroversikt = ({ navigation }) => {
     );
     setAntallAktiveFilter(aktiveFilter);
     setFiltrertKjellerinnhold(
-      sorter(valgtSortering, filtrer(filterListe, kjellerinnhold))
+      sorter(valgtSortering.current, filtrer(filterListe, kjellerinnhold))
     );
   };
 
-  const sorterInnhold = valgtSortering => {
-    setValgtSortering(valgtSortering);
-    setFiltrertKjellerinnhold(sorter(valgtSortering, filtrertKjellerinnhold));
+  const sorterInnhold = oppdatertSortering => {
+    valgtSortering.current = oppdatertSortering;
+    setFiltrertKjellerinnhold(
+      sorter(oppdatertSortering, filtrertKjellerinnhold)
+    );
     setVisSorterModal(false);
   };
 
@@ -163,7 +163,7 @@ const Kjelleroversikt = ({ navigation }) => {
       <SorterModal
         visModal={visSorterModal}
         sorterInnhold={sorterInnhold}
-        valgtSortering={valgtSortering}
+        valgtSortering={valgtSortering.current}
         setVisModal={setVisSorterModal}
       />
     </View>
