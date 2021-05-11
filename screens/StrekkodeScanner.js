@@ -9,7 +9,11 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { api } from "../service/api";
-import { produktIdSoek, vinmonopolet_config } from "../service/vinmonopoletApi";
+import {
+  fritekstSoek,
+  produktIdSoek,
+  vinmonopolet_config
+} from "../service/vinmonopoletApi";
 import { opprettProduktBasertPaa } from "./Produkt/ProduktHelper";
 import { useFocusEffect } from "@react-navigation/native";
 import { colors, spinner } from "../styles/common";
@@ -48,53 +52,41 @@ const StrekkodeScanner = ({ navigation }) => {
     ref.pausePreview();
     setShowSpinner(true);
     setScanned(true);
-    firebaseRef
-      .ref("vinmonopolet_db")
-      .orderByChild("HovedGTIN")
-      .equalTo(data)
-      .once("value")
-      .then(resultat => {
-        if (resultat.val()) {
-          axios
-            .all([
-              api.get(
-                produktIdSoek(Object.values(resultat.val())[0].Varenummer),
-                vinmonopolet_config
-              ),
-              firebaseRef
-                .ref("kjeller")
-                .orderByChild("produktId")
-                .equalTo(Object.values(resultat.val())[0].Varenummer)
-                .once("value")
-            ])
-            .then(
-              axios.spread((produkt, kjellerelement) => {
-                setMountKamera(false);
-                setShowSpinner(false);
-                const element = kjellerelement.val()
-                  ? Object.entries(kjellerelement.val())[0]
-                  : undefined;
-                navigation.navigate("Produkt", {
-                  produkt: {
-                    ...opprettProduktBasertPaa(produkt.data[0]),
-                    antallIKjeller: element ? element[1].antallIKjeller : 0,
-                    drikkevindu: element ? element[1].drikkevindu : undefined,
-                    notat: element ? element[1].notat : "",
-                    aarKjopt: element
-                      ? element[1].aarKjopt
-                      : new Date().getFullYear().toString()
-                  },
-                  produktRef: element && element[0]
-                });
-              })
-            );
-        } else {
-          ToastAndroid.show("Ingen treff.", ToastAndroid.SHORT);
-          ref.resumePreview();
-          setShowSpinner(false);
-          setTimeout(() => setScanned(false), 3000);
-        }
-      });
+
+    api.get(fritekstSoek(data), vinmonopolet_config).then(resultat => {
+      if (resultat.data.length > 0) {
+        console.log(resultat.data[0].basic.productId);
+        firebaseRef
+          .ref("kjeller")
+          .orderByChild("produktId")
+          .equalTo(resultat.data[0].basic.productId)
+          .once("value")
+          .then(kjellerelement => {
+            setMountKamera(false);
+            setShowSpinner(false);
+            const element = kjellerelement.val()
+              ? Object.entries(kjellerelement.val())[0]
+              : undefined;
+            navigation.navigate("Produkt", {
+              produkt: {
+                ...opprettProduktBasertPaa(resultat.data[0]),
+                antallIKjeller: element ? element[1].antallIKjeller : 0,
+                drikkevindu: element ? element[1].drikkevindu : undefined,
+                notat: element ? element[1].notat : "",
+                aarKjopt: element
+                  ? element[1].aarKjopt
+                  : new Date().getFullYear().toString()
+              },
+              produktRef: element && element[0]
+            });
+          });
+      } else {
+        ToastAndroid.show("Ingen treff.", ToastAndroid.SHORT);
+        ref.resumePreview();
+        setShowSpinner(false);
+        setTimeout(() => setScanned(false), 3000);
+      }
+    });
   };
 
   if (hasPermission === null) {
