@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import * as Firebase from "firebase";
 
-const Signup = ({ navigation }) => {
+const Signup = () => {
   const [navn, setNavn] = useState("");
   const [epost, setEpost] = useState("");
   const [passord, setPassord] = useState("");
@@ -16,7 +16,9 @@ const Signup = ({ navigation }) => {
   const handleSignUp = () => {
     Firebase.auth()
       .createUserWithEmailAndPassword(epost, passord)
-      .then(response => {})
+      .then(userCredential => {
+        userCredential.user.updateProfile({ displayName: navn });
+      })
       .catch(error => console.log(error));
   };
 
