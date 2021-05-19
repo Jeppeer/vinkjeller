@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import Kjelleroversikt from "./screens/Kjelleroversikt/Kjelleroversikt";
@@ -12,6 +12,8 @@ import * as firebase from "firebase";
 import { InteractionManager, Platform } from "react-native";
 import StrekkodeScanner from "./screens/StrekkodeScanner";
 import EksternVin from "./screens/EksternVin/EksternVin";
+import Login from "./screens/Innlogging/Login";
+import Signup from "./screens/Innlogging/Signup";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -61,19 +63,41 @@ if (Platform.OS === "android") {
 const Tab = createBottomTabNavigator();
 const StackNavigator = createStackNavigator();
 
-export default function App() {
-  const firebaseConfig = {
-    apiKey: "AIzaSyB9jZ8liTAnOmG9hSIren3p2rgLtTVckz8",
-    authDomain: "vinkjeller-baeb3.firebaseapp.com",
-    databaseURL: "https://vinkjeller-baeb3.firebaseio.com",
-    projectId: "vinkjeller-baeb3",
-    storageBucket: "vinkjeller-baeb3.appspot.com"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyB9jZ8liTAnOmG9hSIren3p2rgLtTVckz8",
+  authDomain: "vinkjeller-baeb3.firebaseapp.com",
+  databaseURL: "https://vinkjeller-baeb3.firebaseio.com",
+  projectId: "vinkjeller-baeb3",
+  storageBucket: "vinkjeller-baeb3.appspot.com"
+};
 
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
 
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      setUser(user);
+    }
+    setIsLoading(false);
+  });
+
+  if (isLoading) {
+    return null;
+  }
+  if (user === null) {
+    return (
+      <NavigationContainer>
+        <StackNavigator.Navigator>
+          <StackNavigator.Screen name="Login" component={Login} />
+          <StackNavigator.Screen name="Signup" component={Signup} />
+        </StackNavigator.Navigator>
+      </NavigationContainer>
+    );
+  }
   return (
     <NavigationContainer>
       <Tab.Navigator
