@@ -1,9 +1,11 @@
 export const colors = {
   primaryButton: "#282c34",
+  dangerButton: "#dc3545",
   primaryInputUnderline: "#282c34",
   primaryButtonPressed: "#424654",
   primaryBg: "#282c34",
   primarySelected: "#fff",
+  white: "#fff",
   borderColor: "#ebedf0",
   backgroundColor: "#f8f9fa"
 };

@@ -55,7 +55,6 @@ const StrekkodeScanner = ({ navigation }) => {
 
     api.get(fritekstSoek(data), vinmonopolet_config).then(resultat => {
       if (resultat.data.length > 0) {
-        console.log(resultat.data[0].basic.productId);
         firebaseRef
           .ref("kjeller")
           .orderByChild("produktId")

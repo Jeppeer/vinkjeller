@@ -12,8 +12,10 @@ import * as firebase from "firebase";
 import { InteractionManager, Platform } from "react-native";
 import StrekkodeScanner from "./screens/StrekkodeScanner";
 import EksternVin from "./screens/EksternVin/EksternVin";
-import Login from "./screens/Innlogging/Login";
-import Signup from "./screens/Innlogging/Signup";
+import Login from "./screens/Bruker/Login";
+import Signup from "./screens/Bruker/Signup";
+import IkonKnapp from "./components/knapp/IkonKnapp";
+import Profil from "./screens/Bruker/Profil";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -79,9 +81,7 @@ export default function App() {
   }
 
   firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      setUser(user);
-    }
+    setUser(user);
     setIsLoading(false);
   });
 
@@ -238,13 +238,26 @@ function VinOversiktScreen() {
     >
       <StackNavigator.Screen
         name="Kjelleroversikt"
-        options={{
-          title: "Kjeller"
-        }}
+        options={({ navigation }) => ({
+          title: "Kjeller",
+          headerRight: () => (
+            <IkonKnapp
+              onPress={() => navigation.navigate("Profil")}
+              styles={{ marginRight: 10 }}
+            >
+              <MaterialCommunityIcons
+                name="account-circle-outline"
+                size={35}
+                color={colors.white}
+              />
+            </IkonKnapp>
+          )
+        })}
         component={Kjelleroversikt}
       />
       <StackNavigator.Screen name="Produkt" component={Produkt} />
       <StackNavigator.Screen name="EksternVin" component={EksternVin} />
+      <StackNavigator.Screen name="Profil" component={Profil} />
     </StackNavigator.Navigator>
   );
 }
