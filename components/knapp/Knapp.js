@@ -1,8 +1,8 @@
 import React from "react";
 import { colors } from "../../styles/common";
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
-const Knapp = ({ styles, onPress, knappetekst }) => {
+const Knapp = ({ styles, onPress, knappetekst, tekstStyle }) => {
   return (
     <Pressable
       style={({ pressed }) => [
@@ -16,7 +16,7 @@ const Knapp = ({ styles, onPress, knappetekst }) => {
       ]}
       onPress={onPress}
     >
-      <Text style={{ color: "white" }}>{knappetekst}</Text>
+      <Text style={[{ color: "white" }, tekstStyle]}>{knappetekst}</Text>
     </Pressable>
   );
 };

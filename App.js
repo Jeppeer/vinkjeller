@@ -91,9 +91,28 @@ export default function App() {
   if (user === null) {
     return (
       <NavigationContainer>
-        <StackNavigator.Navigator>
-          <StackNavigator.Screen name="Login" component={Login} />
-          <StackNavigator.Screen name="Signup" component={Signup} />
+        <StackNavigator.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: colors.primaryBg
+            },
+            headerTintColor: colors.primarySelected,
+            headerTitleStyle: {
+              fontWeight: "bold"
+            },
+            headerTitleAlign: "center"
+          }}
+        >
+          <StackNavigator.Screen
+            options={{ title: "Logg inn" }}
+            name="Login"
+            component={Login}
+          />
+          <StackNavigator.Screen
+            options={{ title: "Registrer deg" }}
+            name="Signup"
+            component={Signup}
+          />
         </StackNavigator.Navigator>
       </NavigationContainer>
     );

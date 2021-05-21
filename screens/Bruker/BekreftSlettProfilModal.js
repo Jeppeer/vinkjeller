@@ -4,6 +4,7 @@ import { colors, inputStyles, modal } from "../../styles/common";
 import { Input } from "react-native-elements";
 import Knapp from "../../components/knapp/Knapp";
 import * as firebase from "firebase";
+import Feilmelding from "../../components/Validering/Feilmelding";
 
 const BekreftSlettProfilModal = ({ visModal, setVisModal }) => {
   const [passord, setPassord] = useState("");
@@ -64,11 +65,7 @@ const BekreftSlettProfilModal = ({ visModal, setVisModal }) => {
               { width: "90%", marginTop: 10, marginBottom: -20 }
             ]}
           />
-          {feilmelding !== "" && (
-            <Text style={{ color: colors.dangerButton, marginBottom: 10 }}>
-              {feilmelding}
-            </Text>
-          )}
+          <Feilmelding feilmelding={feilmelding} />
           <View style={{ flexDirection: "row", marginTop: 10 }}>
             <Knapp
               styles={{ marginRight: 10, backgroundColor: colors.dangerButton }}
