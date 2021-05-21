@@ -16,6 +16,7 @@ import Login from "./screens/Bruker/Login";
 import Signup from "./screens/Bruker/Signup";
 import IkonKnapp from "./components/knapp/IkonKnapp";
 import Profil from "./screens/Bruker/Profil";
+import GlemtPassord from "./screens/Bruker/GlemtPassord";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -112,6 +113,11 @@ export default function App() {
             options={{ title: "Registrer deg" }}
             name="Signup"
             component={Signup}
+          />
+          <StackNavigator.Screen
+            options={{ title: "Glemt passord" }}
+            name="GlemtPassord"
+            component={GlemtPassord}
           />
         </StackNavigator.Navigator>
       </NavigationContainer>

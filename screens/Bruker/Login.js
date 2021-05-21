@@ -56,11 +56,7 @@ const Login = ({ navigation }) => {
           secureTextEntry={true}
         />
         <Feilmelding feilmelding={feilmelding} />
-        <Knapp
-          onPress={() => loggInn()}
-          knappetekst="Logg inn"
-          styles={{ maxWidth: "100%" }}
-        />
+        <Knapp onPress={() => loggInn()} knappetekst="Logg inn" />
         <View
           style={{
             flexDirection: "row",
@@ -71,13 +67,19 @@ const Login = ({ navigation }) => {
           <Knapp
             styles={{ backgroundColor: "white" }}
             tekstStyle={{ color: "black" }}
-            onPress={() => navigation.navigate("Signup")}
+            onPress={() => {
+              setFeilmelding("");
+              navigation.navigate("Signup");
+            }}
             knappetekst="Registrer deg"
           />
           <Knapp
             styles={{ backgroundColor: "white" }}
             tekstStyle={{ color: "black" }}
-            onPress={() => navigation.navigate("Signup")}
+            onPress={() => {
+              setFeilmelding("");
+              navigation.navigate("Signup");
+            }}
             knappetekst="Glemt passord"
           />
         </View>
