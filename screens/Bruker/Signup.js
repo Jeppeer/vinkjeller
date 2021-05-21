@@ -5,6 +5,7 @@ import { Input } from "react-native-elements";
 import { inputStyles } from "../../styles/common";
 import Feilmelding from "../../components/Validering/Feilmelding";
 import Knapp from "../../components/knapp/Knapp";
+import * as common from "../../styles/common";
 
 const Signup = () => {
   const [navn, setNavn] = useState("");
@@ -31,7 +32,7 @@ const Signup = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={common.container.centeredContainer}>
       <View style={{ width: "80%" }}>
         <Input
           containerStyle={{ paddingHorizontal: 0 }}
@@ -90,14 +91,5 @@ const Signup = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
 
 export default Signup;

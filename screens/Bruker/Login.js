@@ -5,6 +5,7 @@ import firebase from "firebase";
 import { Input } from "react-native-elements";
 import { inputStyles } from "../../styles/common";
 import Feilmelding from "../../components/Validering/Feilmelding";
+import * as common from "../../styles/common";
 
 const Login = ({ navigation }) => {
   const [epost, setEpost] = useState("");
@@ -24,7 +25,7 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={common.container.centeredContainer}>
       <View style={{ width: "80%" }}>
         <Input
           containerStyle={{ paddingHorizontal: 0 }}
@@ -78,7 +79,7 @@ const Login = ({ navigation }) => {
             tekstStyle={{ color: "black" }}
             onPress={() => {
               setFeilmelding("");
-              navigation.navigate("Signup");
+              navigation.navigate("GlemtPassord");
             }}
             knappetekst="Glemt passord"
           />
@@ -87,15 +88,5 @@ const Login = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "column"
-  }
-});
 
 export default Login;

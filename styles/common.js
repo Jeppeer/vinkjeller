@@ -80,3 +80,12 @@ export const inputStyles = {
     alignItems: "center"
   }
 };
+
+export const container = {
+  centeredContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+};
