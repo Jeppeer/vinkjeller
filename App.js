@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import Kjelleroversikt from "./screens/Kjelleroversikt/Kjelleroversikt";
@@ -12,6 +12,12 @@ import * as firebase from "firebase";
 import { InteractionManager, Platform } from "react-native";
 import StrekkodeScanner from "./screens/StrekkodeScanner";
 import EksternVin from "./screens/EksternVin/EksternVin";
+import Login from "./screens/Bruker/Login";
+import Signup from "./screens/Bruker/Signup";
+import IkonKnapp from "./components/knapp/IkonKnapp";
+import Profil from "./screens/Bruker/Profil";
+import GlemtPassord from "./screens/Bruker/GlemtPassord";
+import NullstillPassord from "./screens/Bruker/NullstillPassord";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -61,19 +67,68 @@ if (Platform.OS === "android") {
 const Tab = createBottomTabNavigator();
 const StackNavigator = createStackNavigator();
 
-export default function App() {
-  const firebaseConfig = {
-    apiKey: "AIzaSyB9jZ8liTAnOmG9hSIren3p2rgLtTVckz8",
-    authDomain: "vinkjeller-baeb3.firebaseapp.com",
-    databaseURL: "https://vinkjeller-baeb3.firebaseio.com",
-    projectId: "vinkjeller-baeb3",
-    storageBucket: "vinkjeller-baeb3.appspot.com"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyB9jZ8liTAnOmG9hSIren3p2rgLtTVckz8",
+  authDomain: "vinkjeller-baeb3.firebaseapp.com",
+  databaseURL: "https://vinkjeller-baeb3.firebaseio.com",
+  projectId: "vinkjeller-baeb3",
+  storageBucket: "vinkjeller-baeb3.appspot.com"
+};
 
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
 
+  firebase.auth().onAuthStateChanged(function(user) {
+    setUser(user);
+    setIsLoading(false);
+  });
+
+  if (isLoading) {
+    return null;
+  }
+  if (user === null) {
+    return (
+      <NavigationContainer>
+        <StackNavigator.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: colors.primaryBg
+            },
+            headerTintColor: colors.primarySelected,
+            headerTitleStyle: {
+              fontWeight: "bold"
+            },
+            headerTitleAlign: "center"
+          }}
+        >
+          <StackNavigator.Screen
+            options={{ title: "Logg inn" }}
+            name="Login"
+            component={Login}
+          />
+          <StackNavigator.Screen
+            options={{ title: "Registrer deg" }}
+            name="Signup"
+            component={Signup}
+          />
+          <StackNavigator.Screen
+            options={{ title: "Glemt passord" }}
+            name="GlemtPassord"
+            component={GlemtPassord}
+          />
+          <StackNavigator.Screen
+            options={{ title: "Glemt passord" }}
+            name="NullstillPassord"
+            component={NullstillPassord}
+          />
+        </StackNavigator.Navigator>
+      </NavigationContainer>
+    );
+  }
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -214,13 +269,26 @@ function VinOversiktScreen() {
     >
       <StackNavigator.Screen
         name="Kjelleroversikt"
-        options={{
-          title: "Kjeller"
-        }}
+        options={({ navigation }) => ({
+          title: "Kjeller",
+          headerRight: () => (
+            <IkonKnapp
+              onPress={() => navigation.navigate("Profil")}
+              styles={{ marginRight: 10 }}
+            >
+              <MaterialCommunityIcons
+                name="account-circle-outline"
+                size={35}
+                color={colors.white}
+              />
+            </IkonKnapp>
+          )
+        })}
         component={Kjelleroversikt}
       />
       <StackNavigator.Screen name="Produkt" component={Produkt} />
       <StackNavigator.Screen name="EksternVin" component={EksternVin} />
+      <StackNavigator.Screen name="Profil" component={Profil} />
     </StackNavigator.Navigator>
   );
 }

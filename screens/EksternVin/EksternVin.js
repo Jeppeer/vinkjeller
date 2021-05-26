@@ -15,6 +15,7 @@ const EksternVin = ({ route, navigation }) => {
   const endretProdukt = route.params ? route.params.produkt : null;
   const [visEkstraFelter, setVisEkstraFelter] = useState(false);
   const formRef = useRef();
+  let currentUser = firebase.auth().currentUser;
 
   let firebaseRef = firebase.database();
 
@@ -71,13 +72,15 @@ const EksternVin = ({ route, navigation }) => {
             }
             if (endretProdukt) {
               firebaseRef
-                .ref(`kjeller/${endretProdukt.produktRef}`)
+                .ref(
+                  `brukere/${currentUser.uid}/kjeller/${endretProdukt.produktRef}`
+                )
                 .update(values)
                 .then(() => {
                   navigation.goBack();
                 });
             } else {
-              const nyttProdukt = firebaseRef.ref("kjeller").push();
+              const nyttProdukt = firebaseRef.ref(`brukere/${currentUser.uid}/kjeller`).push();
               nyttProdukt.set(values).then(() => {
                 navigation.goBack();
               });

@@ -21,7 +21,11 @@ const Kjelleroversikt = ({ navigation }) => {
   const [filtrertKjellerinnhold, setFiltrertKjellerinnhold] = useState([]);
   const [visFiltrerModal, setVisFiltrerModal] = useState(false);
   const [antallAktiveFilter, setAntallAktiveFilter] = useState(0);
-  const firebaseRef = firebase.database().ref("kjeller");
+  let currentUser = firebase.auth().currentUser;
+
+  const firebaseRef = firebase
+    .database()
+    .ref(`brukere/${currentUser.uid}/kjeller`);
   const [visSorterModal, setVisSorterModal] = useState(false);
 
   const valgteFilter = useRef([]);

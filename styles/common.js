@@ -1,9 +1,11 @@
 export const colors = {
   primaryButton: "#282c34",
+  dangerButton: "#dc3545",
   primaryInputUnderline: "#282c34",
   primaryButtonPressed: "#424654",
   primaryBg: "#282c34",
   primarySelected: "#fff",
+  white: "#fff",
   borderColor: "#ebedf0",
   backgroundColor: "#f8f9fa"
 };
@@ -76,5 +78,14 @@ export const inputStyles = {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center"
+  }
+};
+
+export const container = {
+  centeredContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   }
 };

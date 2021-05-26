@@ -41,7 +41,10 @@ const Produkt = ({ route, navigation }) => {
   const { produktRef } = route.params;
   const produkt = useRef(route.params.produkt);
   const [visModal, setVisModal] = useState(false);
-  let firebaseRef = firebase.database().ref("kjeller");
+  let currentUser = firebase.auth().currentUser;
+  let firebaseRef = firebase
+    .database()
+    .ref(`brukere/${currentUser.uid}/kjeller`);
 
   const [produktState, dispatch] = useReducer(databaseProduktReducer, {
     antallIKjeller: produkt.current.antallIKjeller
@@ -100,7 +103,7 @@ const Produkt = ({ route, navigation }) => {
       if (data.antallIKjeller === "0") {
         firebase
           .database()
-          .ref(`kjeller/${produktState.produktRef}`)
+          .ref(`brukere/${currentUser.uid}/kjeller/${produktState.produktRef}`)
           .remove();
         dispatch({
           type: SET_PRODUKT_STATE,
