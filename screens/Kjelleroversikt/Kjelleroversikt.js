@@ -29,7 +29,7 @@ const Kjelleroversikt = ({ navigation }) => {
   const [visSorterModal, setVisSorterModal] = useState(false);
 
   const valgteFilter = useRef([]);
-  const valgtSortering = useRef(sortering.lagtTilStigende.verdi);
+  const valgtSortering = useRef(sortering.lagtTilSynkende.verdi);
 
   useEffect(() => {
     firebaseRef.on("value", data => {
