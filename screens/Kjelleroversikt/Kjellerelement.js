@@ -11,6 +11,12 @@ const Kjellerelement = ({ element, produktRef, navigation }) => {
     });
   };
 
+  const getNotat = () => {
+    return element.notat.length > 30
+      ? element.notat.slice(0, 30) + " ..."
+      : element.notat;
+  };
+
   return (
     <Pressable onPress={() => velgElement(element)}>
       <View style={styles.produktContainer}>
@@ -55,7 +61,7 @@ const Kjellerelement = ({ element, produktRef, navigation }) => {
               <Text style={{ fontWeight: "bold" }}>Notat</Text>
               <Text>
                 {element.notat !== "" && element.notat
-                  ? element.notat
+                  ? getNotat()
                   : "Ingen notater"}
               </Text>
             </View>
