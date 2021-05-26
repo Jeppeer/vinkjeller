@@ -7,8 +7,11 @@ import Knapp from "../../components/knapp/Knapp";
 const Soekeresultater = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [kjellerinnhold, setKjellerinnhold] = useState([]);
+  let currentUser = firebase.auth().currentUser;
 
-  const firebaseRef = firebase.database().ref("kjeller");
+  const firebaseRef = firebase
+    .database()
+    .ref(`brukere/${currentUser.uid}/kjeller`);
 
   useEffect(() => {
     function setKjeller(resultat) {

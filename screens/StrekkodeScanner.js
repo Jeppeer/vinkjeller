@@ -9,22 +9,18 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { api } from "../service/api";
-import {
-  fritekstSoek,
-  produktIdSoek,
-  vinmonopolet_config
-} from "../service/vinmonopoletApi";
+import { fritekstSoek, vinmonopolet_config } from "../service/vinmonopoletApi";
 import { opprettProduktBasertPaa } from "./Produkt/ProduktHelper";
 import { useFocusEffect } from "@react-navigation/native";
 import { colors, spinner } from "../styles/common";
 import { Camera } from "expo-camera";
-import axios from "axios";
 
 const StrekkodeScanner = ({ navigation }) => {
   const [showSpinner, setShowSpinner] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [mountKamera, setMountKamera] = useState(true);
+  let currentUser = firebase.auth().currentUser;
   let firebaseRef = firebase.database();
   let cameraRef;
 
@@ -56,7 +52,7 @@ const StrekkodeScanner = ({ navigation }) => {
     api.get(fritekstSoek(data), vinmonopolet_config).then(resultat => {
       if (resultat.data.length > 0) {
         firebaseRef
-          .ref("kjeller")
+          .ref(`brukere/${currentUser.uid}/kjeller`)
           .orderByChild("produktId")
           .equalTo(resultat.data[0].basic.productId)
           .once("value")
