@@ -118,7 +118,7 @@ const Produkt = ({ route, navigation }) => {
       } else {
         firebase
           .database()
-          .ref(`kjeller/${produktState.produktRef}`)
+          .ref(`brukere/${currentUser.uid}/kjeller/${produktState.produktRef}`)
           .update({
             antallIKjeller: data.antallIKjeller,
             drikkevindu:
