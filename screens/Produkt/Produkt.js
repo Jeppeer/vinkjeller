@@ -53,7 +53,9 @@ const Produkt = ({ route, navigation }) => {
     drikkevindu: produkt.current.drikkevindu,
     notat: produkt.current.notat ? produkt.current.notat : "",
     produktRef: produktRef,
-    aarKjopt: produkt.current.aarKjopt.toString()
+    aarKjopt: produkt.current.aarKjopt
+      ? produkt.current.aarKjopt.toString()
+      : ""
   });
 
   useEffect(() => {

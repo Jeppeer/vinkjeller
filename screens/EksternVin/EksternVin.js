@@ -55,7 +55,7 @@ const EksternVin = ({ route, navigation }) => {
               : {
                   antallIKjeller: "1",
                   raastoff: [],
-                  volum: "75",
+                  volum: "0.75",
                   lagtTilManuelt: true,
                   drikkevindu: {}
                 }
@@ -80,10 +80,14 @@ const EksternVin = ({ route, navigation }) => {
                   navigation.goBack();
                 });
             } else {
-              const nyttProdukt = firebaseRef.ref(`brukere/${currentUser.uid}/kjeller`).push();
-              nyttProdukt.set(values).then(() => {
-                navigation.goBack();
-              });
+              const nyttProdukt = firebaseRef
+                .ref(`brukere/${currentUser.uid}/kjeller`)
+                .push();
+              nyttProdukt
+                .set({ ...values, tidLagtTil: new Date().toString() })
+                .then(() => {
+                  navigation.goBack();
+                });
             }
           }}
           validate={values => {
@@ -220,7 +224,7 @@ const EksternVin = ({ route, navigation }) => {
                       ]}
                       labelStyle={inputStyles.labelStyle}
                     />
-                    <Text>cl</Text>
+                    <Text>liter</Text>
                   </View>
                   <View style={inputStyles.inputMedBenevning}>
                     <Input
