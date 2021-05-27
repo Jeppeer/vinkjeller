@@ -30,6 +30,9 @@ const EksternScore = ({ produktId }) => {
             smaksnotat: dnProdukt.fields.taste_notes.value
           });
         }
+      })
+      .catch(error => {
+        console.log(error);
       });
   }, [produktId]);
 

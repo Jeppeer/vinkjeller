@@ -268,9 +268,9 @@ const Produkt = ({ route, navigation }) => {
           </View>
         </View>
 
-        {!produkt.current.lagtTilManuelt && (
-          <EksternScore produktId={produkt.current.produktId} />
-        )}
+        {/*{!produkt.current.lagtTilManuelt && (*/}
+        {/*  <EksternScore produktId={produkt.current.produktId} />*/}
+        {/*)}*/}
 
         <View style={extededInfoStyle.container}>
           <ProduktDetalj
