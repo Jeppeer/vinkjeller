@@ -2,8 +2,8 @@ import React, {
   useEffect,
   useLayoutEffect,
   useReducer,
-  useState,
-  useRef
+  useRef,
+  useState
 } from "react";
 import {
   Image,
@@ -19,8 +19,9 @@ import * as firebase from "firebase";
 import { getIngredienser, getPasserTil } from "./ProduktHelper";
 import OppdaterKjellerantallModal from "./OppdaterKjellerantallModal";
 import Pris from "../../components/Pris";
-import EksternScore from "./EksternScore";
 import Knapp from "../../components/knapp/Knapp";
+import { AdMobBanner } from "expo-ads-admob";
+import Constants from "expo-constants";
 
 const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
 
@@ -45,6 +46,9 @@ const Produkt = ({ route, navigation }) => {
   let firebaseRef = firebase
     .database()
     .ref(`brukere/${currentUser.uid}/kjeller`);
+
+  const testID = "ca-app-pub-3940256099942544/6300978111";
+  const productionID = "ca-app-pub-6480465457652082/5719543341";
 
   const [produktState, dispatch] = useReducer(databaseProduktReducer, {
     antallIKjeller: produkt.current.antallIKjeller
@@ -240,6 +244,15 @@ const Produkt = ({ route, navigation }) => {
               </View>
             )}
           </View>
+
+          <View style={{ alignItems: "center", marginBottom: 20 }}>
+            <AdMobBanner
+              bannerSize="mediumRectangle"
+              adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
+              servePersonalizedAds
+            />
+          </View>
+
           <View style={{ flexDirection: "row" }}>
             <Pressable
               onPress={() => setVisModal(true)}

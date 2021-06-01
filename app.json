@@ -28,7 +28,10 @@
     },
     "android": {
       "package": "com.vinkjeller.vinkjeller",
-      "versionCode": 3
+      "versionCode": 3,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-6480465457652082~7181826497"
+      }
     },
     "description": ""
   }

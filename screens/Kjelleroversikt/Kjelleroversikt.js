@@ -14,6 +14,8 @@ import Knapp from "../../components/knapp/Knapp";
 import FilterModal from "./FilterModal";
 import SorterModal, { sortering } from "./SorterModal";
 import { filtrer, sorter } from "./kjellerUtil";
+import Constants from "expo-constants";
+import { AdMobBanner } from "expo-ads-admob";
 
 const Kjelleroversikt = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +24,9 @@ const Kjelleroversikt = ({ navigation }) => {
   const [visFiltrerModal, setVisFiltrerModal] = useState(false);
   const [antallAktiveFilter, setAntallAktiveFilter] = useState(0);
   let currentUser = firebase.auth().currentUser;
+
+  const testID = "ca-app-pub-3940256099942544/6300978111";
+  const productionID = "ca-app-pub-6480465457652082/1824244955";
 
   const firebaseRef = firebase
     .database()
@@ -75,6 +80,68 @@ const Kjelleroversikt = ({ navigation }) => {
 
   const leggTilVin = () => navigation.navigate("EksternVin");
 
+  function renderListeelement(index, item) {
+    if (index === 0) {
+      return (
+        <View>
+          <View style={styles.filterBar}>
+            <Text style={{ fontWeight: "bold" }}>{`${
+              filtrertKjellerinnhold.length
+            } ${
+              filtrertKjellerinnhold.length > 1 ? "produkter" : "produkt"
+            }`}</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Knapp
+                onPress={() => setVisFiltrerModal(!visFiltrerModal)}
+                knappetekst={
+                  antallAktiveFilter > 0
+                    ? `Filtrér (${antallAktiveFilter})`
+                    : "Filtrér"
+                }
+                styles={{ marginRight: 10 }}
+              />
+              <Knapp
+                onPress={() => setVisSorterModal(!visSorterModal)}
+                knappetekst="Sortér"
+              />
+            </View>
+          </View>
+          <Kjellerelement
+            element={item[1]}
+            produktRef={item[0]}
+            navigation={navigation}
+          />
+        </View>
+      );
+    } else if (index === 3 || (index % 5 === 0 && index !== 0 && index !== 5)) {
+      return (
+        <View
+          style={{
+            alignItems: "center",
+            borderBottomWidth: 1,
+            borderColor: colors.borderColor,
+            marginTop: 40,
+            paddingBottom: 40
+          }}
+        >
+          <AdMobBanner
+            bannerSize="largeBanner"
+            adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
+            servePersonalizedAds
+          />
+        </View>
+      );
+    } else {
+      return (
+        <Kjellerelement
+          element={item[1]}
+          produktRef={item[0]}
+          navigation={navigation}
+        />
+      );
+    }
+  }
+
   return (
     <View style={{ height: "100%" }}>
       {isLoading ? (
@@ -114,45 +181,7 @@ const Kjelleroversikt = ({ navigation }) => {
               </View>
             }
             renderItem={({ item, index }) => {
-              return index === 0 ? (
-                <View>
-                  <View style={styles.filterBar}>
-                    <Text style={{ fontWeight: "bold" }}>{`${
-                      filtrertKjellerinnhold.length
-                    } ${
-                      filtrertKjellerinnhold.length > 1
-                        ? "produkter"
-                        : "produkt"
-                    }`}</Text>
-                    <View style={{ flexDirection: "row" }}>
-                      <Knapp
-                        onPress={() => setVisFiltrerModal(!visFiltrerModal)}
-                        knappetekst={
-                          antallAktiveFilter > 0
-                            ? `Filtrér (${antallAktiveFilter})`
-                            : "Filtrér"
-                        }
-                        styles={{ marginRight: 10 }}
-                      />
-                      <Knapp
-                        onPress={() => setVisSorterModal(!visSorterModal)}
-                        knappetekst="Sortér"
-                      />
-                    </View>
-                  </View>
-                  <Kjellerelement
-                    element={item[1]}
-                    produktRef={item[0]}
-                    navigation={navigation}
-                  />
-                </View>
-              ) : (
-                <Kjellerelement
-                  element={item[1]}
-                  produktRef={item[0]}
-                  navigation={navigation}
-                />
-              );
+              return renderListeelement(index, item);
             }}
             keyExtractor={item => item[0]}
           />
