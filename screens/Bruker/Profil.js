@@ -5,8 +5,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Knapp from "../../components/knapp/Knapp";
 import * as firebase from "firebase";
 import BekreftSlettProfilModal from "./BekreftSlettProfilModal";
+import TekstKnapp from "../../components/knapp/TekstKnapp";
 
-const Profil = () => {
+const Profil = ({ navigation }) => {
   let currentUser = firebase.auth().currentUser;
   const [visModal, setVisModal] = useState(false);
 
@@ -40,6 +41,12 @@ const Profil = () => {
         />
       </View>
       <BekreftSlettProfilModal visModal={visModal} setVisModal={setVisModal} />
+
+      <TekstKnapp
+        knappetekst="Vilkår og personvern"
+        onPress={() => navigation.navigate("Personvern")}
+        styles={{marginTop: 20}}
+      />
     </View>
   );
 };

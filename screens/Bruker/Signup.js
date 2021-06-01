@@ -6,8 +6,9 @@ import { inputStyles } from "../../styles/common";
 import Feilmelding from "../../components/Validering/Feilmelding";
 import Knapp from "../../components/knapp/Knapp";
 import * as common from "../../styles/common";
+import TekstKnapp from "../../components/knapp/TekstKnapp";
 
-const Signup = () => {
+const Signup = ({ navigation }) => {
   const [navn, setNavn] = useState("");
   const [epost, setEpost] = useState("");
   const [passord, setPassord] = useState("");
@@ -78,14 +79,10 @@ const Signup = () => {
         />
         <Feilmelding feilmelding={feilmelding} />
         <Knapp onPress={() => opprettProfil()} knappetekst="Opprett profil" />
-        <Knapp
-          styles={{ backgroundColor: "white" }}
-          tekstStyle={{ color: "black" }}
-          onPress={() => {
-            // setFeilmelding("");
-            // navigation.navigate("Signup");
-          }}
-          knappetekst="Personvernerklæring"
+        <TekstKnapp
+          knappetekst="Vilkår og personvern"
+          onPress={() => navigation.navigate("Personvern")}
+          styles={{ marginTop: 20, alignSelf: "center" }}
         />
       </View>
     </View>

@@ -18,6 +18,7 @@ import IkonKnapp from "./components/knapp/IkonKnapp";
 import Profil from "./screens/Bruker/Profil";
 import GlemtPassord from "./screens/Bruker/GlemtPassord";
 import NullstillPassord from "./screens/Bruker/NullstillPassord";
+import Personvern from "./screens/Bruker/Personvern";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -124,6 +125,11 @@ export default function App() {
             options={{ title: "Glemt passord" }}
             name="NullstillPassord"
             component={NullstillPassord}
+          />
+          <StackNavigator.Screen
+            options={{ title: "Personvernerklæring og vilkår" }}
+            name="Personvern"
+            component={Personvern}
           />
         </StackNavigator.Navigator>
       </NavigationContainer>
@@ -289,6 +295,11 @@ function VinOversiktScreen() {
       <StackNavigator.Screen name="Produkt" component={Produkt} />
       <StackNavigator.Screen name="EksternVin" component={EksternVin} />
       <StackNavigator.Screen name="Profil" component={Profil} />
+      <StackNavigator.Screen
+        options={{ title: "Personvern og vilkår" }}
+        name="Personvern"
+        component={Personvern}
+      />
     </StackNavigator.Navigator>
   );
 }
