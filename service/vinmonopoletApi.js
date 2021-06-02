@@ -1,6 +1,8 @@
+import { VINMONOPOLET_API_KEY } from "@env";
+
 export const vinmonopolet_config = {
   headers: {
-    "Ocp-Apim-Subscription-Key": "1ad2d3b366114954a2136386dcd79352"
+    "Ocp-Apim-Subscription-Key": VINMONOPOLET_API_KEY
   }
 };
 

@@ -19,6 +19,13 @@ import Profil from "./screens/Bruker/Profil";
 import GlemtPassord from "./screens/Bruker/GlemtPassord";
 import NullstillPassord from "./screens/Bruker/NullstillPassord";
 import Personvern from "./screens/Bruker/Personvern";
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_DATABASE_URL,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET
+} from "@env";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -69,11 +76,11 @@ const Tab = createBottomTabNavigator();
 const StackNavigator = createStackNavigator();
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB9jZ8liTAnOmG9hSIren3p2rgLtTVckz8",
-  authDomain: "vinkjeller-baeb3.firebaseapp.com",
-  databaseURL: "https://vinkjeller-baeb3.firebaseio.com",
-  projectId: "vinkjeller-baeb3",
-  storageBucket: "vinkjeller-baeb3.appspot.com"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  databaseURL: FIREBASE_DATABASE_URL,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET
 };
 
 export default function App() {
