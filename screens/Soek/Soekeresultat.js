@@ -6,16 +6,19 @@ import { opprettProduktBasertPaa } from "../Produkt/ProduktHelper";
 
 const Soekeresultat = ({ produkt, navigation }) => {
   const velgProdukt = produkt => {
+    let valgtProdukt = {
+      ...opprettProduktBasertPaa(produkt),
+      antallIKjeller: produkt.antallIKjeller ? produkt.antallIKjeller : 0,
+      notat: produkt.notat ? produkt.notat : "",
+      aarKjopt: produkt.aarKjopt
+        ? produkt.aarKjopt
+        : new Date().getFullYear().toString()
+    };
+    if (produkt.drikkevindu !== undefined) {
+      valgtProdukt.drikkevindu = produkt.drikkevindu;
+    }
     navigation.navigate("Produkt", {
-      produkt: {
-        ...opprettProduktBasertPaa(produkt),
-        antallIKjeller: produkt.antallIKjeller ? produkt.antallIKjeller : 0,
-        drikkevindu: produkt.drikkevindu,
-        notat: produkt.notat ? produkt.notat : "",
-        aarKjopt: produkt.aarKjopt
-          ? produkt.aarKjopt
-          : new Date().getFullYear().toString()
-      },
+      produkt: valgtProdukt,
       produktRef: produkt.produktRef
     });
   };

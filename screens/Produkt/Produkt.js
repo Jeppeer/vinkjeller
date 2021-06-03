@@ -43,7 +43,7 @@ const Produkt = ({ route, navigation }) => {
   const produkt = useRef(route.params.produkt);
   const [visModal, setVisModal] = useState(false);
   let currentUser = firebase.auth().currentUser;
-  let firebaseRef = firebase
+  let kjellerRef = firebase
     .database()
     .ref(`brukere/${currentUser.uid}/kjeller`);
 
@@ -63,10 +63,10 @@ const Produkt = ({ route, navigation }) => {
   });
 
   useEffect(() => {
-    firebaseRef.on("child_changed", produktOppdatert);
+    kjellerRef.on("child_changed", produktOppdatert);
 
     return () => {
-      firebaseRef.off("child_changed", produktOppdatert);
+      kjellerRef.off("child_changed", produktOppdatert);
     };
   }, []);
 
@@ -107,6 +107,15 @@ const Produkt = ({ route, navigation }) => {
   const oppdaterProdukt = data => {
     if (produktState.produktRef) {
       if (data.antallIKjeller === "0") {
+        let fjernetProdukt = produkt.current;
+        fjernetProdukt.tidligereProdukt = true;
+        delete fjernetProdukt.antallIKjeller;
+        firebase
+          .database()
+          .ref(
+            `brukere/${currentUser.uid}/tidligereProdukter/${produktState.produktRef}`
+          )
+          .update(fjernetProdukt);
         firebase
           .database()
           .ref(`brukere/${currentUser.uid}/kjeller/${produktState.produktRef}`)
@@ -139,7 +148,7 @@ const Produkt = ({ route, navigation }) => {
           });
       }
     } else if (data.antallIKjeller !== "0") {
-      const nyttProdukt = firebaseRef.push();
+      const nyttProdukt = kjellerRef.push();
       let produktData = {
         antallIKjeller: data.antallIKjeller,
         drikkevindu:
