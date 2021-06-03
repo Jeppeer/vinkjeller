@@ -14,6 +14,9 @@ Bygging av ny versjon er godt beskrevet [her](https://docs.expo.io/distribution/
 ### Android
 Kjør `expo build:android`
 
+## Lage screenshots til appstores
+https://www.appstorescreenshot.com/
+
 ## Importere CSV-fil fra Vinmonopolet.no
 
 1. Last ned CSV-fil fra [Vinmonopolet](https://www.vinmonopolet.no/medias/sys_master/products/products/hbc/hb0/8834253127710/produkter.csv)
