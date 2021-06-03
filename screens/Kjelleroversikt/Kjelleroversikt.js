@@ -115,19 +115,26 @@ const Kjelleroversikt = ({ navigation }) => {
       );
     } else if (index === 3 || (index % 5 === 0 && index !== 0 && index !== 5)) {
       return (
-        <View
-          style={{
-            alignItems: "center",
-            borderBottomWidth: 1,
-            borderColor: colors.borderColor,
-            marginTop: 40,
-            paddingBottom: 40
-          }}
-        >
-          <AdMobBanner
-            bannerSize="largeBanner"
-            adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
-            servePersonalizedAds
+        <View>
+          <View
+            style={{
+              alignItems: "center",
+              borderBottomWidth: 1,
+              borderColor: colors.borderColor,
+              marginTop: 40,
+              paddingBottom: 40
+            }}
+          >
+            <AdMobBanner
+              bannerSize="largeBanner"
+              adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
+              servePersonalizedAds
+            />
+          </View>
+          <Kjellerelement
+            element={item[1]}
+            produktRef={item[0]}
+            navigation={navigation}
           />
         </View>
       );
