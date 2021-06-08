@@ -43,39 +43,41 @@ const Soekeresultater = ({ route, navigation }) => {
   const leggTilVin = () => navigation.navigate("EksternVin");
 
   function renderSoekeresultater(index, item) {
+    let produkt;
+    let kjellerelement = getKjellerelement(item);
+    if (kjellerelement.length > 0) {
+      produkt = {
+        ...item,
+        antallIKjeller: kjellerelement[1].antallIKjeller,
+        drikkevindu: kjellerelement[1].drikkevindu,
+        notat: kjellerelement[1].notat,
+        produktRef: kjellerelement[0]
+      };
+    } else {
+      produkt = item;
+    }
     if (index === 3 || (index % 5 === 0 && index !== 0 && index !== 5)) {
       return (
-        <View
-          style={{
-            alignItems: "center",
-            borderBottomWidth: 1,
-            borderColor: colors.borderColor,
-            marginTop: 40,
-            paddingBottom: 40
-          }}
-        >
-          <AdMobBanner
-            bannerSize="largeBanner"
-            adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
-            servePersonalizedAds
-          />
+        <View>
+          <View
+            style={{
+              alignItems: "center",
+              borderBottomWidth: 1,
+              borderColor: colors.borderColor,
+              marginTop: 40,
+              paddingBottom: 40
+            }}
+          >
+            <AdMobBanner
+              bannerSize="largeBanner"
+              adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
+              servePersonalizedAds
+            />
+          </View>
+          <Soekeresultat produkt={produkt} navigation={navigation} />
         </View>
       );
     } else {
-      let produkt;
-      let kjellerelement = getKjellerelement(item);
-      if (kjellerelement.length > 0) {
-        produkt = {
-          ...item,
-          antallIKjeller: kjellerelement[1].antallIKjeller,
-          drikkevindu: kjellerelement[1].drikkevindu,
-          notat: kjellerelement[1].notat,
-          produktRef: kjellerelement[0]
-        };
-      } else {
-        produkt = item;
-      }
-
       return <Soekeresultat produkt={produkt} navigation={navigation} />;
     }
   }
