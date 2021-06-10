@@ -5,7 +5,7 @@ Målet med Vinkjeller-tjenesten er å gjøre det enklere for deg å lagre og hol
 Alle kan opprette en konto i Vinkjeller, gitt at vi ikke tidligere har deaktivert kontoen din for brudd på loven eller noen av våre retningslinjer.
 
 ## Hvordan du ikke kan bruke Vinkjeller
-* Du kan ikke gjøre noe ulovlig, villedende eller uredelig eller til et ulovlig eller uautorisert formål
+* Du kan ikke bruke Vinkjeller eller noen av de tilhørende tjenestene til å gjøre noe ulovlig, villedende eller uredelig, eller til et ulovlig eller uautorisert formål
 * Du kan ikke bryte (eller hjelpe eller oppfordre andre til å bryte) disse betingelsene eller våre retningslinjer
 * Du kan ikke forsøke å opprette kontoer på uautoriserte måter
 * Du kan ikke manuelt eller automatisk samle informasjon om produktene eller andre brukere av Vinkjeller
@@ -30,3 +30,5 @@ Innholdet du lagrer i Vinkjeller vil ikke deles med tjedjeparter eller brukes ti
 * Vinkjeller lagrer alle data leverandøren som hoster databasen: Firebase
 * Vinkjeller bruker Google Analytics for statistikk og analyse
 * Vinkjeller bruker Google AdMob til å levere reklame i tjenesten
+
+Sist oppdatert: 10.06.2021
