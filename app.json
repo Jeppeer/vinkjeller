@@ -22,7 +22,7 @@
     },
     "android": {
       "package": "app.vinkjeller.vinkjeller",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/vinkjeller-icon.png"
       },
