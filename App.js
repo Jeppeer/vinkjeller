@@ -232,7 +232,7 @@ function SoekScreen() {
       <StackNavigator.Screen
         name="Soekeresultater"
         component={Soekeresultater}
-        options={({ route }) => ({ title: route.params.name })}
+        options={{ title: "Resultater" }}
       />
       <StackNavigator.Screen name="Produkt" component={Produkt} />
       <StackNavigator.Screen name="EksternVin" component={EksternVin} />
