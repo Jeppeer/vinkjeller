@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "774510533589",
+    "firebase_url": "https://vinkjeller-baeb3.firebaseio.com",
+    "project_id": "vinkjeller-baeb3",
+    "storage_bucket": "vinkjeller-baeb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774510533589:android:d65af3f95b5958ad127b5c",
+        "android_client_info": {
+          "package_name": "app.vinkjeller.vinkjeller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774510533589-9k58ggb4i99gmjghiif41t012ustph1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvn-NlHy9yaUya_SMTxhKlyWXgGioM9q4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774510533589-9k58ggb4i99gmjghiif41t012ustph1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,14 +21,15 @@
     },
     "android": {
       "package": "app.vinkjeller.vinkjeller",
-      "versionCode": 18,
+      "versionCode": 19,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-6480465457652082~7181826497"
       },
       "permissions": ["CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ikon.png"
-      }
+      },
+      "googleServicesFile": "./google-services.json"
     },
     "description": ""
   }
