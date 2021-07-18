@@ -21,11 +21,11 @@
     },
     "android": {
       "package": "app.vinkjeller.vinkjeller",
-      "versionCode": 19,
+      "versionCode": 20,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-6480465457652082~7181826497"
       },
-      "permissions": ["CAMERA"],
+      "permissions": ["CAMERA, VIBRATE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/ikon.png"
       },
