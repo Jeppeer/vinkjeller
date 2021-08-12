@@ -314,9 +314,15 @@ const Produkt = ({ route, navigation }) => {
             detaljNavn="Land, distrikt, underdistrikt"
             data={
               produkt.current.region &&
-              `${produkt.current.region.land}${produkt.current.region.region &&
-                `, ${produkt.current.region.region}`}${produkt.current.region
-                .subRegion && `, ${produkt.current.region.subRegion}`}`
+              `${produkt.current.region.land}${
+                produkt.current.region.region
+                  ? `, ${produkt.current.region.region}`
+                  : ""
+              }${
+                produkt.current.region.subRegion
+                  ? `, ${produkt.current.region.subRegion}`
+                  : ""
+              }`
             }
           />
           <ProduktDetalj

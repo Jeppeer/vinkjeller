@@ -8,8 +8,8 @@ const Region = ({ handleChange, values }) => {
     <View style={{ flexDirection: "row" }}>
       <Input
         label="Land"
-        onChangeText={handleChange("land")}
-        value={values.land}
+        onChangeText={handleChange("region.land")}
+        value={values.region ? values.region.land : ""}
         returnKeyType="next"
         containerStyle={{ width: "50%" }}
         inputContainerStyle={inputStyles.inputContainerStyle}
@@ -17,8 +17,8 @@ const Region = ({ handleChange, values }) => {
       />
       <Input
         label="Region"
-        onChangeText={handleChange("region")}
-        value={values.region}
+        onChangeText={handleChange("region.region")}
+        value={values.region ? values.region.region : ""}
         returnKeyType="next"
         containerStyle={{ width: "50%" }}
         inputContainerStyle={inputStyles.inputContainerStyle}
