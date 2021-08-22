@@ -32,7 +32,9 @@ const StrekkodeScanner = ({ navigation }) => {
     })();
     Alert.alert(
       "Feil i kommunikasjon med Vinmonopolet",
-      "Vi opplever for tiden problemer i kommunikasjonen med Vinmonopolet. Dette fører til at det ikke er mulig å søke opp vin ved bruk av strekkode. Vi jobber med å rette feilen, og beklager ulempene dette medfører!",
+      "Vi opplever for tiden problemer i kommunikasjonen med Vinmonopolet. Dette fører til at det ikke er mulig å søke opp vin ved bruk av strekkode. Vi jobber med å rette feilen, og beklager ulempene dette medfører!" +
+      "\n\n" +
+      "I mellomtiden kan du søke opp vin ved å trykke på \"Søk\" og skrive inn navn eller produkt-ID.",
       [{ text: "OK", onPress: () => console.log("OK Pressed") }],
       { cancelable: false }
     );
