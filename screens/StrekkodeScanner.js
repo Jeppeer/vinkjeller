@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   StyleSheet,
   Text,
   ToastAndroid,
@@ -29,6 +30,12 @@ const StrekkodeScanner = ({ navigation }) => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
+    Alert.alert(
+      "Feil i kommunikasjon med Vinmonopolet",
+      "Vi opplever for tiden problemer i kommunikasjonen med Vinmonopolet. Dette fører til at det ikke er mulig å søke opp vin ved bruk av strekkode. Vi jobber med å rette feilen, og beklager ulempene dette medfører!",
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+      { cancelable: false }
+    );
   }, []);
 
   useFocusEffect(

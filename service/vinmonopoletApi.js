@@ -11,3 +11,6 @@ export const produktIdSoek = produktId =>
 
 export const fritekstSoek = fritekst =>
   `https://apis.vinmonopolet.no/press-products/v1/details-normal?freeText=${fritekst}`;
+
+export const productShortNameContainsSoek = produktnavn =>
+  `https://apis.vinmonopolet.no/press-products/v1/details-normal?productShortNameContains=${produktnavn}`;

@@ -4,7 +4,7 @@ import { SearchBar } from "react-native-elements";
 import { colors } from "../../styles/common";
 import { api } from "../../service/api";
 import {
-  fritekstSoek,
+  productShortNameContainsSoek,
   produktIdSoek,
   vinmonopolet_config
 } from "../../service/vinmonopoletApi";
@@ -17,13 +17,16 @@ const Soek = ({ navigation }) => {
     setIsLoading(true);
     let soekeUrl;
     if (Number.isNaN(Number(soekeTerm))) {
-      soekeUrl = fritekstSoek(soekeTerm.replace(/\s/g, "_"));
+      // soekeUrl = fritekstSoek(soekeTerm.replace(/\s/g, "_"));
+      soekeUrl = productShortNameContainsSoek(soekeTerm.replace(/\s/g, "_"));
     } else {
       soekeUrl = produktIdSoek(soekeTerm);
     }
     api.get(soekeUrl, vinmonopolet_config).then(resultat => {
       setIsLoading(false);
-      navigation.navigate("Soekeresultater", { soekeresultat: resultat.data });
+      navigation.navigate("Soekeresultater", {
+        soekeresultat: resultat.data
+      });
     });
   };
 
