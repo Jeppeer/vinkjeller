@@ -29,7 +29,7 @@ export const slides = [
     key: "4",
     title: "Få produktinformasjon",
     text:
-      "Informasjon om produktet hentes direkte fra Vinmonopolet. Du kan også legge til egen informasjon, som notat og drikkevindu.\n\nDersom vinen inne finnes hos Vinmonopolet kan du legge den til i kjelleren manuelt.",
+      "Informasjon om produktet hentes direkte fra Vinmonopolet. Du kan også legge til egen informasjon, som notat og drikkevindu.\n\nDersom vinen ikke finnes hos Vinmonopolet kan du legge den til i kjelleren manuelt.",
     image: require("../../assets/images/brukerintroduksjon/produkt2.jpg"),
     titleStyle: { color: "black" },
     textStyle: { color: "black" }
