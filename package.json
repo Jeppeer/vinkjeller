@@ -14,6 +14,7 @@
   "dependencies": {
     "@expo/samples": "~36.0.0",
     "@expo/vector-icons": "^10.0.0",
+    "@react-native-async-storage/async-storage": "^1.15.8",
     "@react-native-community/checkbox": "^0.5.5",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.1.0",
@@ -35,6 +36,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.0.tar.gz",
+    "react-native-app-intro-slider": "^4.0.4",
     "react-native-dotenv": "^2.5.5",
     "react-native-elements": "^2.3.2",
     "react-native-gesture-handler": "~1.7.0",
