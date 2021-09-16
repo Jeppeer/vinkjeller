@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import Kjelleroversikt from "./screens/Kjelleroversikt/Kjelleroversikt";
@@ -26,6 +26,8 @@ import {
   FIREBASE_PROJECT_ID,
   FIREBASE_STORAGE_BUCKET
 } from "@env";
+import Brukerintroduksjon from "./screens/Brukerintroduksjon/Brukerintroduksjon";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 /////////////////////////////////////////////////////////////////////////////
 ////// temporary fix to bug about 'Setting a timer' /////////////////////////
@@ -84,19 +86,37 @@ const firebaseConfig = {
 };
 
 export default function App() {
+  const [visIntroduksjon, setVisIntroduksjon] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
 
+  useEffect(() => {
+    AsyncStorage.getItem("visIntroduksjon").then(value => {
+      if (value !== null) {
+        setVisIntroduksjon(false);
+      } else {
+        setVisIntroduksjon(true);
+      }
+    });
+  }, []);
+
   firebase.auth().onAuthStateChanged(function(user) {
     setUser(user);
     setIsLoading(false);
   });
 
-  if (isLoading) {
+  if (isLoading || visIntroduksjon === null) {
     return null;
+  }
+  if (visIntroduksjon) {
+    return (
+      <Brukerintroduksjon
+        visIntroduksjon={value => setVisIntroduksjon(value)}
+      />
+    );
   }
   if (user === null) {
     return (
