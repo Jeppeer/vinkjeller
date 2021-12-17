@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-  CheckBox,
   Modal,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View
 } from "react-native";
-import { colors, inputStyles, modal } from "../../styles/common";
+import { inputStyles, modal } from "../../styles/common";
 import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
 import { Input } from "react-native-elements";
-// import CheckBox from "@react-native-community/checkbox";
+import Checkbox from "../../components/checkbox/Checkbox";
+import Knapp from "../../components/knapp/Knapp";
 
 const OppdaterKjellerantallModal = ({
   visModal,
@@ -111,16 +110,15 @@ const OppdaterKjellerantallModal = ({
 
           <View>
             <View style={styles.checkboxContainer}>
-              <CheckBox
-                value={visDrikkevindu}
-                onValueChange={() => {
+              <Checkbox
+                text="Legg til drikkevindu?"
+                checked={visDrikkevindu}
+                onPress={() => {
                   setVisDrikkevindu(!visDrikkevindu);
                   setDrikkevinduFra(new Date().getFullYear().toString());
                   setDrikkevinduTil(new Date().getFullYear().toString());
                 }}
-                style={styles.checkbox}
               />
-              <Text style={styles.label}>Legg til drikkevindu?</Text>
             </View>
             {visDrikkevindu && (
               <View style={{ marginBottom: 15 }}>
@@ -174,30 +172,12 @@ const OppdaterKjellerantallModal = ({
           />
 
           <View style={styles.modalKnapper}>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed
-                    ? colors.primaryButtonPressed
-                    : colors.primaryButton
-                },
-                styles.avbrytKnapp
-              ]}
-              onPress={() => {
-                setVisModal(false);
-              }}
-            >
-              <Text style={{ color: "white", padding: 20 }}>Avbryt</Text>
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed
-                    ? colors.primaryButtonPressed
-                    : colors.primaryButton
-                },
-                styles.oppdaterAntallKnapp
-              ]}
+            <Knapp
+              onPress={() => setVisModal(false)}
+              knappetekst={"Avbryt"}
+              styles={{ marginRight: 10 }}
+            />
+            <Knapp
               onPress={() => {
                 oppdaterProdukt({
                   antallIKjeller: oppdatertAntall,
@@ -212,13 +192,12 @@ const OppdaterKjellerantallModal = ({
                 });
                 setVisModal(false);
               }}
-            >
-              <Text style={{ color: "white", padding: 20 }}>
-                {produktState.antallIKjeller === 0
+              knappetekst={
+                produktState.antallIKjeller === 0
                   ? "Legg i kjeller"
-                  : "Oppdater"}
-              </Text>
-            </Pressable>
+                  : "Oppdater"
+              }
+            />
           </View>
         </ScrollView>
       </View>
@@ -234,26 +213,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ebedf0",
     marginBottom: 15
   },
-  oppdaterAntallKnapp: {
-    borderRadius: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  avbrytKnapp: {
-    borderRadius: 50,
-    height: 50,
-    marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  plussMinusKnapp: {
-    borderRadius: 36,
-    width: 36,
-    height: 36,
-    justifyContent: "flex-end",
-    alignItems: "center"
-  },
   modalKnapper: {
     flexDirection: "row"
   },
@@ -266,14 +225,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   checkboxContainer: {
-    flexDirection: "row",
-    marginBottom: 10
-  },
-  checkbox: {
-    alignSelf: "center"
-  },
-  label: {
-    padding: 6
+    marginBottom: 15
   }
 });
 

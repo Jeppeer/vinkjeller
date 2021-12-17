@@ -89,7 +89,6 @@ export const filterModalStyles = StyleSheet.create({
   filterTypeText: { marginBottom: 5 },
   filterKnapp: { marginRight: 2, marginBottom: 2 },
   checkboxContainer: {
-    flexDirection: "row",
     marginBottom: 20
   },
   checkbox: {
