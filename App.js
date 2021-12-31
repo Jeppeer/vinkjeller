@@ -19,13 +19,6 @@ import Profil from "./screens/Bruker/Profil";
 import GlemtPassord from "./screens/Bruker/GlemtPassord";
 import NullstillPassord from "./screens/Bruker/NullstillPassord";
 import Personvern from "./screens/Bruker/Personvern";
-import {
-  FIREBASE_API_KEY,
-  FIREBASE_AUTH_DOMAIN,
-  FIREBASE_DATABASE_URL,
-  FIREBASE_PROJECT_ID,
-  FIREBASE_STORAGE_BUCKET
-} from "@env";
 import Brukerintroduksjon from "./screens/Brukerintroduksjon/Brukerintroduksjon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -77,15 +70,14 @@ if (Platform.OS === "android") {
 const Tab = createBottomTabNavigator();
 const StackNavigator = createStackNavigator();
 
-const firebaseConfig = {
-  apiKey: FIREBASE_API_KEY,
-  authDomain: FIREBASE_AUTH_DOMAIN,
-  databaseURL: FIREBASE_DATABASE_URL,
-  projectId: FIREBASE_PROJECT_ID,
-  storageBucket: FIREBASE_STORAGE_BUCKET
-};
-
 export default function App() {
+  const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+  };
   const [visIntroduksjon, setVisIntroduksjon] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
