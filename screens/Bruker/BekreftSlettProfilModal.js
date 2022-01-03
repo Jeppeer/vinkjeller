@@ -17,6 +17,10 @@ const BekreftSlettProfilModal = ({ visModal, setVisModal }) => {
         firebase.auth.EmailAuthProvider.credential(currentUser.email, passord)
       )
       .then(() => {
+        firebase
+          .database()
+          .ref(`brukere/${currentUser.uid}/kjeller`)
+          .remove();
         currentUser.delete().catch(error => {
           setFeilmelding("Kunne ikke slette brukerkonto. Prøv igjen senere.");
         });
