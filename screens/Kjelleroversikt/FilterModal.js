@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-  CheckBox,
-  Modal,
-  Text,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
+import { Modal, Text, TouchableWithoutFeedback, View } from "react-native";
 import { modal } from "../../styles/common";
 import Knapp from "../../components/knapp/Knapp";
 import ProduktTypeFilter from "./ProduktTypeFilter";
 import LandFilter from "./LandFilter";
 import { filterModalStyles } from "./kjellerUtil";
+import Checkbox from "../../components/checkbox/Checkbox";
 
 const FilterModal = ({ visModal, setVisFiltrerModal, filtrerInnhold }) => {
   const [produktFilter, setProduktFilter] = useState(null);
@@ -56,14 +51,11 @@ const FilterModal = ({ visModal, setVisFiltrerModal, filtrerInnhold }) => {
                 oppdaterLandFilter={oppdaterLandFilter}
               />
               <View style={filterModalStyles.checkboxContainer}>
-                <CheckBox
-                  value={innenforDrikkevindu}
-                  onValueChange={() =>
-                    setInnenforDrikkevindu(!innenforDrikkevindu)
-                  }
-                  style={filterModalStyles.checkbox}
+                <Checkbox
+                  text="Kan drikkes nå"
+                  checked={innenforDrikkevindu}
+                  onPress={() => setInnenforDrikkevindu(!innenforDrikkevindu)}
                 />
-                <Text style={filterModalStyles.label}>Kan drikkes nå</Text>
               </View>
 
               <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
