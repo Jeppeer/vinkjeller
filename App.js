@@ -9,7 +9,7 @@ import Soek from "./screens/Soek/Soek";
 import Soekeresultater from "./screens/Soek/Soekeresultater";
 import { colors } from "./styles/common";
 import * as firebase from "firebase";
-import { InteractionManager, Platform } from "react-native";
+import { InteractionManager, Platform, StatusBar } from "react-native";
 import StrekkodeScanner from "./screens/StrekkodeScanner";
 import EksternVin from "./screens/EksternVin/EksternVin";
 import Login from "./screens/Bruker/Login";
@@ -83,6 +83,14 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
+  }
+
+  //TODO: Dette måtte legges på ifm. overgang til EAS. Bør kunne fjernes etterhvert.
+  StatusBar.setBarStyle("dark-content");
+
+  if (Platform.OS === "android") {
+    StatusBar.setTranslucent(true);
+    StatusBar.setBackgroundColor("transparent");
   }
 
   useEffect(() => {
