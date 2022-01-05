@@ -2,7 +2,7 @@ export const colors = {
   primaryButton: "#282c34",
   dangerButton: "#dc3545",
   primaryInputUnderline: "#282c34",
-  primaryButtonPressed: "#424654",
+  primaryButtonPressed: "#585b69",
   primaryBg: "#282c34",
   primarySelected: "#fff",
   white: "#fff",
@@ -71,7 +71,6 @@ export const inputStyles = {
   separateLabel: {
     paddingLeft: 10,
     marginBottom: 5,
-    fontSize: 16,
     fontWeight: "bold"
   },
   inputMedBenevning: {
