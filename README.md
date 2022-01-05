@@ -3,11 +3,11 @@
 React Native-app for lagring av vinkjeller.
 
 ## Bygge ny versjon
-I de fleste tilfeller skal det holde å oppdatere javascripten, og det er derfor ikke behov for å bygge ny versjon. Dette gjøres ved å kjøre
+Dersom man ikke gjør endringer i SDK-versjon eller andre oppsetts-variabler kan man publisere uten å legge ut ny versjon i app stores. Dette gjøres med å kjøre
 
 `expo publish`
 
-Det tar da et par minutter, så skal appen oppdatere seg selv ved neste oppstart.
+Det tar da et par minutter, så oppdaterer seg selv ved neste oppstart. Merk at dette kan skape problemer når det finnes flere SDK-versjoner i PROD. Det er kun de brukerne som har SDK-versjonen det gjøres `publish` på som vil få de nye endringene. Andre endringer vil evt. komme ut i PROD når det legges ut en ny versjon der. 
 
 Bygging av ny versjon er godt beskrevet [her](https://docs.expo.io/distribution/building-standalone-apps/).
 
