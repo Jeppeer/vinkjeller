@@ -10,6 +10,7 @@ import Knapp from "../../components/knapp/Knapp";
 import * as firebase from "firebase";
 import PlussMinusTeller from "../../components/teller/PlussMinusTeller";
 import { inputStyles } from "../../styles/common";
+import VinType from "./VinType";
 
 const EksternVin = ({ route, navigation }) => {
   const endretProdukt = route.params ? route.params.produkt : null;
@@ -109,6 +110,7 @@ const EksternVin = ({ route, navigation }) => {
                 labelStyle={inputStyles.labelStyle}
                 errorMessage={errors["navn"]}
               />
+              <VinType values={values} setValues={setValues} />
               <Input
                 label="Produsent"
                 onChangeText={handleChange("produsent")}
