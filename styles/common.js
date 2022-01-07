@@ -46,9 +46,9 @@ export const modal = {
       width: 0,
       height: 2
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 8
   },
   modalHeader: {
     marginBottom: 10,
