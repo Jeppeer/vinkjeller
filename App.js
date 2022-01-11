@@ -124,7 +124,8 @@ export default function App() {
         <StackNavigator.Navigator
           screenOptions={{
             headerStyle: {
-              backgroundColor: colors.primaryBg
+              backgroundColor: colors.primaryBg,
+              borderBottomWidth: 0
             },
             headerTintColor: colors.primarySelected,
             headerTitleStyle: {
@@ -233,7 +234,8 @@ function SoekScreen() {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.primaryBg,
-          elevation: 0
+          elevation: 0,
+          shadowColor: 'transparent'
         },
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
@@ -265,7 +267,8 @@ function StrekkodeScannerScreen() {
     <StackNavigator.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: colors.primaryBg
+          backgroundColor: colors.primaryBg,
+          shadowColor: 'transparent'
         },
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
@@ -291,7 +294,8 @@ function VinOversiktScreen() {
     <StackNavigator.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: colors.primaryBg
+          backgroundColor: colors.primaryBg,
+          shadowColor: 'transparent'
         },
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
