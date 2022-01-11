@@ -12,7 +12,18 @@ Det tar da et par minutter, så oppdaterer seg selv ved neste oppstart. Merk at 
 Bygging av ny versjon er godt beskrevet [her](https://docs.expo.io/distribution/building-standalone-apps/).
 
 ### Android
+Må oppdateres
+
 Kjør `expo build:android`
+
+### iOS
+Først må man bygge en ny versjon:
+
+`eas build --p ios`
+
+Dette bygger en ny versjon og laster den opp til Expo. Deretter kan man submitte til Apple, som laster appen opp i App Store Connect:
+
+`eas submit -p ios`
 
 ## Lage screenshots til appstores
 https://www.appstorescreenshot.com/
