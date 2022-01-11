@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 320,
-    height: 400,
+    height: 330,
     resizeMode: "contain",
-    marginVertical: 32
+    marginVertical: 20
   },
   text: {
     color: "rgba(255, 255, 255, 0.8)",

@@ -78,7 +78,7 @@ export default function App() {
     projectId: process.env.FIREBASE_PROJECT_ID,
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET
   };
-  const [visIntroduksjon, setVisIntroduksjon] = useState(null);
+  const [visIntroduksjon, setVisIntroduksjon] = useState(true);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   if (firebase.apps.length === 0) {
@@ -93,15 +93,15 @@ export default function App() {
     StatusBar.setBackgroundColor("transparent");
   }
 
-  useEffect(() => {
-    AsyncStorage.getItem("visIntroduksjon").then(value => {
-      if (value !== null) {
-        setVisIntroduksjon(false);
-      } else {
-        setVisIntroduksjon(true);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   AsyncStorage.getItem("visIntroduksjon").then(value => {
+  //     if (value !== null) {
+  //       setVisIntroduksjon(false);
+  //     } else {
+  //       setVisIntroduksjon(true);
+  //     }
+  //   });
+  // }, []);
 
   firebase.auth().onAuthStateChanged(function(user) {
     setUser(user);

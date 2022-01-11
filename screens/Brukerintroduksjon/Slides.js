@@ -36,7 +36,7 @@ export const slides = [
   },
   {
     key: "5",
-    title: "Hold oversikt",
+    title: "Hold oversikt\n",
     text:
       "Lagre vinene dine, og hold oversikt over hva du har i kjelleren.\n\nVi håper du liker Vinkjeller!",
     image: require("../../assets/images/brukerintroduksjon/kjeller2.jpg"),
