@@ -33,7 +33,7 @@ const Personvern = () => {
   Innholdet du lagrer i Vinkjeller vil ikke deles med tjedjeparter eller brukes til markedsføring. Du kan til enhver tid slette kontoen din og all informasjonen du har lagret i Vinkjeller. E-posten du oppgir ved registrering kan kun brukes til å sende ut nødvendig informasjon om endringer i tjenesten.
 
   ## Lagring av data
-  * Vinkjeller lagrer alle data leverandøren som hoster databasen: Firebase
+  * Vinkjeller lagrer alle data hos leverandøren som hoster databasen: Firebase
   * Vinkjeller bruker Google Analytics for statistikk og analyse
   * Vinkjeller bruker Google AdMob til å levere reklame i tjenesten
   `;
