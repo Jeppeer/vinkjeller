@@ -78,7 +78,7 @@ export default function App() {
     projectId: process.env.FIREBASE_PROJECT_ID,
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET
   };
-  const [visIntroduksjon, setVisIntroduksjon] = useState(true);
+  const [visIntroduksjon, setVisIntroduksjon] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   if (firebase.apps.length === 0) {
@@ -93,15 +93,15 @@ export default function App() {
     StatusBar.setBackgroundColor("transparent");
   }
 
-  // useEffect(() => {
-  //   AsyncStorage.getItem("visIntroduksjon").then(value => {
-  //     if (value !== null) {
-  //       setVisIntroduksjon(false);
-  //     } else {
-  //       setVisIntroduksjon(true);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    AsyncStorage.getItem("visIntroduksjon").then(value => {
+      if (value !== null) {
+        setVisIntroduksjon(false);
+      } else {
+        setVisIntroduksjon(true);
+      }
+    });
+  }, []);
 
   firebase.auth().onAuthStateChanged(function(user) {
     setUser(user);
@@ -177,9 +177,11 @@ export default function App() {
             justifyContent: "center"
           },
           labelStyle: {
-            marginTop: -5,
             marginBottom: 5,
             fontSize: 13
+          },
+          iconStyle: {
+            marginTop: 5,
           }
         }}
         activeColor={colors.primarySelected}
@@ -235,7 +237,7 @@ function SoekScreen() {
         headerStyle: {
           backgroundColor: colors.primaryBg,
           elevation: 0,
-          shadowColor: 'transparent'
+          shadowColor: "transparent"
         },
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
@@ -268,7 +270,7 @@ function StrekkodeScannerScreen() {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.primaryBg,
-          shadowColor: 'transparent'
+          shadowColor: "transparent"
         },
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
@@ -295,7 +297,7 @@ function VinOversiktScreen() {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.primaryBg,
-          shadowColor: 'transparent'
+          shadowColor: "transparent"
         },
         headerTintColor: colors.primarySelected,
         headerTitleStyle: {
