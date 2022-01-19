@@ -21,7 +21,7 @@
         "FIREBASE_STORAGE_BUCKET": "vinkjeller-baeb3.appspot.com"
       }
     },
-    "testbygg": {
+    "androidTest": {
       "android": {
         "buildType": "apk"
       }
