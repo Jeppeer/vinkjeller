@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import {
   Image,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -22,6 +23,7 @@ import Pris from "../../components/Pris";
 import Knapp from "../../components/knapp/Knapp";
 import { AdMobBanner } from "expo-ads-admob";
 import Constants from "expo-constants";
+import { useTrackingPermissions } from "expo-tracking-transparency";
 
 const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
 
@@ -39,6 +41,7 @@ const databaseProduktReducer = (state, action) => {
 };
 
 const Produkt = ({ route, navigation }) => {
+  const [trackingPermissionStatus] = useTrackingPermissions();
   const { produktRef } = route.params;
   const produkt = useRef(route.params.produkt);
   const [visModal, setVisModal] = useState(false);
@@ -47,8 +50,16 @@ const Produkt = ({ route, navigation }) => {
     .database()
     .ref(`brukere/${currentUser.uid}/kjeller`);
 
-  const testID = "ca-app-pub-3940256099942544/6300978111";
-  const productionID = "ca-app-pub-6480465457652082/5719543341";
+  const adUnitID = Platform.select({
+    ios:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/8971990978"
+        : "ca-app-pub-3940256099942544/2934735716",
+    android:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/5719543341"
+        : "ca-app-pub-3940256099942544/6300978111"
+  });
 
   const [produktState, dispatch] = useReducer(databaseProduktReducer, {
     antallIKjeller: produkt.current.antallIKjeller
@@ -255,11 +266,13 @@ const Produkt = ({ route, navigation }) => {
           </View>
 
           <View style={{ alignItems: "center", marginBottom: 20 }}>
-            <AdMobBanner
-              bannerSize="mediumRectangle"
-              adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
-              servePersonalizedAds
-            />
+            {trackingPermissionStatus && (
+              <AdMobBanner
+                bannerSize="mediumRectangle"
+                adUnitID={adUnitID}
+                servePersonalizedAds={trackingPermissionStatus.granted}
+              />
+            )}
           </View>
 
           <View style={{ flexDirection: "row" }}>
