@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import {
   Image,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -49,8 +50,16 @@ const Produkt = ({ route, navigation }) => {
     .database()
     .ref(`brukere/${currentUser.uid}/kjeller`);
 
-  const testID = "ca-app-pub-3940256099942544/6300978111";
-  const productionID = "ca-app-pub-6480465457652082/5719543341";
+  const adUnitID = Platform.select({
+    ios:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/8971990978"
+        : "ca-app-pub-3940256099942544/2934735716",
+    android:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/5719543341"
+        : "ca-app-pub-3940256099942544/6300978111"
+  });
 
   const [produktState, dispatch] = useReducer(databaseProduktReducer, {
     antallIKjeller: produkt.current.antallIKjeller
@@ -260,9 +269,7 @@ const Produkt = ({ route, navigation }) => {
             {trackingPermissionStatus && (
               <AdMobBanner
                 bannerSize="mediumRectangle"
-                adUnitID={
-                  Constants.isDevice && !__DEV__ ? productionID : testID
-                }
+                adUnitID={adUnitID}
                 servePersonalizedAds={trackingPermissionStatus.granted}
               />
             )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Platform, Text, View } from "react-native";
 import Soekeresultat from "./Soekeresultat";
 import * as firebase from "firebase";
 import Knapp from "../../components/knapp/Knapp";
@@ -14,8 +14,16 @@ const Soekeresultater = ({ route, navigation }) => {
   const [kjellerinnhold, setKjellerinnhold] = useState([]);
   let currentUser = firebase.auth().currentUser;
 
-  const testID = "ca-app-pub-3940256099942544/6300978111";
-  const productionID = "ca-app-pub-6480465457652082/9609513439";
+  const adUnitID = Platform.select({
+    ios:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/9227991907"
+        : "ca-app-pub-3940256099942544/2934735716",
+    android:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/9609513439"
+        : "ca-app-pub-3940256099942544/6300978111"
+  });
 
   const firebaseRef = firebase
     .database()
@@ -73,9 +81,7 @@ const Soekeresultater = ({ route, navigation }) => {
             {trackingPermissionStatus && (
               <AdMobBanner
                 bannerSize="largeBanner"
-                adUnitID={
-                  Constants.isDevice && !__DEV__ ? productionID : testID
-                }
+                adUnitID={adUnitID}
                 servePersonalizedAds={trackingPermissionStatus.granted}
               />
             )}

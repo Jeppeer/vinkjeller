@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   StyleSheet,
   Text,
   View
@@ -27,8 +28,16 @@ const Kjelleroversikt = ({ navigation }) => {
   const [antallAktiveFilter, setAntallAktiveFilter] = useState(0);
   let currentUser = firebase.auth().currentUser;
 
-  const testID = "ca-app-pub-3940256099942544/6300978111";
-  const productionID = "ca-app-pub-6480465457652082/1824244955";
+  const adUnitID = Platform.select({
+    ios:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/4195157071"
+        : "ca-app-pub-3940256099942544/2934735716",
+    android:
+      Constants.isDevice && !__DEV__
+        ? "ca-app-pub-6480465457652082/1824244955"
+        : "ca-app-pub-3940256099942544/6300978111"
+  });
 
   const firebaseRef = firebase
     .database()
@@ -137,9 +146,7 @@ const Kjelleroversikt = ({ navigation }) => {
             {trackingPermissionStatus && (
               <AdMobBanner
                 bannerSize="largeBanner"
-                adUnitID={
-                  Constants.isDevice && !__DEV__ ? productionID : testID
-                }
+                adUnitID={adUnitID}
                 servePersonalizedAds={trackingPermissionStatus.granted}
               />
             )}
