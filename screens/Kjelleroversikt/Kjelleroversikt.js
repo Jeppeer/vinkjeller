@@ -16,8 +16,10 @@ import SorterModal, { sortering } from "./SorterModal";
 import { filtrer, sorter } from "./kjellerUtil";
 import Constants from "expo-constants";
 import { AdMobBanner } from "expo-ads-admob";
+import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 
 const Kjelleroversikt = ({ navigation }) => {
+  const [trackingPermissionStatus, setTrackingPermissionStatus] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [kjellerinnhold, setKjellerinnhold] = useState([]);
   const [filtrertKjellerinnhold, setFiltrertKjellerinnhold] = useState([]);
@@ -35,6 +37,13 @@ const Kjelleroversikt = ({ navigation }) => {
 
   const valgteFilter = useRef([]);
   const valgtSortering = useRef(sortering.lagtTilSynkende.verdi);
+
+  useEffect(() => {
+    (async () => {
+      const response = await requestTrackingPermissionsAsync();
+      setTrackingPermissionStatus(response);
+    })();
+  }, []);
 
   useEffect(() => {
     firebaseRef.on("value", data => {
@@ -125,11 +134,15 @@ const Kjelleroversikt = ({ navigation }) => {
               paddingBottom: 40
             }}
           >
-            <AdMobBanner
-              bannerSize="largeBanner"
-              adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
-              servePersonalizedAds
-            />
+            {trackingPermissionStatus && (
+              <AdMobBanner
+                bannerSize="largeBanner"
+                adUnitID={
+                  Constants.isDevice && !__DEV__ ? productionID : testID
+                }
+                servePersonalizedAds={trackingPermissionStatus.granted}
+              />
+            )}
           </View>
           <Kjellerelement
             element={item[1]}

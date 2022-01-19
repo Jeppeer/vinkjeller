@@ -22,6 +22,7 @@ import Pris from "../../components/Pris";
 import Knapp from "../../components/knapp/Knapp";
 import { AdMobBanner } from "expo-ads-admob";
 import Constants from "expo-constants";
+import { useTrackingPermissions } from "expo-tracking-transparency";
 
 const SET_PRODUKT_STATE = "SET_PRODUKT_STATE";
 
@@ -39,6 +40,7 @@ const databaseProduktReducer = (state, action) => {
 };
 
 const Produkt = ({ route, navigation }) => {
+  const [trackingPermissionStatus] = useTrackingPermissions();
   const { produktRef } = route.params;
   const produkt = useRef(route.params.produkt);
   const [visModal, setVisModal] = useState(false);
@@ -255,11 +257,15 @@ const Produkt = ({ route, navigation }) => {
           </View>
 
           <View style={{ alignItems: "center", marginBottom: 20 }}>
-            <AdMobBanner
-              bannerSize="mediumRectangle"
-              adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
-              servePersonalizedAds
-            />
+            {trackingPermissionStatus && (
+              <AdMobBanner
+                bannerSize="mediumRectangle"
+                adUnitID={
+                  Constants.isDevice && !__DEV__ ? productionID : testID
+                }
+                servePersonalizedAds={trackingPermissionStatus.granted}
+              />
+            )}
           </View>
 
           <View style={{ flexDirection: "row" }}>

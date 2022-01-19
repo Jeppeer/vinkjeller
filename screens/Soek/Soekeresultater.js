@@ -6,8 +6,10 @@ import Knapp from "../../components/knapp/Knapp";
 import { colors } from "../../styles/common";
 import { AdMobBanner } from "expo-ads-admob";
 import Constants from "expo-constants";
+import { useTrackingPermissions } from "expo-tracking-transparency";
 
 const Soekeresultater = ({ route, navigation }) => {
+  const [trackingPermissionStatus] = useTrackingPermissions();
   const [isLoading, setIsLoading] = useState(true);
   const [kjellerinnhold, setKjellerinnhold] = useState([]);
   let currentUser = firebase.auth().currentUser;
@@ -68,11 +70,15 @@ const Soekeresultater = ({ route, navigation }) => {
               paddingBottom: 40
             }}
           >
-            <AdMobBanner
-              bannerSize="largeBanner"
-              adUnitID={Constants.isDevice && !__DEV__ ? productionID : testID}
-              servePersonalizedAds
-            />
+            {trackingPermissionStatus && (
+              <AdMobBanner
+                bannerSize="largeBanner"
+                adUnitID={
+                  Constants.isDevice && !__DEV__ ? productionID : testID
+                }
+                servePersonalizedAds={trackingPermissionStatus.granted}
+              />
+            )}
           </View>
           <Soekeresultat produkt={produkt} navigation={navigation} />
         </View>
