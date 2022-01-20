@@ -17,7 +17,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "app.vinkjeller.vinkjeller",
-      "buildNumber": "4.0.0",
+      "buildNumber": "5.0.0",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-6480465457652082~7181826497"
       },
